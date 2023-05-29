@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E1BF7CDA-F2AE-4042-A992-DCBF62E79238}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SRMultiplayer</RootNamespace>
+    <AssemblyName>SRMP</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Builds\SRMP\</OutputPath>
+    <DefineConstants>__CONSTRAINED__;Standalone</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SRML|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Builds\SRMP\</OutputPath>
+    <DefineConstants>__CONSTRAINED__;SRML</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SRML NoVer|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Builds\SRMP\</OutputPath>
+    <DefineConstants>__CONSTRAINED__;SRML</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Standalone|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Builds\SRMP\</OutputPath>
+    <DefineConstants>__CONSTRAINED__;Standalone</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Standalone NoVer|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Builds\SRMP\</OutputPath>
+    <DefineConstants>__CONSTRAINED__;Standalone</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp_publicized">
+      <HintPath>..\Libs\Assembly-CSharp_publicized.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="InControl">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\InControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SRML, Version=0.1.8.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\SRML.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityCoreMod, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityCoreMod.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.TextCoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChatUI.cs" />
+    <Compile Include="Compression.cs" />
+    <Compile Include="Console\ConsoleInput.cs" />
+    <Compile Include="Console\ConsoleWindow.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetAESEncryption.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetBlockEncryptionBase.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetCryptoProviderBase.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetCryptoProviderEncryption.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetDESEncryption.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetEncryption.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetRC2Encryption.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetTripleDESEncryption.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetXorEncryption.cs" />
+    <Compile Include="Lidgren.Network\Encryption\NetXteaEncryption.cs" />
+    <Compile Include="Lidgren.Network\NamespaceDoc.cs" />
+    <Compile Include="Lidgren.Network\NetBigInteger.cs" />
+    <Compile Include="Lidgren.Network\NetBitVector.cs" />
+    <Compile Include="Lidgren.Network\NetBitWriter.cs" />
+    <Compile Include="Lidgren.Network\NetBuffer.cs" />
+    <Compile Include="Lidgren.Network\NetBuffer.Peek.cs" />
+    <Compile Include="Lidgren.Network\NetBuffer.Read.cs" />
+    <Compile Include="Lidgren.Network\NetBuffer.Read.Reflection.cs" />
+    <Compile Include="Lidgren.Network\NetBuffer.Write.cs" />
+    <Compile Include="Lidgren.Network\NetBuffer.Write.Reflection.cs" />
+    <Compile Include="Lidgren.Network\NetClient.cs" />
+    <Compile Include="Lidgren.Network\NetConnection.cs" />
+    <Compile Include="Lidgren.Network\NetConnection.Handshake.cs" />
+    <Compile Include="Lidgren.Network\NetConnection.Latency.cs" />
+    <Compile Include="Lidgren.Network\NetConnection.MTU.cs" />
+    <Compile Include="Lidgren.Network\NetConnectionStatistics.cs" />
+    <Compile Include="Lidgren.Network\NetConnectionStatus.cs" />
+    <Compile Include="Lidgren.Network\NetConstants.cs" />
+    <Compile Include="Lidgren.Network\NetDeliveryMethod.cs" />
+    <Compile Include="Lidgren.Network\NetException.cs" />
+    <Compile Include="Lidgren.Network\NetFragmentationHelper.cs" />
+    <Compile Include="Lidgren.Network\NetFragmentationInfo.cs" />
+    <Compile Include="Lidgren.Network\NetIncomingMessage.cs" />
+    <Compile Include="Lidgren.Network\NetIncomingMessageType.cs" />
+    <Compile Include="Lidgren.Network\NetMessageType.cs" />
+    <Compile Include="Lidgren.Network\NetNatIntroduction.cs" />
+    <Compile Include="Lidgren.Network\NetOutgoingMessage.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.Discovery.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.Fragmentation.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.Internal.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.LatencySimulation.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.Logging.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.MessagePools.cs" />
+    <Compile Include="Lidgren.Network\NetPeer.Send.cs" />
+    <Compile Include="Lidgren.Network\NetPeerConfiguration.cs" />
+    <Compile Include="Lidgren.Network\NetPeerStatistics.cs" />
+    <Compile Include="Lidgren.Network\NetPeerStatus.cs" />
+    <Compile Include="Lidgren.Network\NetQueue.cs" />
+    <Compile Include="Lidgren.Network\NetRandom.cs" />
+    <Compile Include="Lidgren.Network\NetRandom.Implementations.cs" />
+    <Compile Include="Lidgren.Network\NetRandomSeed.cs" />
+    <Compile Include="Lidgren.Network\NetReceiverChannelBase.cs" />
+    <Compile Include="Lidgren.Network\NetReliableOrderedReceiver.cs" />
+    <Compile Include="Lidgren.Network\NetReliableSenderChannel.cs" />
+    <Compile Include="Lidgren.Network\NetReliableSequencedReceiver.cs" />
+    <Compile Include="Lidgren.Network\NetReliableUnorderedReceiver.cs" />
+    <Compile Include="Lidgren.Network\NetSenderChannelBase.cs" />
+    <Compile Include="Lidgren.Network\NetSendResult.cs" />
+    <Compile Include="Lidgren.Network\NetServer.cs" />
+    <Compile Include="Lidgren.Network\NetSRP.cs" />
+    <Compile Include="Lidgren.Network\NetStoredReliableMessage.cs" />
+    <Compile Include="Lidgren.Network\NetTime.cs" />
+    <Compile Include="Lidgren.Network\NetTuple.cs" />
+    <Compile Include="Lidgren.Network\NetUnreliableSenderChannel.cs" />
+    <Compile Include="Lidgren.Network\NetUnreliableSequencedReceiver.cs" />
+    <Compile Include="Lidgren.Network\NetUnreliableUnorderedReceiver.cs" />
+    <Compile Include="Lidgren.Network\NetUPnP.cs" />
+    <Compile Include="Lidgren.Network\NetUtility.cs" />
+    <Compile Include="Lidgren.Network\Platform\PlatformAndroid.cs" />
+    <Compile Include="Lidgren.Network\Platform\PlatformConstrained.cs" />
+    <Compile Include="Lidgren.Network\Platform\PlatformUnityExtras.cs" />
+    <Compile Include="Lidgren.Network\Platform\PlatformWin32.cs" />
+    <Compile Include="Lidgren.Network\Platform\PlatformWinRT.cs" />
+    <Compile Include="MainSRML.cs" />
+    <Compile Include="MainStandalone.cs" />
+    <Compile Include="MultiplayerUI.cs" />
+    <Compile Include="Networking\NetworkAccessDoor.cs" />
+    <Compile Include="Networking\NetworkActor.cs" />
+    <Compile Include="Networking\NetworkAmmo.cs" />
+    <Compile Include="Networking\NetworkClient.cs" />
+    <Compile Include="Networking\NetworkClientUI.cs" />
+    <Compile Include="Networking\NetworkDirectedActorSpawner.cs" />
+    <Compile Include="Networking\NetworkDrone.cs" />
+    <Compile Include="Networking\NetworkDroneAmmo.cs" />
+    <Compile Include="Networking\NetworkExchangeAcceptor.cs" />
+    <Compile Include="Networking\NetworkFireColumn.cs" />
+    <Compile Include="Networking\NetworkGadgetSite.cs" />
+    <Compile Include="Networking\NetworkGordo.cs" />
+    <Compile Include="Networking\NetworkHandlerClient.cs" />
+    <Compile Include="Networking\NetworkHandlerServer.cs" />
+    <Compile Include="Networking\NetworkHostUI.cs" />
+    <Compile Include="Networking\NetworkKookadobaPatchNode.cs" />
+    <Compile Include="Networking\NetworkLandplot.cs" />
+    <Compile Include="Networking\NetworkMasterServer.cs" />
+    <Compile Include="Networking\NetworkNutcracker.cs" />
+    <Compile Include="Networking\NetworkPlayer.Animation.cs" />
+    <Compile Include="Networking\NetworkPlayer.cs" />
+    <Compile Include="Networking\NetworkPlayerAmmo.cs" />
+    <Compile Include="Networking\NetworkPlayerDisplayOnMap.cs" />
+    <Compile Include="Networking\NetworkPlayerSave.cs" />
+    <Compile Include="Networking\NetworkPuzzleSlot.cs" />
+    <Compile Include="Networking\NetworkRaceTrigger.cs" />
+    <Compile Include="Networking\NetworkRegion.cs" />
+    <Compile Include="Networking\NetworkServer.cs" />
+    <Compile Include="Networking\NetworkSpawnResource.cs" />
+    <Compile Include="Networking\NetworkTreasurePod.cs" />
+    <Compile Include="Networking\NetworkWorldStateMasterSwitch.cs" />
+    <Compile Include="Packets\AccessDoors\PacketAccessDoors.cs" />
+    <Compile Include="Packets\Exchanges\PacketExchangeClear.cs" />
+    <Compile Include="Packets\Exchanges\PacketExchangeOffer.cs" />
+    <Compile Include="Packets\Exchanges\PacketExchangeOffers.cs" />
+    <Compile Include="Packets\Exchanges\PacketExchangePrepareDaily.cs" />
+    <Compile Include="Packets\Exchanges\PacketExchangeTryAccept.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetAdd.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetAddBlueprint.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetEchoNetTime.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetRemove.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetRotation.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetSpend.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetRefinerySpend.cs" />
+    <Compile Include="Packets\Gordos\PacketGordos.cs" />
+    <Compile Include="Packets\AccessDoors\PacketAccessDoorOpen.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgets.cs" />
+    <Compile Include="Packets\Fashions\PacketFashionAttach.cs" />
+    <Compile Include="Packets\Fashions\PacketFashionDetachAll.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetSpawn.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotSiloAmmoAdd.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotSiloAmmoClear.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotSiloAmmoRemove.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetExtractorUpdate.cs" />
+    <Compile Include="Packets\Drones\PacketDroneAmmoAdd.cs" />
+    <Compile Include="Packets\Drones\PacketDroneAmmoRemove.cs" />
+    <Compile Include="Packets\Drones\PacketDroneAmmoClear.cs" />
+    <Compile Include="Packets\Drones\PacketDroneAnimation.cs" />
+    <Compile Include="Packets\Drones\PacketDronePrograms.cs" />
+    <Compile Include="Packets\Drones\PacketDroneLiquid.cs" />
+    <Compile Include="Packets\Drones\PacketDroneStationEnabled.cs" />
+    <Compile Include="Packets\Drones\PacketDronePosition.cs" />
+    <Compile Include="Packets\Drones\PacketDroneActive.cs" />
+    <Compile Include="Packets\Actors\PacketActorAttach.cs" />
+    <Compile Include="Packets\Actors\PacketActorResourceState.cs" />
+    <Compile Include="Packets\Actors\PacketActors.cs" />
+    <Compile Include="Packets\Actors\PacketActorReproduceTime.cs" />
+    <Compile Include="Packets\Actors\PacketActorFeral.cs" />
+    <Compile Include="Packets\Actors\PacketActorEmotions.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetTurrets.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetSnareAttach.cs" />
+    <Compile Include="Packets\Gadgets\PacketGadgetSnareGordo.cs" />
+    <Compile Include="Packets\Gordos\PacketGordoEat.cs" />
+    <Compile Include="Packets\Oasis\PacketOasis.cs" />
+    <Compile Include="Packets\Oasis\PacketOasisLive.cs" />
+    <Compile Include="Packets\FireColumn\PacketFireColumnActivate.cs" />
+    <Compile Include="Packets\FireColumn\PacketFireStormMode.cs" />
+    <Compile Include="Packets\Others\PacketGingerAction.cs" />
+    <Compile Include="Packets\Others\PacketGingerAttach.cs" />
+    <Compile Include="Packets\Others\PacketKookadobaAction.cs" />
+    <Compile Include="Packets\Actors\PacketActorFX.cs" />
+    <Compile Include="Packets\Others\PacketKookadobaAttach.cs" />
+    <Compile Include="Packets\Players\PacketPlayerChat.cs" />
+    <Compile Include="Packets\Race\PacketRaceActivate.cs" />
+    <Compile Include="Packets\Race\PacketRaceEnd.cs" />
+    <Compile Include="Packets\Race\PacketRaceTime.cs" />
+    <Compile Include="Packets\Race\PacketRaceTrigger.cs" />
+    <Compile Include="Packets\World\PacketWorldCredits.cs" />
+    <Compile Include="Packets\TreasurePods\PacketTreasurePods.cs" />
+    <Compile Include="Packets\TreasurePods\PacketTreasurePodOpen.cs" />
+    <Compile Include="Packets\World\PacketWorldDecorizerSetting.cs" />
+    <Compile Include="Packets\World\PacketWorldMailRead.cs" />
+    <Compile Include="Packets\World\PacketWorldMailSend.cs" />
+    <Compile Include="Packets\World\PacketWorldMarketPrices.cs" />
+    <Compile Include="Packets\World\PacketWorldMarketSold.cs" />
+    <Compile Include="Packets\World\PacketWorldDecorizer.cs" />
+    <Compile Include="Packets\Players\PacketPlayerCurrencyDisplay.cs" />
+    <Compile Include="Packets\World\PacketWorldSwitches.cs" />
+    <Compile Include="Packets\World\PacketWorldSelectPalette.cs" />
+    <Compile Include="Packets\World\PacketWorldSwitchActivate.cs" />
+    <Compile Include="Packets\PuzzleSlots\PacketPuzzleGateActivate.cs" />
+    <Compile Include="Packets\Players\PacketPlayerCurrency.cs" />
+    <Compile Include="Packets\Players\PacketPlayerUpgradeUnlock.cs" />
+    <Compile Include="Packets\World\PacketWorldKey.cs" />
+    <Compile Include="Packets\World\PacketWorldMapUnlock.cs" />
+    <Compile Include="Packets\Players\PacketPlayerUpgrade.cs" />
+    <Compile Include="Packets\Pedia\PacketPediaShowPopup.cs" />
+    <Compile Include="Packets\Pedia\PacketPediaUnlock.cs" />
+    <Compile Include="Packets\World\PacketWorldProgress.cs" />
+    <Compile Include="Packets\PuzzleSlots\PacketPuzzleSlotFilled.cs" />
+    <Compile Include="Packets\PuzzleSlots\PacketPuzzleSlots.cs" />
+    <Compile Include="Packets\World\PacketWorldFastForward.cs" />
+    <Compile Include="Packets\World\PacketWorldTime.cs" />
+    <Compile Include="Packets\_Classes\IPacket.cs" />
+    <Compile Include="Packets\_Classes\Packet.cs" />
+    <Compile Include="Packets\_Classes\PacketAttribute.cs" />
+    <Compile Include="Packets\_Classes\PacketType.cs" />
+    <Compile Include="Packets\Actors\PacketActorDestroy.cs" />
+    <Compile Include="Packets\Actors\PacketActorOwner.cs" />
+    <Compile Include="Packets\Actors\PacketActorPosition.cs" />
+    <Compile Include="Packets\Actors\PacketActorSpawn.cs" />
+    <Compile Include="Packets\FX\PacketGlobalFX.cs" />
+    <Compile Include="Packets\FX\PacketIncinerateFX.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotAsh.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotCollect.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotFeederSpeed.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotPlantGarden.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotReplace.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandplots.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotSiloInsert.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotSiloRemove.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotSiloSlot.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotStartCollection.cs" />
+    <Compile Include="Packets\LandPlots\PacketLandPlotUpgrade.cs" />
+    <Compile Include="Packets\FX\PacketPlayAudio.cs" />
+    <Compile Include="Packets\Players\PacketPlayerFX.cs" />
+    <Compile Include="Packets\Players\PacketPlayerJoined.cs" />
+    <Compile Include="Packets\Players\PacketPlayerLeft.cs" />
+    <Compile Include="Packets\Players\PacketPlayerLoaded.cs" />
+    <Compile Include="Packets\Players\PacketPlayerPosition.cs" />
+    <Compile Include="Packets\Regions\PacketRegionChange.cs" />
+    <Compile Include="Packets\Regions\PacketRegionOwner.cs" />
+    <Compile Include="Packets\World\PacketWorldData.cs" />
+    <Compile Include="Patches\Patch_AccessDoor.cs" />
+    <Compile Include="Patches\Patch_Ammo.cs" />
+    <Compile Include="Patches\Patch_AttachFashions.cs" />
+    <Compile Include="Patches\Patch_BaseUI.cs" />
+    <Compile Include="Patches\Patch_DecorizerStorage.cs" />
+    <Compile Include="Patches\Patch_DestroyOnTouching.cs" />
+    <Compile Include="Patches\Patch_DirectedActorSpawner.cs" />
+    <Compile Include="Patches\Patch_Drone.cs" />
+    <Compile Include="Patches\Patch_DroneAnimator.cs" />
+    <Compile Include="Patches\Patch_DroneGadget.cs" />
+    <Compile Include="Patches\Patch_DroneProgram.cs" />
+    <Compile Include="Patches\Patch_DroneStationAnimator.cs" />
+    <Compile Include="Patches\Patch_DroneStationBattery.cs" />
+    <Compile Include="Patches\Patch_DroneSubbehaviourRest.cs" />
+    <Compile Include="Patches\Patch_EchoNet.cs" />
+    <Compile Include="Patches\Patch_EconomyDirector.cs" />
+    <Compile Include="Patches\Patch_ExchangeAcceptor.cs" />
+    <Compile Include="Patches\Patch_ExchangeBreakOnImpact.cs" />
+    <Compile Include="Patches\Patch_ExchangeDirector.cs" />
+    <Compile Include="Patches\Patch_Extractor.cs" />
+    <Compile Include="Patches\Patch_FashionPod.cs" />
+    <Compile Include="Patches\Patch_FireColumn.cs" />
+    <Compile Include="Patches\Patch_FireStormActivator.cs" />
+    <Compile Include="Patches\Patch_GadgetChickenCloner.cs" />
+    <Compile Include="Patches\Patch_GadgetDirector.cs" />
+    <Compile Include="Patches\Patch_GadgetSite.cs" />
+    <Compile Include="Patches\Patch_GardenCatcher.cs" />
+    <Compile Include="Patches\Patch_AchievementsDirector.cs" />
+    <Compile Include="Patches\Patch_AutoSaveDirector.cs" />
+    <Compile Include="Patches\Patch_EnergyJetpack.cs" />
+    <Compile Include="Patches\Patch_FillableAshSource.cs" />
+    <Compile Include="Patches\Patch_GameModel.cs" />
+    <Compile Include="Patches\Patch_GingerPatchNode.cs" />
+    <Compile Include="Patches\Patch_GordoEat.cs" />
+    <Compile Include="Patches\Patch_GordoSnare.cs" />
+    <Compile Include="Patches\Patch_HydroTurret.cs" />
+    <Compile Include="Patches\Patch_Identifiable.cs" />
+    <Compile Include="Patches\Patch_Incinerate.cs" />
+    <Compile Include="Patches\Patch_IntorUI.cs" />
+    <Compile Include="Patches\Patch_KookadobaPatchNode.cs" />
+    <Compile Include="Patches\Patch_LandPlot.cs" />
+    <Compile Include="Patches\Patch_LandPlotLocation.cs" />
+    <Compile Include="Patches\Patch_MailDirector.cs" />
+    <Compile Include="Patches\Patch_NutCracker.cs" />
+    <Compile Include="Patches\Patch_Oasis.cs" />
+    <Compile Include="Patches\Patch_PauseFix.cs" />
+    <Compile Include="Patches\Patch_PauseMenu.cs" />
+    <Compile Include="Patches\Patch_PediaDirector.cs" />
+    <Compile Include="Patches\Patch_PediaModel.cs" />
+    <Compile Include="Patches\Patch_PhaseSiteDirector.cs" />
+    <Compile Include="Patches\Patch_PlaceGadgetUI.cs" />
+    <Compile Include="Patches\Patch_PlayerModel.cs" />
+    <Compile Include="Patches\Patch_PlayerState.cs" />
+    <Compile Include="Patches\Patch_PlortCollector.cs" />
+    <Compile Include="Patches\Patch_ProgressDirector.cs" />
+    <Compile Include="Patches\Patch_PuzzleGateActivator.cs" />
+    <Compile Include="Patches\Patch_PuzzleSlot.cs" />
+    <Compile Include="Patches\Patch_QuicksilverAmmoReplacer.cs" />
+    <Compile Include="Patches\Patch_QuicksilverEnergyCheckpoint.cs" />
+    <Compile Include="Patches\Patch_QuicksilverEnergyGenerator.cs" />
+    <Compile Include="Patches\Patch_QuicksilverEnergyReplacer.cs" />
+    <Compile Include="Patches\Patch_QuicksilverPlortCollector.cs" />
+    <Compile Include="Patches\Patch_RanchCellFastForwarder.cs" />
+    <Compile Include="Patches\Patch_RanchModel.cs" />
+    <Compile Include="Patches\Patch_Region.cs" />
+    <Compile Include="Patches\Patch_Reproduce.cs" />
+    <Compile Include="Patches\Patch_ResourceCycle.cs" />
+    <Compile Include="Patches\Patch_ScorePlort.cs" />
+    <Compile Include="Patches\Patch_SECTR_CharacterAudio.cs" />
+    <Compile Include="Patches\Patch_SiloCatcher.cs" />
+    <Compile Include="Patches\Patch_SiloStorage.cs" />
+    <Compile Include="Patches\Patch_SiloStorageActivator.cs" />
+    <Compile Include="Patches\Patch_SlimeEat.cs" />
+    <Compile Include="Patches\Patch_SlimeEatAsh.cs" />
+    <Compile Include="Patches\Patch_SlimeEatWater.cs" />
+    <Compile Include="Patches\Patch_SlimeFeeder.cs" />
+    <Compile Include="Patches\Patch_SlimeFeral.cs" />
+    <Compile Include="Patches\Patch_SlimeRandomMove.cs" />
+    <Compile Include="Patches\Patch_SlimeSubbehaviour.cs" />
+    <Compile Include="Patches\Patch_SpawnResource.cs" />
+    <Compile Include="Patches\Patch_SplashOnTrigger.cs" />
+    <Compile Include="Patches\Patch_SRBehaviour.cs" />
+    <Compile Include="Patches\Patch_TimeDirector.cs" />
+    <Compile Include="Patches\Patch_TreasurePod.cs" />
+    <Compile Include="Patches\Patch_TutorialDirector.cs" />
+    <Compile Include="Patches\Patch_UITemplates.cs" />
+    <Compile Include="Patches\Patch_Vacuumable.cs" />
+    <Compile Include="Patches\Patch_WeaponVacuum.cs" />
+    <Compile Include="Patches\Patch_WorldStateMasterSwitch.cs" />
+    <Compile Include="Patches\Patch_ZoneDirector.cs" />
+    <Compile Include="PauseState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SRMP.cs" />
+    <Compile Include="SRMPConsole.cs" />
+    <Compile Include="TestUI.cs" />
+    <Compile Include="UserData.cs" />
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="modinfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>modinfo.json</LastGenOutput>
+    </Content>
+    <Content Include="Properties\AssemblyInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="modinfo.json">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>modinfo.tt</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="srmultiplayer.dat" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
