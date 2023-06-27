@@ -274,7 +274,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnFireColumnActivate(PacketFireColumnActivate packet)
         {
-            if(Globals.FireColumns.TryGetValue(packet.ID, out NetworkFireColumn netColumn))
+            if (Globals.FireColumns.TryGetValue(packet.ID, out NetworkFireColumn netColumn))
             {
                 netColumn.Column.ActivateFire();
             }
@@ -321,9 +321,9 @@ namespace SRMultiplayer.Networking
 
         private static void OnOasis(PacketOasis packet)
         {
-            foreach(var oasisData in packet.Oasis)
+            foreach (var oasisData in packet.Oasis)
             {
-                if(SRSingleton<SceneContext>.Instance.GameModel.AllOases().TryGetValue(oasisData.ID, out OasisModel model))
+                if (SRSingleton<SceneContext>.Instance.GameModel.AllOases().TryGetValue(oasisData.ID, out OasisModel model))
                 {
                     model.isLive = oasisData.Model.isLive;
 
@@ -337,29 +337,43 @@ namespace SRMultiplayer.Networking
         #region Exchanges
         private static void OnExchangeTryAccept(PacketExchangeTryAccept packet)
         {
+            //get the exchange type
             var type = (ExchangeDirector.OfferType)packet.Type;
+            //check if current scene (view) contains the item in question
             if (SRSingleton<SceneContext>.Instance.ExchangeDirector.worldModel.currOffers.ContainsKey(type))
             {
+                //handle the scene changes for the given offer
                 var offer = SRSingleton<SceneContext>.Instance.ExchangeDirector.worldModel.currOffers[type];
+                //cycle through requested items 
                 foreach (ExchangeDirector.RequestedItemEntry requestedItemEntry in offer.requests)
                 {
+                    //check if the item can be accespted 
+                    //is on the board and not already completed
                     if (requestedItemEntry.id == (Identifiable.Id)packet.ID && !requestedItemEntry.IsComplete())
                     {
+                        //mark submit to log
                         SRMP.Log($"Exchange TryAccept for {(Identifiable.Id)packet.ID} ({(ExchangeDirector.OfferType)packet.Type}", "SERVER");
+                        //mark progress
                         requestedItemEntry.progress++;
+
+                        //if the given item completes the necesary quantity
                         if (offer.IsComplete())
                         {
-                            foreach(var rewarder in Resources.FindObjectsOfTypeAll<RancherProgressAwarder>())
+                            foreach (var rewarder in Resources.FindObjectsOfTypeAll<RancherProgressAwarder>())
                             {
                                 rewarder.AwardIfType(type);
                             }
                             SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
                         }
+
+                        //trigger offer status changed
                         SRSingleton<SceneContext>.Instance.ExchangeDirector.OfferDidChange();
                     }
                 }
             }
         }
+
+
 
         private static void OnExchangePrepareDaily(PacketExchangePrepareDaily packet)
         {
@@ -414,7 +428,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnTreasurePods(PacketTreasurePods packet)
         {
-            foreach(var pod in packet.TreasurePods)
+            foreach (var pod in packet.TreasurePods)
             {
                 if (SRSingleton<SceneContext>.Instance.GameModel.AllPods().TryGetValue(pod.ID, out TreasurePodModel model))
                 {
@@ -446,7 +460,7 @@ namespace SRMultiplayer.Networking
                 if (model.HasAttached())
                 {
                     var netDrone = model.attached.transform.GetComponentInChildren<NetworkDrone>(true);
-                    if(netDrone != null)
+                    if (netDrone != null)
                     {
                         netDrone.PositionRotationUpdate(packet.Position, packet.Rotation, false);
                     }
@@ -675,7 +689,7 @@ namespace SRMultiplayer.Networking
                     extractor.nextProduceTime = packet.nextProduceTime;
                     extractor.queuedToProduce = packet.queuedToProduce;
 
-                    if(extractor.cyclesRemaining <= 0)
+                    if (extractor.cyclesRemaining <= 0)
                     {
                         var extractorScript = extractor.transform.GetComponent<Extractor>();
                         if (extractorScript != null && extractorScript.gameObject.activeInHierarchy)
@@ -770,7 +784,7 @@ namespace SRMultiplayer.Networking
         private static void OnGadgets(PacketGadgets packet)
         {
             List<int> regions = new List<int>();
-            foreach(var gadgetData in packet.Gadgets)
+            foreach (var gadgetData in packet.Gadgets)
             {
                 if (SRSingleton<SceneContext>.Instance.GameModel.AllGadgetSites().TryGetValue(gadgetData.ID, out GadgetSiteModel model))
                 {
@@ -823,7 +837,7 @@ namespace SRMultiplayer.Networking
                 }
             }
 
-            foreach(var region in regions)
+            foreach (var region in regions)
             {
                 if (Globals.Regions.TryGetValue(region, out NetworkRegion netRegion))
                 {
@@ -881,7 +895,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnPuzzleSlots(PacketPuzzleSlots packet)
         {
-            foreach(var puzzleSlotData in packet.PuzzleSlots)
+            foreach (var puzzleSlotData in packet.PuzzleSlots)
             {
                 if (SRSingleton<SceneContext>.Instance.GameModel.AllSlots().TryGetValue(puzzleSlotData.ID, out PuzzleSlotModel model))
                 {
@@ -919,7 +933,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnGordos(PacketGordos packet)
         {
-            foreach(var gordoData in packet.Gordos)
+            foreach (var gordoData in packet.Gordos)
             {
                 if (SRSingleton<SceneContext>.Instance.GameModel.AllGordos().TryGetValue(gordoData.ID, out GordoModel model))
                 {
@@ -959,7 +973,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnAccessDoors(PacketAccessDoors packet)
         {
-            foreach(var doorData in packet.Doors)
+            foreach (var doorData in packet.Doors)
             {
                 if (SRSingleton<SceneContext>.Instance.GameModel.AllDoors().TryGetValue(doorData.ID, out AccessDoorModel model))
                 {
@@ -1216,7 +1230,7 @@ namespace SRMultiplayer.Networking
             }
 
             var phaseSiteDirector = GameObject.FindObjectOfType<PhaseSiteDirector>();
-            if(phaseSiteDirector != null)
+            if (phaseSiteDirector != null)
             {
                 phaseSiteDirector.ResetAllSites();
                 foreach (PhaseSite phaseSite in new List<PhaseSite>(phaseSiteDirector.availablePhaseSites))
@@ -1295,7 +1309,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnLandPlotSiloAmmoAdd(PacketLandPlotSiloAmmoAdd packet)
         {
-            if(NetworkAmmo.All.TryGetValue(packet.ID, out NetworkAmmo ammo))
+            if (NetworkAmmo.All.TryGetValue(packet.ID, out NetworkAmmo ammo))
             {
                 ammo.MaybeAddToSpecificSlot((Identifiable.Id)packet.Ident, null, packet.Slot, packet.Count, packet.Overflow);
                 SRMP.Log($"NetworkAmmo add slot {packet.Slot} (Type: {(Identifiable.Id)packet.Ident} - Count: {packet.Count}) for {packet.ID}", "CLIENT");
@@ -1488,7 +1502,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnLandPlots(PacketLandplots packet)
         {
-            foreach(var plotData in packet.LandPlots)
+            foreach (var plotData in packet.LandPlots)
             {
                 if (SRSingleton<SceneContext>.Instance.GameModel.AllLandPlots().TryGetValue(plotData.ID, out LandPlotModel model))
                 {
@@ -1538,7 +1552,7 @@ namespace SRMultiplayer.Networking
             {
                 var type = (PacketActorFX.FXType)packet.Type;
                 var slimeEat = netActor.GetComponentInChildren<SlimeEat>();
-                if(slimeEat != null)
+                if (slimeEat != null)
                 {
                     if (type == PacketActorFX.FXType.SlimeEatFavoriteFX)
                     {
@@ -1748,7 +1762,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnActors(PacketActors packet)
         {
-            foreach(var actorData in packet.Actors)
+            foreach (var actorData in packet.Actors)
             {
                 if (!Globals.Actors.ContainsKey(actorData.ID))
                 {
@@ -1809,7 +1823,7 @@ namespace SRMultiplayer.Networking
 
                         Globals.Actors.Add(netActor.ID, netActor);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         SRMP.Log($"Could not create actor {actorData.ID}: {ex}");
                     }
@@ -1966,7 +1980,7 @@ namespace SRMultiplayer.Networking
                                             SRSingleton<SceneContext>.Instance.PlayerState.model.ammoDict[state].slots = new Ammo.Slot[slotCount];
                                             for (int j = 0; j < slotCount; j++)
                                             {
-                                                if(reader.ReadBoolean())
+                                                if (reader.ReadBoolean())
                                                 {
                                                     SRSingleton<SceneContext>.Instance.PlayerState.model.ammoDict[state].slots[j] = new Ammo.Slot((Identifiable.Id)reader.ReadUInt16(), reader.ReadInt32());
                                                     if (reader.ReadBoolean())

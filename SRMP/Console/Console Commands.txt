@@ -1,0 +1,20 @@
+The following console Commands work in the pop up console 
+
+cheat money [amount]
+	Add or Remove the given amount from the curret money score
+
+cheat keys [amount]
+	Add or Remove the given amount of keys from the current amount
+
+cheat allgadgets
+	Unlocks all of the gagets in the game
+	
+cheat spawn [id] ([amount])
+
+tp [DestinationPlayer]
+	Teleports the player that entered in the commant to the player entered
+listplayers
+	Prints the list of current players to the console
+
+sleep [Hours]
+	Sleep command followed by the time in in game hours to "sleep"". Fast forwards the game the alotted hours.
