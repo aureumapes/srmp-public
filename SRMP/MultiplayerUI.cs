@@ -8,18 +8,37 @@ using SRMultiplayer.Networking;
 
 public class MultiplayerUI : SRSingleton<MultiplayerUI>
 {
-    private int LastWidth = 0;
     private Rect windowRect = new Rect(Screen.width - 300 - 20, 20, 300, 500);
     private Vector2 playersScroll = Vector2.zero;
     private string ipaddress = "localhost";
     private string port = "16500";
     private string servercode = "";
-    private bool menuOpen;
+
+    //use internal name with getter and setter to allow the menu panel to remember the users last choice
+    private int _menuOpen;
+    private int menuOpen  //menu open hold the current menu state (0 colapsed, 1 minimized, 2 open)
+    {
+        get
+        {
+            return _menuOpen;
+        }
+        set
+        {
+            _menuOpen = value;
+
+            //save users setting
+            PlayerPrefs.SetInt("SRMP_Menu", menuOpen);
+        }
+    }
+
+
     private string username;
     private float lastCodeUse;
     private ConnectError error;
     private ConnectHelp help;
     private string errorMessage;
+
+
 
     public enum ConnectError
     {
@@ -45,64 +64,182 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         ipaddress = PlayerPrefs.GetString("SRMP_IP", "localhost");
         port = PlayerPrefs.GetString("SRMP_Port", "16500");
 
-        menuOpen = true;
+        menuOpen = PlayerPrefs.GetInt("SRMP_Menu", 2); ; //start panel open by default
+
         username = Globals.Username;
     }
 
     private void Update()
     {
-        if(lastCodeUse > 0f)
+        if (lastCodeUse > 0f)
         {
             var prevTime = lastCodeUse;
             lastCodeUse -= Time.deltaTime;
-            if(prevTime > 0f && lastCodeUse <= 0f)
+            if (prevTime > 0f && lastCodeUse <= 0f)
             {
                 error = ConnectError.ServerCodeTimeout;
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.F4))
+
+        //this sets presskey senarios
+        if (Input.GetKeyDown(KeyCode.F4))
         {
-            menuOpen = !menuOpen;
+            //use the f4 key to swap between collapsed and minimized
+            menuOpen = menuOpen == 2 ? 0 : 2;
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            //use the f3 key to set minimized or maximized
+            menuOpen = menuOpen < 2 ? 2 : 1;
         }
     }
 
     private void OnGUI()
     {
-        if (!menuOpen || (!Levels.isMainMenu() && !Globals.IsMultiplayer && Globals.PauseState != PauseState.Pause)) return;
+        //verify on a window that the menu can be drawn on
+        if ((!Levels.isMainMenu() && !Globals.IsMultiplayer && Globals.PauseState != PauseState.Pause)) return;
         if (Globals.IsMultiplayer && Globals.PauseState != PauseState.Pause) return;
 
+        //if yes draw the window for the given state
         if (SceneManager.GetActiveScene().buildIndex >= 2)
         {
-            //check to see if the windows needs to move
-            if(LastWidth != Screen.width)
+            //check to see if the windows needs to move due to it being off the screen from size change
+            //also prevent the user from dragging it off the screen
+            if (windowRect.x + 20 + windowRect.width > Screen.width) windowRect.x = Screen.width - windowRect.width - 20;
+            if (windowRect.y + 20 + windowRect.height > Screen.height) windowRect.y = (Screen.height - windowRect.height - 20) >= 20 ? (Screen.height - windowRect.height - 20) : 20;
+            if (windowRect.x < 20) windowRect.x = 20;
+            if (windowRect.y < 20) windowRect.y = 20;
+
+            //drawn in the window
+            switch (menuOpen)
             {
-                //recalc the window rect to move the gui
-                windowRect = new Rect(Screen.width - 300 - 20, 20, 300, 500);
+                case 0: //collapsed
+                    windowRect.height = 50;
+                    windowRect = GUILayout.Window(1, windowRect, ClosedWindow, "SRMP v" + Globals.Version);
+                    break;
+                case 1: //minimized
+                    windowRect.height = 100;
+                    windowRect = GUILayout.Window(1, windowRect, MiniWindow, "SRMP v" + Globals.Version);
+                    break;
+                case 2: //open
+                    windowRect.height = 500;
+                    windowRect = GUILayout.Window(1, windowRect, MultiplayerWindow, "SRMP v" + Globals.Version);
+                    break;
             }
 
-            windowRect = GUILayout.Window(1, windowRect, MultiplayerWindow, "SRMP v" + Globals.Version);
+
         }
+    }
+    private void FunctionKeys()
+    {
+        GUILayout.Label("Press Button or Corresponding Key To Change Menu");
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button(menuOpen == 1 ? "F3 - Full" : "F3 - Mini"))
+        {
+            menuOpen = menuOpen == 1 ? 2 : 1;
+        }
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button(menuOpen == 0 ? "F4 - Full" : "F4 - Closed"))
+        {
+            menuOpen = menuOpen == 0 ? 2 : 0;
+        }
+        GUILayout.EndHorizontal();
+    }
+
+    private void ClosedWindow(int id)
+    {
+        if (id != 1) return;
+        //display f3 and f4 commands
+        FunctionKeys();
+
+        GUI.DragWindow(new Rect(0, 0, 10000, 10000));
+    }
+    private void MiniWindow(int id)
+    {
+        if (id != 1) return;
+
+        //display f3 and f4 commands
+        FunctionKeys();
+
+        //show username and current connection status
+        GUIStyle standard = new GUIStyle(GUI.skin.label);
+        GUIStyle red = new GUIStyle(GUI.skin.label);
+        red.normal.textColor = Color.red;
+
+
+        if (string.IsNullOrWhiteSpace(Globals.Username))
+        {
+            GUILayout.Label("Username: Not Set", red);
+        }
+        else
+        {
+            GUILayout.Label("Username: " + Globals.Username);
+
+            if (Globals.IsServer)
+            {
+                GUILayout.Label("Connection Status: Host");
+            }
+            else if (Globals.IsClient)
+            {
+                GUILayout.Label("Connection Status: Client");
+            }
+            else
+            {
+                bool canHost = true;
+                //check if user can host the session
+                if (!int.TryParse(port, out int numport) || numport < 1000 || numport > 65000)
+                {
+                    canHost = false;
+                }
+
+                GUI.contentColor = Color.red;
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Connection Status: Disconnected");
+
+                GUILayout.FlexibleSpace();
+                if (canHost)
+                {
+                    //only show host if not main menu
+                    if (!Levels.isMainMenu())
+                    {
+                        if (GUILayout.Button("Host"))
+                        {
+                            NetworkServer.Instance.StartServer(numport);
+                            SaveSettings();
+                        }
+                    }
+                }
+                GUILayout.EndHorizontal();
+                if (!canHost)
+                {
+                    GUILayout.Label("Invalid Port Settings", red);
+                }
+            }
+
+        }
+        GUI.DragWindow(new Rect(0, 0, 10000, 10000));
     }
 
     private void MultiplayerWindow(int id)
     {
         if (id != 1) return;
 
-        GUILayout.Label("You can close this menu with F4");
-        GUILayout.Space(20);
+        //display f3 and f4 commands
+        FunctionKeys();
 
-        if(string.IsNullOrWhiteSpace(Globals.Username))
+        //now display standard 
+        if (string.IsNullOrWhiteSpace(Globals.Username))
         {
             UsernameGUI();
         }
         else
         {
-            if(Globals.IsServer)
+            if (Globals.IsServer)
             {
                 ServerGUI();
             }
-            else if(Globals.IsClient)
+            else if (Globals.IsClient)
             {
                 ClientGUI();
             }
@@ -112,13 +249,13 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
                 {
                     ErrorGUI();
                 }
-                else if(help != ConnectHelp.None)
+                else if (help != ConnectHelp.None)
                 {
                     HelpGUI();
                 }
                 else
                 {
-                    if(lastCodeUse > 0f)
+                    if (lastCodeUse > 0f)
                     {
                         GUILayout.Label("Trying to connect with server code...");
                     }
@@ -151,7 +288,7 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
 
             GUILayout.BeginHorizontal();
             GUILayout.Label(player.Username);
-            if(GUILayout.Button("Kick"))
+            if (GUILayout.Button("Kick"))
             {
                 player.Connection.Disconnect("kicked");
             }
@@ -187,7 +324,7 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
             return;
         }
         GUILayout.Space(20);
-        if(GUILayout.Button("How do I host a game?"))
+        if (GUILayout.Button("How do I host a game?"))
         {
             help = ConnectHelp.Hosting;
         }
@@ -288,7 +425,7 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
 
     private void HelpGUI()
     {
-        switch(help)
+        switch (help)
         {
             case ConnectHelp.ServerCode:
                 {
@@ -312,7 +449,7 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
 
     private void ErrorGUI()
     {
-        switch(error)
+        switch (error)
         {
             case ConnectError.InvalidServerCode:
                 {
