@@ -51,6 +51,9 @@ namespace SRMultiplayer
             input.RedrawInputLine();
         }
 
+
+
+
         //
         // Text has been entered into the console
         // Run it as a console command
@@ -213,6 +216,7 @@ namespace SRMultiplayer
                         }
                     }
                     break;
+                
             }
         }
 
