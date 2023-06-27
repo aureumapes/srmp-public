@@ -8,7 +8,8 @@ using SRMultiplayer.Networking;
 
 public class MultiplayerUI : SRSingleton<MultiplayerUI>
 {
-    private Rect windowRect = new Rect(Screen.width - 300, 20, 300, 500);
+    private int LastWidth = 0;
+    private Rect windowRect = new Rect(Screen.width - 300 - 20, 20, 300, 500);
     private Vector2 playersScroll = Vector2.zero;
     private string ipaddress = "localhost";
     private string port = "16500";
@@ -73,7 +74,14 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
 
         if (SceneManager.GetActiveScene().buildIndex >= 2)
         {
-            windowRect = GUI.Window(1, windowRect, MultiplayerWindow, "SRMP v" + Globals.Version);
+            //check to see if the windows needs to move
+            if(LastWidth != Screen.width)
+            {
+                //recalc the window rect to move the gui
+                windowRect = new Rect(Screen.width - 300 - 20, 20, 300, 500);
+            }
+
+            windowRect = GUILayout.Window(1, windowRect, MultiplayerWindow, "SRMP v" + Globals.Version);
         }
     }
 
