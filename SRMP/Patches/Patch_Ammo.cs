@@ -32,7 +32,7 @@ namespace SRMultiplayer.Patches
             }
             else if(__instance is NetworkPlayerAmmo)
             {
-                SRMP.Log($"DecrementSelectedAmmo {((NetworkPlayerAmmo)__instance).ID} {amount}", "PLAYERAMMO");
+                //SRMP.Log($"DecrementSelectedAmmo {((NetworkPlayerAmmo)__instance).ID} {amount}", "PLAYERAMMO");
             }
         }
     }
@@ -63,7 +63,7 @@ namespace SRMultiplayer.Patches
             }
             else if (__instance is NetworkPlayerAmmo)
             {
-                SRMP.Log($"Clear {((NetworkPlayerAmmo)__instance).ID} {index}", "PLAYERAMMO");
+                //SRMP.Log($"Clear {((NetworkPlayerAmmo)__instance).ID} {index}", "PLAYERAMMO");
             }
         }
     }
@@ -78,7 +78,7 @@ namespace SRMultiplayer.Patches
 
             if (__result && __instance is NetworkPlayerAmmo)
             {
-                SRMP.Log($"ReplaceWithQuicksilverAmmo {((NetworkPlayerAmmo)__instance).ID} {id} {count}", "PLAYERAMMO");
+                //SRMP.Log($"ReplaceWithQuicksilverAmmo {((NetworkPlayerAmmo)__instance).ID} {id} {count}", "PLAYERAMMO");
             }
         }
     }
@@ -93,7 +93,7 @@ namespace SRMultiplayer.Patches
 
             if (__result && __instance is NetworkPlayerAmmo)
             {
-                SRMP.Log($"SetAmmoSlot {((NetworkPlayerAmmo)__instance).ID} {idx}", "PLAYERAMMO");
+                //SRMP.Log($"SetAmmoSlot {((NetworkPlayerAmmo)__instance).ID} {idx}", "PLAYERAMMO");
             }
         }
     }
@@ -108,7 +108,7 @@ namespace SRMultiplayer.Patches
 
             if (__result && __instance is NetworkPlayerAmmo)
             {
-                SRMP.Log($"Replace {((NetworkPlayerAmmo)__instance).ID} {previous} {next}", "PLAYERAMMO");
+                //SRMP.Log($"Replace {((NetworkPlayerAmmo)__instance).ID} {previous} {next}", "PLAYERAMMO");
             }
         }
     }
@@ -140,7 +140,7 @@ namespace SRMultiplayer.Patches
             }
             else if (__instance is NetworkPlayerAmmo)
             {
-                SRMP.Log($"Decrement {((NetworkPlayerAmmo)__instance).ID} {index} {count}", "PLAYERAMMO");
+                //SRMP.Log($"Decrement {((NetworkPlayerAmmo)__instance).ID} {index} {count}", "PLAYERAMMO");
             }
         }
     }
@@ -214,7 +214,7 @@ namespace SRMultiplayer.Patches
                         }
                         else if(__instance is NetworkPlayerAmmo)
                         {
-                            SRMP.Log($"MaybeAddToSlot1 {((NetworkPlayerAmmo)__instance).ID} {id} {i}", "PLAYERAMMO");
+                            //SRMP.Log($"MaybeAddToSlot1 {((NetworkPlayerAmmo)__instance).ID} {id} {i}", "PLAYERAMMO");
                         }
 
                         __instance.Slots[i].count = slotMaxCount;
@@ -249,7 +249,7 @@ namespace SRMultiplayer.Patches
                         }
                         else if (__instance is NetworkPlayerAmmo)
                         {
-                            SRMP.Log($"MaybeAddToSlot2 {((NetworkPlayerAmmo)__instance).ID} {id} {i}", "PLAYERAMMO");
+                            //SRMP.Log($"MaybeAddToSlot2 {((NetworkPlayerAmmo)__instance).ID} {id} {i}", "PLAYERAMMO");
                         }
                     }
                     flag2 = true;
@@ -292,7 +292,7 @@ namespace SRMultiplayer.Patches
                         }
                         else if (__instance is NetworkPlayerAmmo)
                         {
-                            SRMP.Log($"MaybeAddToSlot3 {((NetworkPlayerAmmo)__instance).ID} {id} {id}", "PLAYERAMMO");
+                            //SRMP.Log($"MaybeAddToSlot3 {((NetworkPlayerAmmo)__instance).ID} {id} {id}", "PLAYERAMMO");
                         }
                         flag2 = true;
                     }
