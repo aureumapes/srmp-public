@@ -1,4 +1,5 @@
-﻿using MonomiPark.SlimeRancher.Regions;
+﻿using JetBrains.Annotations;
+using MonomiPark.SlimeRancher.Regions;
 using SRMultiplayer.Networking;
 using System;
 using System.Collections.Generic;
@@ -30,27 +31,98 @@ namespace SRMultiplayer
             SRMP.Log("Console Started");
         }
 
+        //used to prevent duplicate messages displaying and list what number duplicate it is 
+        string LastMessage = "";
+        int duplicateCount = 0;
+
+        //types of console types that can be enabled/disabled
+        //server automatically starts with all active
+        List<LogType> blockMessages = new List<LogType>(); //keeps a list of message types that have been disabled
         private void Application_logMessageReceived(string condition, string stackTrace, LogType type)
         {
-            if (type == LogType.Warning)
-                Console.ForegroundColor = ConsoleColor.Yellow;
-            else if (type == LogType.Error)
-                Console.ForegroundColor = ConsoleColor.Red;
-            else
-                Console.ForegroundColor = ConsoleColor.White;
-
             // We're half way through typing something, so clear this line ..
             if (Console.CursorLeft != 0)
                 input.ClearLine();
 
-            Console.WriteLine(condition);
+            //construct message
+            string message = condition;
             if (!string.IsNullOrEmpty(stackTrace))
-                Console.WriteLine(stackTrace);
+            {
+                //add stack strace if included
+                message += Environment.NewLine + stackTrace;
+            }
+
+            if (message == LastMessage)
+            {
+                //do not process duplicate marks if the last item was not written
+                if(duplicateCount >0) duplicateCount++;
+            }
+            else
+            {
+                //add write line for duplicate notices if necessary
+                if (duplicateCount > 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine("Output Duplicated: " + duplicateCount);
+                }
+
+                //format color for message 
+                if (type == LogType.Warning)
+                    Console.ForegroundColor = ConsoleColor.Yellow; 
+                else if (type == LogType.Error)
+                    Console.ForegroundColor = ConsoleColor.Red;
+                else
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                // mark new message
+                LastMessage = message;
+
+                //check data  for inner types 
+                string data = condition;
+
+                //remove the srmp tag and the time to check inner tags 
+                if (type == LogType.Log) data = data.Substring(17);
+                    
+                //only write the message type if its not blocked
+                //always allow console replay to display
+                if (!blockMessages.Contains(type) || data.StartsWith("[Console]"))
+                {
+                    //write the new line if not blocked                  
+                    duplicateCount = 0;
+                    Console.WriteLine(message);
+
+                }
+                else
+                {
+                    //for testing log disabled display
+                    //Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine(type.ToString() + " Dismissed");
+
+                    //mark dupilcate count to -1
+                    //prevent duplicate count for supressed messages from displaying
+                    duplicateCount = -1;
+                }
+            }
+
+
 
             // If we were typing something re-add it.
             input.RedrawInputLine();
         }
 
+        public static void ClearCurrentConsoleLine()
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.BufferWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
+        }
+
+        //create a log call that marks all console sent replys
+        void ConsoleLog(string message)
+        {
+            SRMP.Log(message, "Console");
+        }
 
 
 
@@ -74,17 +146,17 @@ namespace SRMultiplayer
                             {
                                 if (args.Length != 2 || !int.TryParse(args[1], out int money))
                                 {
-                                    SRMP.Log("Usage: cheat money <amount>");
+                                    ConsoleLog("Usage: cheat money <amount>");
                                 }
                                 else
                                 {
-                                    if(money > 0)
+                                    if (money > 0)
                                         SRSingleton<SceneContext>.Instance.PlayerState.AddCurrency(money);
                                     else
                                         SRSingleton<SceneContext>.Instance.PlayerState.SpendCurrency(money);
                                 }
                             }
-                            else if(args[0].Equals("enable"))
+                            else if (args[0].Equals("enable"))
                             {
                                 //TestUI.Instance.cheat = !TestUI.Instance.cheat;
                             }
@@ -92,7 +164,7 @@ namespace SRMultiplayer
                             {
                                 if (args.Length != 2 || !int.TryParse(args[1], out int value))
                                 {
-                                    SRMP.Log("Usage: cheat keys <amount>");
+                                    ConsoleLog("Usage: cheat keys <amount>");
                                 }
                                 else
                                 {
@@ -123,7 +195,7 @@ namespace SRMultiplayer
                                         }
                                         else
                                         {
-                                            SRMP.Log(id + " can not be spawned");
+                                            ConsoleLog(id + " can not be spawned");
                                         }
                                     }
                                     else
@@ -132,7 +204,7 @@ namespace SRMultiplayer
                                         SRMP.Log(args[1] + " not found. " + (data.Count() > 0 ? " Did you mean one of these?" : ""));
                                         foreach (var name in data)
                                         {
-                                            SRMP.Log(name);
+                                            ConsoleLog(name);
                                         }
                                     }
                                 }
@@ -156,26 +228,26 @@ namespace SRMultiplayer
                                     else
                                     {
                                         var data = Enum.GetNames(typeof(Identifiable.Id)).Where(n => n.ToLower().Contains(args[1].ToLower()));
-                                        SRMP.Log(args[1] + " not found. " + (data.Count() > 0 ? " Did you mean one of these?" : ""));
+                                        ConsoleLog(args[1] + " not found. " + (data.Count() > 0 ? " Did you mean one of these?" : ""));
                                         foreach (var name in data)
                                         {
-                                            SRMP.Log(name);
+                                            ConsoleLog(name);
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    SRMP.Log("Usage: cheat spawn <id> (<amount>)");
+                                    ConsoleLog("Usage: cheat spawn <id> (<amount>)");
                                 }
                             }
                         }
                         else
                         {
-                            SRMP.Log("Available sub commands:");
-                            SRMP.Log("cheat money <amount>");
-                            SRMP.Log("cheat keys <amount>");
-                            SRMP.Log("cheat spawn <id> (<amount>)");
-                            SRMP.Log("cheat allgadgets");
+                            ConsoleLog("Available sub commands:");
+                            ConsoleLog("cheat money <amount>");
+                            ConsoleLog("cheat keys <amount>");
+                            ConsoleLog("cheat spawn <id> (<amount>)");
+                            ConsoleLog("cheat allgadgets");
                         }
                     }
                     break;
@@ -190,18 +262,18 @@ namespace SRMultiplayer
                             }
                             else
                             {
-                                SRMP.Log("Player not found");
+                                ConsoleLog("Player not found");
                             }
                         }
                         else
                         {
-                            SRMP.Log("Usage: tp <username>");
+                            ConsoleLog("Usage: tp <username>");
                         }
                     }
                     break;
                 case "listplayers":
                     {
-                        SRMP.Log("Players:");
+                        ConsoleLog("Players:");
                         foreach (var player in Globals.Players.Values)
                         {
                             SRMP.Log(player.Username);
@@ -213,10 +285,45 @@ namespace SRMultiplayer
                         if (args.Length == 1)
                         {
                             SRSingleton<SceneContext>.Instance.TimeDirector.FastForwardTo(SRSingleton<SceneContext>.Instance.TimeDirector.HoursFromNow(float.Parse(args[0])));
+                            ConsoleLog("Sleeoing for " + args[0] + " hours");
+                        }
+                        else
+                        {
+                            ConsoleLog("Usage: sleep <hours>");
                         }
                     }
                     break;
-                
+                case "console": //add toggle option for turning on and off logging types
+                    
+                    if (args.Length > 1 && (args[0] == "enable"|| args[0] == "disable"))
+                    {
+                        bool enable = args[0] == "enable";
+                        //double check type
+                        if (LogType.TryParse(args[1], true, out LogType logType))
+                        {
+                            if (enable)
+                            {
+                                if (!blockMessages.Contains(logType)) blockMessages.Remove(logType);
+                                ConsoleLog(logType.ToString() + " Messages Enabled"); 
+                            }
+                            else
+                            {
+                                if (blockMessages.Contains(logType)) blockMessages.Add(logType);
+                                ConsoleLog("[Console] " + logType.ToString() + " Messages Disabled");
+                            }
+                        }
+                        else
+                        {
+                            ConsoleLog("Invalid Feed back Type");
+                            ConsoleLog("Suggestions: " + string.Join(", ", logType));
+                        }
+                    }
+                    else
+                    {
+                        ConsoleLog("Usage: console <enable/disable> <feedbackType>");
+                    }
+                    break;
+
             }
         }
 

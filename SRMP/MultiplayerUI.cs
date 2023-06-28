@@ -133,14 +133,14 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
     }
     private void FunctionKeys()
     {
-        GUILayout.Label("Press Button or Corresponding Key To Change Menu");
+        GUILayout.Label("Press Button or Key To Change Style");
         GUILayout.BeginHorizontal();
         if (GUILayout.Button(menuOpen == 1 ? "F3 - Full" : "F3 - Mini"))
         {
             menuOpen = menuOpen == 1 ? 2 : 1;
         }
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button(menuOpen == 0 ? "F4 - Full" : "F4 - Closed"))
+        if (GUILayout.Button(menuOpen == 0 ? "F4 - Full" : "F4 - Colapsed"))
         {
             menuOpen = menuOpen == 0 ? 2 : 0;
         }
