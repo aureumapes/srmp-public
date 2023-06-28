@@ -17,7 +17,12 @@ namespace SRMultiplayer.Patches
         {
             if (!Globals.IsMultiplayer) return;
 
-            NetworkClient.Instance.Disconnect();
+            //only handle the client if the client is the one disconnecting
+            if (!Globals.IsServer)
+            {
+                NetworkClient.Instance.Disconnect();
+            }
+            //if server ahndle the shutdown
             NetworkServer.Instance.Disconnect();
         }
     }
