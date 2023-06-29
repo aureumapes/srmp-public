@@ -9,6 +9,15 @@ using UnityEngine;
 
 namespace SRMultiplayer
 {
+    enum LogItems
+    {
+        CLIENT,
+        SERVER,
+        PLAYERAMMO
+
+    }
+
+
     public class SRMPConsole : MonoBehaviour
     {
         ConsoleWindow console = new ConsoleWindow();
@@ -38,6 +47,7 @@ namespace SRMultiplayer
         //types of console types that can be enabled/disabled
         //server automatically starts with all active
         List<LogType> blockMessages = new List<LogType>(); //keeps a list of message types that have been disabled
+        List<LogItems> blockLogs = new List<LogItems>(); //keeps a list of log message types that have been disabled
         private void Application_logMessageReceived(string condition, string stackTrace, LogType type)
         {
             // We're half way through typing something, so clear this line ..
@@ -77,26 +87,46 @@ namespace SRMultiplayer
                 // mark new message
                 LastMessage = message;
 
-                //check data  for inner types 
+                bool displayLog = true;
+
+                //if log type is blocked turn off display
+                if (blockMessages.Contains(type)) displayLog = false;
+
+                //check data for specific inner types 
                 string data = condition;
 
                 //remove the srmp tag and the time to check inner tags 
-                if (type == LogType.Log) data = data.Substring(17);
-                    
-                //only write the message type if its not blocked
-                //always allow console replay to display
-                if (!blockMessages.Contains(type) || data.StartsWith("[Console]"))
+                if (type == LogType.Log)
+                {
+                    data = data.Substring(17);
+
+                    //if is still able to display make sure the log message blocker isnt blocking it
+                    if (displayLog)
+                    {
+                        //try to pase the log message
+                        if(Enum.TryParse(data.Split("]")[0].Substring(1), true, out LogItems logMessage))
+                        {
+                            if (blockLogs.Contains(logMessage)) displayLog = false;
+                        }
+                    }
+                }
+
+
+                //always allow console reply to display
+                if (data.StartsWith("[Console]")) displayLog = true;
+
+                //only write the message type if its not blocked             
+                if (displayLog)
                 {
                     //write the new line if not blocked                  
                     duplicateCount = 0;
                     Console.WriteLine(message);
-
                 }
                 else
                 {
                     //for testing log disabled display
                     //Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine(type.ToString() + " Dismissed");
+                    //Console.WriteLine(type.ToString() + " Dismissed");
 
                     //mark dupilcate count to -1
                     //prevent duplicate count for supressed messages from displaying
@@ -299,7 +329,7 @@ namespace SRMultiplayer
                     {
                         bool enable = args[0] == "enable";
                         //double check type
-                        if (LogType.TryParse(args[1], true, out LogType logType))
+                        if (Enum.TryParse(args[1], true, out LogType logType)) //check for main log type
                         {
                             if (enable)
                             {
@@ -312,10 +342,25 @@ namespace SRMultiplayer
                                 ConsoleLog("[Console] " + logType.ToString() + " Messages Disabled");
                             }
                         }
+                        else if (Enum.TryParse(args[1], true, out LogItems logMessage)) //check for log message item types
+                        {
+                            if (enable)
+                            {
+                                if (!blockLogs.Contains(logMessage)) blockLogs.Remove(logMessage);
+                                ConsoleLog(logMessage.ToString() + " Log Messages Enabled");
+                            }
+                            else
+                            {
+                                if (blockLogs.Contains(logMessage)) blockLogs.Add(logMessage);
+                                ConsoleLog("[Console] " + logMessage.ToString() + " Log Messages Disabled");
+                            }
+                        }
                         else
                         {
                             ConsoleLog("Invalid Feed back Type");
-                            ConsoleLog("Suggestions: " + string.Join(", ", logType));
+                            ConsoleLog("Valid Types: ");
+                            ConsoleLog(string.Join(", ", Enum.GetValues(typeof(LogType))));
+                            ConsoleLog(string.Join(", ", Enum.GetValues(typeof(LogItems))));
                         }
                     }
                     else
