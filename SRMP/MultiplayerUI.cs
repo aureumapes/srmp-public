@@ -193,9 +193,8 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
                     canHost = false;
                 }
 
-                GUI.contentColor = Color.red;
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Connection Status: Disconnected");
+                GUILayout.Label("Connection Status: Disconnected", red);
 
                 GUILayout.FlexibleSpace();
                 if (canHost)

@@ -13,8 +13,8 @@ namespace SRMultiplayer
     {
         CLIENT,
         SERVER,
-        PLAYERAMMO
-
+        PLAYERAMMO,
+        EXCHANGE
     }
 
 
@@ -48,6 +48,7 @@ namespace SRMultiplayer
         //server automatically starts with all active
         List<LogType> blockMessages = new List<LogType>(); //keeps a list of message types that have been disabled
         List<LogItems> blockLogs = new List<LogItems>(); //keeps a list of log message types that have been disabled
+        bool DisplayTrace = false;
         private void Application_logMessageReceived(string condition, string stackTrace, LogType type)
         {
             // We're half way through typing something, so clear this line ..
@@ -56,7 +57,7 @@ namespace SRMultiplayer
 
             //construct message
             string message = condition;
-            if (!string.IsNullOrEmpty(stackTrace))
+            if (!string.IsNullOrEmpty(stackTrace) && DisplayTrace)
             {
                 //add stack strace if included
                 message += Environment.NewLine + stackTrace;
@@ -96,7 +97,7 @@ namespace SRMultiplayer
                 string data = condition;
 
                 //remove the srmp tag and the time to check inner tags 
-                if (type == LogType.Log)
+                if (type == LogType.Log && data.StartsWith("[SRMP]"))
                 {
                     data = data.Substring(17);
 
@@ -104,7 +105,7 @@ namespace SRMultiplayer
                     if (displayLog)
                     {
                         //try to pase the log message
-                        if(Enum.TryParse(data.Split("]")[0].Substring(1), true, out LogItems logMessage))
+                        if (Enum.TryParse(data.Split("]"[0])[0].Substring(1), true, out LogItems logMessage))
                         {
                             if (blockLogs.Contains(logMessage)) displayLog = false;
                         }
@@ -126,7 +127,7 @@ namespace SRMultiplayer
                 {
                     //for testing log disabled display
                     //Console.ForegroundColor = ConsoleColor.Magenta;
-                    //Console.WriteLine(type.ToString() + " Dismissed");
+                    Console.WriteLine(type.ToString() + " Dismissed");
 
                     //mark dupilcate count to -1
                     //prevent duplicate count for supressed messages from displaying
@@ -138,14 +139,6 @@ namespace SRMultiplayer
 
             // If we were typing something re-add it.
             input.RedrawInputLine();
-        }
-
-        public static void ClearCurrentConsoleLine()
-        {
-            int currentLineCursor = Console.CursorTop;
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.BufferWidth));
-            Console.SetCursorPosition(0, currentLineCursor);
         }
 
         //create a log call that marks all console sent replys
@@ -352,9 +345,21 @@ namespace SRMultiplayer
                             else
                             {
                                 if (blockLogs.Contains(logMessage)) blockLogs.Add(logMessage);
-                                ConsoleLog("[Console] " + logMessage.ToString() + " Log Messages Disabled");
+                                ConsoleLog(logMessage.ToString() + " Log Messages Disabled");
                             }
-                        }
+                        }else if (args[1].Equals("stacktrace", StringComparison.InvariantCultureIgnoreCase) || args[1].Equals("stack_trace", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            if (enable)
+                            {
+                                DisplayTrace = true;
+                                ConsoleLog("Stack Trace Information Enabled");
+                            }
+                            else
+                            {
+                                DisplayTrace = false;
+                                ConsoleLog("Stack Trace Information Disabled");
+                            }
+                            }
                         else
                         {
                             ConsoleLog("Invalid Feed back Type");
