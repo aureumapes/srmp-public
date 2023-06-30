@@ -1,8 +1,10 @@
-﻿using MonomiPark.SlimeRancher.Regions;
+﻿using DG.Tweening;
+using MonomiPark.SlimeRancher.Regions;
 using SRMultiplayer.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -52,7 +54,7 @@ namespace SRMultiplayer.Networking
 
         private void OnEnable()
         {
-            if(Owner == 0)
+            if (Owner == 0)
             {
                 TakeOwnership();
             }
@@ -68,7 +70,7 @@ namespace SRMultiplayer.Networking
 
         private void Update()
         {
-            if(IsLocal)
+            if (IsLocal)
             {
                 m_MovementUpdateTimer -= Time.deltaTime;
                 if (m_MovementUpdateTimer <= 0)
@@ -92,7 +94,7 @@ namespace SRMultiplayer.Networking
                         }.Send(Lidgren.Network.NetDeliveryMethod.Unreliable);
                     }
 
-                    if(SlimeEat != null &&
+                    if (SlimeEat != null &&
                         (!Utils.CloseEnoughForMe(SlimeEat.emotions.GetCurr(SlimeEmotions.Emotion.AGITATION), m_PreviousEmotions[SlimeEmotions.Emotion.AGITATION], 0.1f) ||
                         !Utils.CloseEnoughForMe(SlimeEat.emotions.GetCurr(SlimeEmotions.Emotion.FEAR), m_PreviousEmotions[SlimeEmotions.Emotion.FEAR], 0.1f) ||
                         !Utils.CloseEnoughForMe(SlimeEat.emotions.GetCurr(SlimeEmotions.Emotion.HUNGER), m_PreviousEmotions[SlimeEmotions.Emotion.HUNGER], 0.1f)))
@@ -113,7 +115,7 @@ namespace SRMultiplayer.Networking
             }
             else
             {
-                if(m_Rigidbody != null)
+                if (m_Rigidbody != null)
                 {
                     m_Rigidbody.velocity = Vector3.zero;
                 }
@@ -227,7 +229,7 @@ namespace SRMultiplayer.Networking
                 }
             }
             var destroyOnTouching = GetComponentInChildren<DestroyOnTouching>();
-            if(destroyOnTouching != null)
+            if (destroyOnTouching != null)
             {
                 if (destroyOnTouching.destroyFX != null)
                 {
@@ -237,6 +239,7 @@ namespace SRMultiplayer.Networking
             var exchangeBreakOnImpact = GetComponentInChildren<ExchangeBreakOnImpact>();
             if (exchangeBreakOnImpact != null)
             {
+                SRMP.Log("Exchange Box Broke!", "ACTOR");
                 SRBehaviour.SpawnAndPlayFX(exchangeBreakOnImpact.breakFX, exchangeBreakOnImpact.gameObject.transform.position, exchangeBreakOnImpact.gameObject.transform.rotation);
             }
             var breakOnImpact = GetComponentInChildren<BreakOnImpactBase>();
@@ -245,7 +248,7 @@ namespace SRMultiplayer.Networking
                 SRBehaviour.SpawnAndPlayFX(breakOnImpact.breakFX, breakOnImpact.gameObject.transform.position, breakOnImpact.gameObject.transform.rotation);
             }
             var quicksilver = GetComponentInChildren<QuicksilverPlortCollector>();
-            if(quicksilver != null)
+            if (quicksilver != null)
             {
                 if (quicksilver.destroyFX != null)
                 {

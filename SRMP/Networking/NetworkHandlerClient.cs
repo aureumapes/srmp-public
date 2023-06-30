@@ -1,5 +1,4 @@
-﻿using Assets.Script.Util.Extensions;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Lidgren.Network;
 using MonomiPark.SlimeRancher.DataModel;
 using MonomiPark.SlimeRancher.Persist;
@@ -371,8 +370,9 @@ namespace SRMultiplayer.Networking
                                 //send off fireworks 
                                 SRBehaviour.InstantiateDynamic(eject.awardFX, eject.awardAt.position, eject.awardAt.rotation);
                             }
-
-                            SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
+                            
+                            //dont clear out the offer yet, we arent done with it
+                            //SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
                         }
 
                         //trigger offer status changed
@@ -381,10 +381,7 @@ namespace SRMultiplayer.Networking
                 }
             }
         }
-
-
-
-        private static void OnExchangePrepareDaily(PacketExchangePrepareDaily packet)
+       private static void OnExchangePrepareDaily(PacketExchangePrepareDaily packet)
         {
             SRSingleton<SceneContext>.Instance.ExchangeDirector.worldModel.pendingOfferRancherIds = packet.pendingOfferRancherIds;
             SRSingleton<SceneContext>.Instance.ExchangeDirector.OfferDidChange();

@@ -318,14 +318,24 @@ namespace SRMultiplayer.Networking
                             {
                                 rewarder.AwardIfType(type);
                             }
-                            SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
+
+                            //trigger fireworks
+                            //get ExchangeEjector
+                            foreach (var eject in Resources.FindObjectsOfTypeAll<ExchangeEjector>())
+                            {
+                                //send off fireworks 
+                                SRBehaviour.InstantiateDynamic(eject.awardFX, eject.awardAt.position, eject.awardAt.rotation);
+                            }
+
+                            //dont clear out the offer yet, we arent done with it
+                            //SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
                         }
                         SRSingleton<SceneContext>.Instance.ExchangeDirector.OfferDidChange();
                     }
                 }
             }
             packet.SendToAllExcept(player);
-        }
+        }        
 
         private static void OnExchangePrepareDaily(PacketExchangePrepareDaily packet, NetworkPlayer player)
         {
