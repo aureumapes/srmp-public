@@ -119,6 +119,7 @@ namespace SRMultiplayer.Networking
                 case PacketType.ExchangeClear: OnExchangeClear(new PacketExchangeClear(im), player); break;
                 case PacketType.ExchangePrepareDaily: OnExchangePrepareDaily(new PacketExchangePrepareDaily(im), player); break;
                 case PacketType.ExchangeTryAccept: OnExchangeTryAccept(new PacketExchangeTryAccept(im), player); break;
+                case PacketType.ExchangeBreak: OnExchangeBreak(new PacketExchangeBreak(im)); break;
                 //Gordos
                 case PacketType.GordoEat: OnGordoEat(new PacketGordoEat(im), player); break;
                 //Oasis
@@ -318,13 +319,75 @@ namespace SRMultiplayer.Networking
                             {
                                 rewarder.AwardIfType(type);
                             }
-                            SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
+
+                            //trigger fireworks
+                            //get ExchangeEjector
+                            foreach (var eject in Resources.FindObjectsOfTypeAll<ExchangeEjector>())
+                            {
+                                //send off fireworks 
+                                SRBehaviour.InstantiateDynamic(eject.awardFX, eject.awardAt.position, eject.awardAt.rotation);
+                            }
+
+                            //dont clear out the offer yet, we arent done with it
+                            //SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
                         }
                         SRSingleton<SceneContext>.Instance.ExchangeDirector.OfferDidChange();
                     }
                 }
             }
             packet.SendToAllExcept(player);
+        }
+        private static void OnExchangeBreak(PacketExchangeBreak packet)
+        {
+            //trigger award
+            SRMP.Log($"Notified Exchange Box Break", "EXCHANGE");
+
+            //don't box break as its covered in destroy effects
+            //get link to exchange
+            var exchangeDir = SRSingleton<SceneContext>.Instance.ExchangeDirector;
+
+            //get list of rewards in box
+            List<ExchangeDirector.ItemEntry> offerRewards = exchangeDir.GetOfferRewards(ExchangeDirector.OfferType.GENERAL);
+
+            //trigger award
+            SRMP.Log($"Exchange Box Rewards Located", "EXCHANGE");
+
+            //get local impact handler
+            var exchangeBreakOnImpact = SRSingleton<SceneContext>.Instance.GetComponentInChildren<ExchangeBreakOnImpact>();
+
+            //trigger award
+            SRMP.Log($"Exchange Box Impact Located", "EXCHANGE");
+
+            //set the spawn location
+            if (offerRewards != null)
+            {
+                foreach (ExchangeDirector.ItemEntry item in offerRewards)
+                {
+                    if (item.specReward != 0)
+                    {
+                        exchangeBreakOnImpact.SpawnSpecReward(item.specReward);
+                        continue;
+                    }
+
+                    GameObject prefab = SRSingleton<GameContext>.Instance.LookupDirector.GetPrefab(item.id);
+                    for (int i = 0; i < item.count; i++)
+                    {
+                        SRMP.Log($"Exchange Box Spawn " + prefab.tag + " " + i, "EXCHANGE");
+
+                        Vector3 position = packet.Position + UnityEngine.Random.insideUnitSphere * 1f;
+                        GameObject gameObject = SRBehaviour.InstantiateActor(prefab, (RegionRegistry.RegionSetId)packet.RegionSet, position, Quaternion.identity);
+                        gameObject.transform.DOScale(gameObject.transform.localScale, 0.2f).From(0.01f).SetEase(Ease.Linear);
+                    }
+                }
+            }
+
+            //trigger award
+            SRMP.Log($"Exchange Box Notify Did Spawn", "CLIENT");
+            //notify rewards spawned
+            exchangeDir.RewardsDidSpawn(ExchangeDirector.OfferType.GENERAL);
+
+            SRMP.Log($"ExchangeBreak", "CLIENT");
+
         }
 
         private static void OnExchangePrepareDaily(PacketExchangePrepareDaily packet, NetworkPlayer player)

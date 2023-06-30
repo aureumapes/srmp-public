@@ -97,6 +97,7 @@
         ExchangeTryAccept,
         ExchangeClear,
         ExchangeOffers,
+        ExchangeBreak,
         GordoEat,
         Oasis,
         OasisLive,
