@@ -363,6 +363,15 @@ namespace SRMultiplayer.Networking
                             {
                                 rewarder.AwardIfType(type);
                             }
+
+                            //trigger fireworks
+                            //get ExchangeEjector
+                            foreach (var eject in Resources.FindObjectsOfTypeAll<ExchangeEjector>())
+                            {
+                                //send off fireworks 
+                                SRBehaviour.InstantiateDynamic(eject.awardFX, eject.awardAt.position, eject.awardAt.rotation);
+                            }
+
                             SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
                         }
 
