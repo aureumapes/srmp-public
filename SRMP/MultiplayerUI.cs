@@ -104,12 +104,19 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         //if yes draw the window for the given state
         if (SceneManager.GetActiveScene().buildIndex >= 2)
         {
+            //check to make sure the panel is taking less than 25% of the screen if possible
+            float width = 300;
+            if(Screen.width/ 4 < width) width = Screen.width/4;
+            windowRect.width = width;
+
             //check to see if the windows needs to move due to it being off the screen from size change
             //also prevent the user from dragging it off the screen
             if (windowRect.x + 20 + windowRect.width > Screen.width) windowRect.x = Screen.width - windowRect.width - 20;
             if (windowRect.y + 20 + windowRect.height > Screen.height) windowRect.y = (Screen.height - windowRect.height - 20) >= 20 ? (Screen.height - windowRect.height - 20) : 20;
             if (windowRect.x < 20) windowRect.x = 20;
             if (windowRect.y < 20) windowRect.y = 20;
+
+            
 
             //drawn in the window
             switch (menuOpen)
@@ -133,7 +140,10 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
     }
     private void FunctionKeys()
     {
-        GUILayout.Label("Press Button or Key To Change Style");
+        if (menuOpen != 0)
+        {
+            GUILayout.Label("Press Button or Key To Change Style");
+        }
         GUILayout.BeginHorizontal();
         if (GUILayout.Button(menuOpen == 1 ? "F3 - Full" : "F3 - Mini"))
         {
@@ -178,11 +188,14 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
 
             if (Globals.IsServer)
             {
-                GUILayout.Label("Connection Status: Host");
+                GUILayout.Label("Status: Host");
             }
             else if (Globals.IsClient)
             {
-                GUILayout.Label("Connection Status: Client");
+
+                GUIStyle green = new GUIStyle(GUI.skin.label);
+                green.normal.textColor = Color.green;
+                GUILayout.Label("Status: Client", green);
             }
             else
             {
@@ -194,7 +207,7 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
                 }
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Connection Status: Disconnected", red);
+                GUILayout.Label("Status: Disconnected", red);
 
                 GUILayout.FlexibleSpace();
                 if (canHost)
