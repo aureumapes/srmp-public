@@ -45,7 +45,7 @@ namespace SRMultiplayer
         private static System.Random m_Random = new System.Random();
 
         /// <summary>
-        /// Gets a new random actor id for netowkr actors 
+        /// Gets a new random actor id for netowork actors 
         /// </summary>
         /// <returns>Random integer between in Min and int max that is not in the current sessions of NetworkActors</returns>
         public static int GetRandomActorID()
