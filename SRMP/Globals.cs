@@ -15,8 +15,9 @@ namespace SRMultiplayer
         public static UserData UserData;
         public static GameObject BeatrixModel;
         public static RuntimeAnimatorController BeatrixController;
-        public static GameObject IngameMultiplayerMenuPrefab;
-        public static GameObject MainMultiplayerMenuPrefab;
+        //unused prefab menus
+        //public static GameObject IngameMultiplayerMenuPrefab;
+        //public static GameObject MainMultiplayerMenuPrefab;
         public static Dictionary<byte, NetworkPlayer> Players = new Dictionary<byte, NetworkPlayer>();
         public static string Username;
         public static string ServerCode;

@@ -43,6 +43,11 @@ namespace SRMultiplayer
         }
 
         private static System.Random m_Random = new System.Random();
+
+        /// <summary>
+        /// Gets a new random actor id for netowkr actors 
+        /// </summary>
+        /// <returns>Random integer between in Min and int max that is not in the current sessions of NetworkActors</returns>
         public static int GetRandomActorID()
         {
             int id = m_Random.Next(int.MinValue, int.MaxValue);
@@ -55,6 +60,11 @@ namespace SRMultiplayer
 
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         const long byteConversion = 1000;
+        /// <summary>
+        /// Takes a count of bytes and turns it into a human readable version
+        /// </summary>
+        /// <param name="value">Count of Bytes as a long</param>
+        /// <returns>String statement of the bytes </returns>
         public static string GetHumanReadableFileSize(long value)
         {
 
