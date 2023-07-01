@@ -1,12 +1,11 @@
 # srmp-public
 Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
-I adore this mod and wanted to help out however I could. 
-
-Currently, slowly working my way through the known list of bugs as of 1488. (See below)
+I adore this mod and want to give both credit and a huge thank you to Saty for the corigional creation of the mod. 
 
 
+I am slowly working my way through the list of bugs as seen below.
 
----- Bug Status ----
+# Bug Status 
 Notes: Bug list compiled from last known bug list of version 1488
 
 FIXED:
@@ -29,8 +28,8 @@ Known Bugs:
 - Drones get stuck in place sometimes
 - Chat sometimes empty for remote players
 - Upgrades sometimes does not get applied to All players
-
-
+  
+---------------------------------------------------------------------------------
 
 Origional File From SatyPardus
 
