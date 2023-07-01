@@ -14,7 +14,9 @@ namespace SRMultiplayer
         private TextWriter oldOutput;
         
         private const int STD_OUTPUT_HANDLE = -11;
-        
+        /// <summary>
+        /// Create the console window
+        /// </summary>
         public void Initialize()
         {
             bool flag = !ConsoleWindow.AttachConsole(uint.MaxValue);

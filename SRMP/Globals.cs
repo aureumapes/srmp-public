@@ -11,13 +11,12 @@ namespace SRMultiplayer
 {
     public static class Globals
     {
+
+        //setup global objects for refrence usage
         public static int Version;
         public static UserData UserData;
         public static GameObject BeatrixModel;
         public static RuntimeAnimatorController BeatrixController;
-        //unused prefab menus
-        //public static GameObject IngameMultiplayerMenuPrefab;
-        //public static GameObject MainMultiplayerMenuPrefab;
         public static Dictionary<byte, NetworkPlayer> Players = new Dictionary<byte, NetworkPlayer>();
         public static string Username;
         public static string ServerCode;
@@ -54,6 +53,10 @@ namespace SRMultiplayer
         public static List<string> LemonTrees = new List<string>();
         public static Dictionary<PacketType, long> PacketSize = new Dictionary<PacketType, long>();
 
+        /// <summary>
+        /// get list of current installed mods
+        /// Excluding supporting files
+        /// </summary>
         public static List<string> Mods
         {
             get

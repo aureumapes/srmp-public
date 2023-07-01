@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,45 @@ namespace SRMultiplayer
         public string inputString = "";
         public event Action<string> OnInputText;
 
+        /// <summary>
+        /// Handle updates the console
+        /// This is to catch key presses and process them
+        /// </summary>
+        public void Update()
+        {
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+
+                switch (consoleKeyInfo.Key)
+                {
+                    case ConsoleKey.Enter: this.OnEnter(); break;
+                    case ConsoleKey.Backspace: this.OnBackspace(); break;
+                    case ConsoleKey.Escape: this.OnEscape(); break;
+                    case ConsoleKey.UpArrow: this.GetCommand(1); break;
+                    case ConsoleKey.DownArrow: this.GetCommand(-1); break;
+                    default:
+                        //check if pressed key is a character
+                        bool flag = consoleKeyInfo.KeyChar > '\0';
+                        if (flag)
+                        {
+                            //if so at it tothe input line
+                            this.inputString += consoleKeyInfo.KeyChar.ToString();
+                            this.RedrawInputLine();
+                        }
+                        break;
+                }
+            }
+
+
+
+        }
+
+
+        #region Console Processors
+        /// <summary>
+        /// Clears out the current console line
+        /// </summary>
         public void ClearLine()
         {
             Console.CursorLeft = 0;
@@ -17,7 +57,9 @@ namespace SRMultiplayer
             Console.CursorTop--;
             Console.CursorLeft = 0;
         }
-
+        /// <summary>
+        /// Used to redraw the input line incase we had to hold for console write lines
+        /// </summary>
         public void RedrawInputLine()
         {
             bool flag = Console.CursorLeft > 0;
@@ -29,7 +71,12 @@ namespace SRMultiplayer
             Console.Write("> ");
             Console.Write(this.inputString);
         }
+        #endregion region
 
+        #region Key Press Events
+        /// <summary>
+        /// Process Backspace pressed
+        /// </summary>
         internal void OnBackspace()
         {
             bool flag = this.inputString.Length <= 0;
@@ -39,14 +86,19 @@ namespace SRMultiplayer
                 this.RedrawInputLine();
             }
         }
-
+        /// <summary>
+        /// Process Escape  pressed
+        /// </summary>
         internal void OnEscape()
         {
             this.ClearLine();
             this.inputString = "";
             this.RedrawInputLine();
         }
-
+        
+        /// <summary>
+        /// Process Enter pressed
+        /// </summary>
         internal void OnEnter()
         {
             this.ClearLine();
@@ -65,18 +117,30 @@ namespace SRMultiplayer
             }
         }
 
+        #endregion
+
+        #region Command History Retrieval
         List<string> cmdTree = new List<string>();
+        int maxCommands = 10;
+        /// <summary>
+        /// Manages the Command tree for the up and down arrows
+        /// </summary>
+        /// <param name="cmdText"></param>
         internal void AddToCommandTree(string cmdText)
         {
-            cmdTree.Insert(0,cmdText);
-         
+            cmdTree.Insert(0, cmdText);
+
             //if tree gets larger than 10 remove the 11th item
-            if (cmdTree.Count > 10) { cmdTree.RemoveAt(10); };
+            if (cmdTree.Count > maxCommands) { cmdTree.RemoveAt(10); };
         }
 
 
         //handle internal cycling of last 10 commands
         int searchLoc = -1;
+        /// <summary>
+        /// Gets the command at the designaed slot from the current possition
+        /// </summary>
+        /// <param name="diff">Possition from the current Command </param>
         internal void GetCommand(int diff)
         {
             if (cmdTree.Count > 0)
@@ -95,62 +159,6 @@ namespace SRMultiplayer
                 Console.WriteLine("cmdTree is empty");
             }
         }
-
-        public void Update()
-        {
-            bool flag = !Console.KeyAvailable;
-            if (!flag)
-            {
-                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
-                bool flag2 = consoleKeyInfo.Key == ConsoleKey.Enter;
-                if (flag2)
-                {
-                    this.OnEnter();
-                }
-                else
-                {
-                    bool flag3 = consoleKeyInfo.Key == ConsoleKey.Backspace;
-                    if (flag3)
-                    {
-                        this.OnBackspace();
-                    }
-                    else
-                    {
-                        bool flag4 = consoleKeyInfo.Key == ConsoleKey.Escape;
-                        if (flag4)
-                        {
-                            this.OnEscape();
-                        }
-                        else
-                        {
-                            bool flag5 = consoleKeyInfo.KeyChar > '\0';
-                            if (flag5)
-                            {
-                                this.inputString += consoleKeyInfo.KeyChar.ToString();
-                                this.RedrawInputLine();
-                            }
-                            else
-                            {
-                                //handle up pressed to get previous lines 
-                                bool flag6 = consoleKeyInfo.Key == ConsoleKey.UpArrow;
-                                if (flag6)
-                                {
-                                    this.GetCommand(1);
-                                }
-                                else
-                                {
-                                    //handle down pressed to get next lines 
-                                    bool flag7 = consoleKeyInfo.Key == ConsoleKey.DownArrow;
-                                    if (flag7)
-                                    {
-                                        this.GetCommand(-1);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        #endregion
     }
 }

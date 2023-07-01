@@ -8,6 +8,24 @@
 //using UnityEngine;
 //using UnityEngine.SceneManagement;
 
+/*
+ * TestUi is a version of the multiplayer ui that adds the following information
+ * Added
+    Chat
+    Cheats
+
+
+ * More stats
+    Quick silver race is active
+    client status 
+    server status
+    server code
+    send and recieve sizes
+    packet sizes
+ */
+
+
+
 //namespace SRMultiplayer
 //{
 //    class TestUI : SRSingleton<TestUI>
@@ -130,11 +148,11 @@
 //                {
 //                    SRSingleton<SceneContext>.Instance.PlayerState.AddCurrency(1000000);
 //                }
-//                if(GUILayout.Button("Remove all actors"))
+//                if (GUILayout.Button("Remove all actors"))
 //                {
-//                    foreach(var actor in SRSingleton<SceneContext>.Instance.GameModel.AllActors().Values.ToList())
+//                    foreach (var actor in SRSingleton<SceneContext>.Instance.GameModel.AllActors().Values.ToList())
 //                    {
-//                        if(actor != null && actor.transform != null && actor.transform.gameObject.activeInHierarchy && !Identifiable.SCENE_OBJECTS.Contains(actor.ident))
+//                        if (actor != null && actor.transform != null && actor.transform.gameObject.activeInHierarchy && !Identifiable.SCENE_OBJECTS.Contains(actor.ident))
 //                        {
 //                            Destroyer.DestroyActor(actor.transform.gameObject, "Get.Removed");
 //                        }
@@ -265,10 +283,10 @@
 //                    {
 //                        try
 //                        {
-//                                if (GUILayout.Button("Clear " + ident.ToString()))
-//                                {
+//                            if (GUILayout.Button("Clear " + ident.ToString()))
+//                            {
 //                                SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(ident);
-//                                }
+//                            }
 //                        }
 //                        catch { }
 //                    }
@@ -535,10 +553,10 @@
 //                    if (Globals.IsMultiplayer)
 //                    {
 //                        QuicksilverEnergyGenerator generator = null;
-//                        foreach(var region in Globals.LocalPlayer.Regions)
+//                        foreach (var region in Globals.LocalPlayer.Regions)
 //                        {
 //                            generator = region.GetComponent<QuicksilverEnergyGenerator>();
-//                            if(generator != null)
+//                            if (generator != null)
 //                            {
 //                                break;
 //                            }
@@ -546,13 +564,13 @@
 //                        GUILayout.Label("Is In Race: " + (generator != null ? generator.id : "None"));
 //                        GUILayout.Label($"Client Status: {NetworkClient.Instance.Status}");
 //                        GUILayout.Label($"Server Status: {NetworkServer.Instance.Status}");
-//                        if(!string.IsNullOrWhiteSpace(Globals.ServerCode))
+//                        if (!string.IsNullOrWhiteSpace(Globals.ServerCode))
 //                        {
 //                            GUILayout.Label($"Server Code: {Globals.ServerCode}");
 //                        }
 
-//                        //GUILayout.Label("Received Messages: " + SRSingleton<NetworkClient>.Instance.Statistics.ReceivedMessages);
-//                        //GUILayout.Label("Send Messages: " + SRSingleton<NetworkClient>.Instance.Statistics.SentMessages);
+//                        GUILayout.Label("Received Messages: " + SRSingleton<NetworkClient>.Instance.Statistics.ReceivedMessages);
+//                        GUILayout.Label("Send Messages: " + SRSingleton<NetworkClient>.Instance.Statistics.SentMessages);
 
 //                        if (NetworkServer.Instance != null && NetworkServer.Instance.Status == NetworkServer.ServerStatus.Running)
 //                        {
@@ -567,7 +585,7 @@
 //                        //GUILayout.Space(20);
 //                        //GUILayout.Label("Chat");
 //                        chatScroll = GUILayout.BeginScrollView(chatScroll, GUI.skin.box);
-//                        foreach(var sizes in Globals.PacketSize.OrderByDescending(c => c.Value))
+//                        foreach (var sizes in Globals.PacketSize.OrderByDescending(c => c.Value))
 //                        {
 //                            GUILayout.Label(sizes.Key + ": " + Utils.GetHumanReadableFileSize(sizes.Value));
 //                        }

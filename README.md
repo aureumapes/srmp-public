@@ -5,6 +5,8 @@ I adore this mod and want to give both credit and a huge thank you to Saty for t
 
 I am slowly working my way through the list of bugs as seen below.
 
+
+
 # Bug Status 
 Notes: Bug list compiled from last known bug list of version 1488
 
@@ -28,7 +30,14 @@ Known Bugs:
 - Drones get stuck in place sometimes
 - Chat sometimes empty for remote players
 - Upgrades sometimes does not get applied to All players
-  
+
+
+  #Notes Status
+Files in the following folders still need notes:
+- Custom UI
+- Networking
+- Packets
+- Patches
 ---------------------------------------------------------------------------------
 
 Origional File From SatyPardus

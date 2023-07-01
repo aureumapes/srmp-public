@@ -11,6 +11,11 @@ namespace SRMultiplayer
 {
     public static class Utils
     {
+        /// <summary>
+        /// Loads up any resources embedded in the mod
+        /// </summary>
+        /// <param name="filename">Name of resource</param>
+        /// <returns>Contents of resource</returns>
         public static byte[] ExtractResource(String filename)
         {
             System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
@@ -22,7 +27,9 @@ namespace SRMultiplayer
                 return ba;
             }
         }
-
+        /// <summary>
+        /// Sets what layer the given item is at
+        /// </summary>
         public static void SetLayer(GameObject obj, int layer)
         {
             obj.layer = layer;
@@ -31,12 +38,16 @@ namespace SRMultiplayer
                 SetLayer(child.gameObject, layer);
             }
         }
-
+        /// <summary>
+        /// Check to see if the provided values are close enough to be the same
+        /// </summary>
         public static bool CloseEnoughForMe(double value1, double value2, double acceptableDifference)
         {
             return Math.Abs(value1 - value2) <= acceptableDifference;
         }
-
+        /// <summary>
+        /// Check to see if the provided values are close enough to be the same
+        /// </summary>
         public static bool CloseEnoughForMe(float value1, float value2, float acceptableDifference)
         {
             return Mathf.Abs(value1 - value2) <= acceptableDifference;
