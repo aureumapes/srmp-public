@@ -13,7 +13,11 @@ public class ChatUI : SRSingleton<ChatUI>
     private float fadeTime;
     private List<ChatMessage> messages = new List<ChatMessage>();
     private Vector2 chatScroll;
+    int maxWidth = 290;
 
+    /// <summary>
+    /// create a chat message to be displayed
+    /// </summary>
     public class ChatMessage
     {
         public string Text;
@@ -27,52 +31,68 @@ public class ChatUI : SRSingleton<ChatUI>
             Time = DateTime.Now;
         }
     }
-
+    /// <summary>
+    /// On chat ui update triggered, handle it
+    /// </summary>
     private void Update()
     {
+        //only display chat if in multiplayer mode
         if (!Globals.IsMultiplayer)
         {
             openChat = false;
             message = "";
             return;
         }
-
+        //if enter is pressed start chat typing mode
         if (Input.GetKeyUp(KeyCode.Return))
         {
             StartCoroutine(FocusChat());
         }
     }
-
+    /// <summary>
+    /// Crreate the Chat gui
+    /// </summary>
     private void OnGUI()
     {
+        //only mess with the gui in multiplayer mode
         if (!Globals.IsMultiplayer) return;
 
         if (openChat)
         {
-            GUILayout.BeginArea(new Rect(20, Screen.height / 2, 500, 300), GUI.skin.box);
+            //draw chat area 
+            GUILayout.BeginArea(new Rect(20, Screen.height / 2, maxWidth + 10, 300), GUI.skin.box);
             chatScroll = GUILayout.BeginScrollView(chatScroll);
             var skin = GUI.skin.box;
             skin.wordWrap = true;
             skin.alignment = TextAnchor.MiddleLeft;
+
+            //add each mesage into the chat box scroller
             foreach (var msg in messages)
             {
-                GUILayout.Label(wrapString(msg.Text, 490), skin, GUILayout.MaxWidth(490));
+                GUILayout.Label(wrapString(msg.Text, maxWidth), skin, GUILayout.MaxWidth(maxWidth));
             }
             GUILayout.EndScrollView();
+
+            //add display for text input area
             GUI.SetNextControlName("ChatInput");
             message = GUILayout.TextField(message);
             GUILayout.EndArea();
 
+            //focus the input
             GUI.FocusControl("ChatInput");
 
+            //watch for changes to the text input
             Event e = Event.current;
             if (e.rawType == EventType.KeyUp && e.keyCode == KeyCode.Return)
             {
+                //on send close chat
                 openChat = !openChat;
                 if (!string.IsNullOrWhiteSpace(message))
                 {
+                    //if server send message to all plauers
                     if (Globals.IsServer)
                     {
+                        //if server send it to the server
                         AddChatMessage(Globals.Username + ": " + message);
                         new PacketPlayerChat()
                         {
@@ -81,6 +101,7 @@ public class ChatUI : SRSingleton<ChatUI>
                     }
                     else
                     {
+                        //if player send it to the server
                         new PacketPlayerChat()
                         {
                             message = message
@@ -90,13 +111,16 @@ public class ChatUI : SRSingleton<ChatUI>
                 }
             }
         }
-        else
+        else //if chat isnt open yet 
         {
-            GUILayout.BeginArea(new Rect(20, Screen.height / 2, 500, 300));
+            //draw chat area 
+            GUILayout.BeginArea(new Rect(20, Screen.height / 2, maxWidth+ 10, 300));
             chatScroll = GUILayout.BeginScrollView(chatScroll);
             var skin = GUI.skin.box;
             skin.wordWrap = true;
             skin.alignment = TextAnchor.MiddleLeft;
+
+            //add each mesage into the chat box scroller
             foreach (var msg in messages)
             {
                 if (msg.FadeTime > 0f)
@@ -105,26 +129,34 @@ public class ChatUI : SRSingleton<ChatUI>
                     var c = GUI.color;
                     c.a = (msg.FadeTime / 5f);
                     GUI.color = c;
-                    GUILayout.Label(wrapString(msg.Text, 490), skin, GUILayout.MaxWidth(490));
+                    GUILayout.Label(wrapString(msg.Text, maxWidth), skin, GUILayout.MaxWidth(maxWidth));
                 }
             }
             GUILayout.EndScrollView();
             GUILayout.EndArea();
         }
     }
-
+    /// <summary>
+    /// Add a chat message to be displayed
+    /// </summary>
+    /// <param name="message">Message to display</param>
     public void AddChatMessage(string message)
     {
         fadeTime = 10f;
         messages.Add(new ChatMessage(message));
         chatScroll = new Vector2(0, 100000);
     }
-
+    /// <summary>
+    /// Trigger a full clear of the chat
+    /// </summary>
     public void Clear()
     {
         messages.Clear();
     }
 
+    /// <summary>
+    /// Trigger focus on the chat box for when the uer hits enter
+    /// </summary>
     private IEnumerator FocusChat()
     {
         yield return new WaitForEndOfFrame();
@@ -133,6 +165,12 @@ public class ChatUI : SRSingleton<ChatUI>
         GUI.FocusControl("ChatInput");
     }
 
+    /// <summary>
+    /// Create the wrapped string to display in the chat box
+    /// </summary>
+    /// <param name="msg">Message to display</param>
+    /// <param name="width">Width of the chat box</param>
+    /// <returns></returns>
     string wrapString(string msg, int width)
     {
         string[] words = msg.Split(" "[0]);

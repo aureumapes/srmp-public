@@ -160,11 +160,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatUI.cs" />
-    <Compile Include="Compression.cs" />
     <Compile Include="Console\ConsoleInput.cs" />
     <Compile Include="Console\ConsoleWindow.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Custom UI\ChatUI.cs" />
+    <Compile Include="Custom UI\MultiplayerUI.cs" />
+    <Compile Include="Custom UI\TestUI.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Lidgren.Network\Encryption\NetAESEncryption.cs" />
     <Compile Include="Lidgren.Network\Encryption\NetBlockEncryptionBase.cs" />
@@ -242,7 +242,6 @@
     <Compile Include="Lidgren.Network\Platform\PlatformWinRT.cs" />
     <Compile Include="MainSRML.cs" />
     <Compile Include="MainStandalone.cs" />
-    <Compile Include="MultiplayerUI.cs" />
     <Compile Include="Networking\NetworkAccessDoor.cs" />
     <Compile Include="Networking\NetworkActor.cs" />
     <Compile Include="Networking\NetworkAmmo.cs" />
@@ -476,7 +475,6 @@
     <Compile Include="Patches\Patch_WeaponVacuum.cs" />
     <Compile Include="Patches\Patch_WorldStateMasterSwitch.cs" />
     <Compile Include="Patches\Patch_ZoneDirector.cs" />
-    <Compile Include="PauseState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -484,9 +482,10 @@
     </Compile>
     <Compile Include="SRMP.cs" />
     <Compile Include="Console\SRMPConsole.cs" />
-    <Compile Include="TestUI.cs" />
-    <Compile Include="UserData.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\Compression.cs" />
+    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\Objects.cs" />
+    <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console\Console Commands.txt" />
