@@ -56,6 +56,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         Hosting,
     }
 
+    /// <summary>
+    /// Creation of gui with side panel is last display state
+    /// </summary>
     public override void Awake()
     {
         base.Awake();
@@ -69,6 +72,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         username = Globals.Username;
     }
 
+    /// <summary>
+    /// Update of panel display
+    /// </summary>
     private void Update()
     {
         if (lastCodeUse > 0f)
@@ -94,7 +100,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
             menuOpen = menuOpen < 2 ? 2 : 1;
         }
     }
-
+    /// <summary>
+    /// Handle draw event of the gui
+    /// </summary>
     private void OnGUI()
     {
         //verify on a window that the menu can be drawn on
@@ -138,6 +146,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
 
         }
     }
+    /// <summary>
+    /// display for the function keyps section of the gui
+    /// </summary>
     private void FunctionKeys()
     {
         if (menuOpen != 0)
@@ -156,7 +167,10 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         }
         GUILayout.EndHorizontal();
     }
-
+    /// <summary>
+    /// Sets the window display for collapsed
+    /// Only activated if the id is the id for the window
+    /// </summary>
     private void ClosedWindow(int id)
     {
         if (id != 1) return;
@@ -165,6 +179,10 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
 
         GUI.DragWindow(new Rect(0, 0, 10000, 10000));
     }
+    /// <summary>
+    /// Sets the window display for summary mode
+    /// Only activated if the id is the id for the window
+    /// </summary>
     private void MiniWindow(int id)
     {
         if (id != 1) return;
@@ -232,7 +250,10 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         }
         GUI.DragWindow(new Rect(0, 0, 10000, 10000));
     }
-
+    /// <summary>
+    /// Sets the window display for full display mode
+    /// Only activated if the id is the id for the window
+    /// </summary>
     private void MultiplayerWindow(int id)
     {
         if (id != 1) return;
@@ -286,6 +307,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         GUI.DragWindow(new Rect(0, 0, 10000, 10000));
     }
 
+    /// <summary>
+    /// Display the active server info part of the gui
+    /// </summary>
     private void ServerGUI()
     {
         GUILayout.Label("You are the server");
@@ -308,7 +332,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         }
         GUILayout.EndScrollView();
     }
-
+    /// <summary>
+    /// Display the client info part of the gui
+    /// </summary>
     private void ClientGUI()
     {
         GUILayout.Label("You are a client");
@@ -326,7 +352,11 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         }
         GUILayout.EndScrollView();
     }
-
+    /// <summary>
+    /// Display the connection information of the gui
+    /// this section includes user information,
+    /// how to and other imbedded sections for handling display
+    /// </summary>
     private void ConnectGUI()
     {
         GUILayout.Label("Username: " + Globals.Username);
@@ -407,6 +437,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         }
     }
 
+    /// <summary>
+    /// Display the hosting info part of the gui
+    /// </summary>
     private void HostGUI()
     {
         GUILayout.Label("Username: " + Globals.Username);
@@ -434,7 +467,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
             }
         }
     }
-
+    /// <summary>
+    /// Display the Help info part of the gui with instructions for hosting
+    /// </summary>
     private void HelpGUI()
     {
         switch (help)
@@ -458,7 +493,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
                 break;
         }
     }
-
+    /// <summary>
+    /// Display the Error summaries in the gui
+    /// </summary>
     private void ErrorGUI()
     {
         switch (error)
@@ -511,7 +548,9 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
                 break;
         }
     }
-
+    /// <summary>
+    /// Display the Current user information 
+    /// </summary>
     private void UsernameGUI()
     {
         GUILayout.BeginHorizontal();
@@ -533,14 +572,18 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
             }
         }
     }
-
+    /// <summary>
+    /// Saves the gui settings for the user
+    /// </summary>
     private void SaveSettings()
     {
         PlayerPrefs.SetString("SRMP_Username", Globals.Username);
         PlayerPrefs.SetString("SRMP_IP", ipaddress);
         PlayerPrefs.GetString("SRMP_Port", port);
     }
-
+    /// <summary>
+    /// Handles connection resonces display when connection is lost from the server
+    /// </summary>
     public void ConnectResponse(ConnectError connectError, string message = "")
     {
         lastCodeUse = 0f;

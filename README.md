@@ -1,13 +1,11 @@
 # srmp-public
-Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
-I adore this mod and want to give both credit and a huge thank you to Saty for the corigional creation of the mod. 
+This is the code for the Slime Rancher MultiPlayer Mod (SRMP).
 
-
-I am slowly working my way through the list of bugs as seen below.
+The suer manual can be found [here](/manual.md).
 
 
 
-# Bug Status 
+## Bug Status 
 Notes: Bug list compiled from last known bug list of version 1488
 
 FIXED:
@@ -32,15 +30,20 @@ Known Bugs:
 - Upgrades sometimes does not get applied to All players
 
 
-  #Notes Status
-Files in the following folders still need notes:
-- Custom UI
+##Current Status
+@Twirlbug
+- Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
+- I adore this mod and want to give both credit and a huge thank you to Saty for the origional creation of the mod. 
+I am slowly working my way through the list of bugs as seen above.
+
+###Notation Status
+Files in the following folders still need more notation:
 - Networking
 - Packets
 - Patches
----------------------------------------------------------------------------------
 
-Origional File From SatyPardus
+---------------------------------------------------------------------------------
+##Origional File From SatyPardus
 
 It's bad. It's really really bad.
 
