@@ -30,7 +30,7 @@ Known Bugs:
 
 
 ## Current Status
-@Twirlbug:
+[@Twirlbug](https://github.com/Twirlbug)
 - Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
 - I adore this mod and want to give both credit and a huge thank you to Saty for the origional creation of the mod. 
 I am slowly working my way through the list of bugs as seen above.
