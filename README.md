@@ -5,7 +5,7 @@ The user manual which includes information about compatability information, down
 
 
 ## Bug Status 
-Notes: Bug list compiled from last known bug list of version 1488
+Note: Bug list compiled from last known bug list of version 1488
 
 FIXED:
 - Multiplayer window doesn't show up on resolutions < 1920x1080
