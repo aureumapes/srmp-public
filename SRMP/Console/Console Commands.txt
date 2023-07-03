@@ -12,8 +12,9 @@ cheat allgadgets
 cheat spawn [id] ([amount])
 	spawns given item for the given ammount
 
-tp [DestinationPlayer]
-	Teleports the player that entered in the commant to the player entered
+tp [(optional)TargetPlayer] [DestinationPlayer]
+	Teleports the player in spot 1 to player/destination entered
+	if spot 1 is empty the palayer that entered in the command in infered as the target
 listplayers
 	Prints the list of current players to the console
 

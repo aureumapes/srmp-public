@@ -1,10 +1,12 @@
 ﻿using JetBrains.Annotations;
 using MonomiPark.SlimeRancher.Regions;
 using SRMultiplayer.Networking;
+using SRMultiplayer.Packets;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using UnityEngine;
 
 namespace SRMultiplayer
@@ -66,7 +68,7 @@ namespace SRMultiplayer
             if (message == LastMessage)
             {
                 //do not process duplicate marks if the last item was not written
-                if(duplicateCount >0) duplicateCount++;
+                if (duplicateCount > 0) duplicateCount++;
             }
             else
             {
@@ -79,7 +81,7 @@ namespace SRMultiplayer
 
                 //format color for message 
                 if (type == LogType.Warning)
-                    Console.ForegroundColor = ConsoleColor.Yellow; 
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                 else if (type == LogType.Error)
                     Console.ForegroundColor = ConsoleColor.Red;
                 else
@@ -276,22 +278,97 @@ namespace SRMultiplayer
                     break;
                 case "tp":
                     {
-                        if (args.Length == 1)
+                        if (args.Length < 1 || args.Length > 2)
                         {
-                            var player = Globals.Players.Values.FirstOrDefault(p => p.Username.Equals(args[0], StringComparison.CurrentCultureIgnoreCase));
-                            if (player != null)
+                            ConsoleLog("Usage: tp <(optional)target:username> <destination>");
+                            return;
+                        }
+
+                        //mark target and destination seperately
+                        string target = args.Length == 2 ? args[0] : "";
+                        string destination = args.Length == 2 ? args[1] : args[0];
+
+                        //mark target transform location
+                        PacketPlayerPosition packet = null;
+
+                        //first check distination
+                        switch (destination.ToLower())
+                        {
+                            case "home":
+
+                                var home = SRSingleton<SceneContext>.Instance.GetWakeUpDestination();
+                                packet = new PacketPlayerPosition()
+                                {
+                                    Position = home.transform.position,
+                                    Rotation = home.transform.eulerAngles.y,
+                                    RegionSet = (byte)home.GetRegionSetId()
+                                };
+
+
+                                break;
+                            default: //check for a player name
+                                var play = Globals.Players.Values.FirstOrDefault(p => p.Username.Equals(destination, StringComparison.CurrentCultureIgnoreCase));
+
+                                if (play == null)
+                                {
+                                    ConsoleLog("Destination not found");
+                                    return;
+                                }
+                                packet = new PacketPlayerPosition()
+                                {
+                                    Position = play.transform.position,
+                                    Rotation = play.transform.eulerAngles.y,
+                                    RegionSet = (byte)play.CurrentRegionSet
+                                };
+
+                                break;
+                        }
+
+
+                        if (packet != null)
+                        {
+                            //set as not load destination
+                            packet.OnLoad = false;
+
+                            NetworkPlayer targetPlayer = null;
+                            if (target.Length > 0)
                             {
-                                SRSingleton<SceneContext>.Instance.player.transform.position = player.transform.position;
+                                targetPlayer = Globals.Players.Values.FirstOrDefault(p => p.Username.Equals(target, StringComparison.CurrentCultureIgnoreCase));
                             }
                             else
                             {
-                                ConsoleLog("Player not found");
+                                targetPlayer = Globals.LocalPlayer;
                             }
+                            //check if target is local user
+                            if (targetPlayer == null)
+                            {
+                                ConsoleLog("Target Player not found");
+                                return;
+                            }
+
+
+                            if (!targetPlayer.IsLocal)
+                            {
+                                //if a target is located and is not the local player send the teleport command
+                                packet.WeaponY = targetPlayer.GetWeaponLocation();
+                                packet.Send();
+                                return;
+                            }
+                            else
+                            {
+                                //if we have have made it here the tp in question is for the instances player 
+                                //so move that player
+                                SRSingleton<SceneContext>.Instance.player.transform.position = packet.Position;
+                                SRSingleton<SceneContext>.Instance.player.transform.eulerAngles = new Vector3(0, packet.Rotation, 0);
+                                SRSingleton<SceneContext>.Instance.PlayerState.model.SetCurrRegionSet((RegionRegistry.RegionSetId)packet.RegionSet);
+                            }
+
                         }
                         else
                         {
-                            ConsoleLog("Usage: tp <username>");
+                            ConsoleLog("Destination not found");
                         }
+
                     }
                     break;
                 case "listplayers":
@@ -317,8 +394,8 @@ namespace SRMultiplayer
                     }
                     break;
                 case "console": //add toggle option for turning on and off logging types
-                    
-                    if (args.Length > 1 && (args[0] == "enable"|| args[0] == "disable"))
+
+                    if (args.Length > 1 && (args[0] == "enable" || args[0] == "disable"))
                     {
                         bool enable = args[0] == "enable";
                         //double check type
@@ -327,7 +404,7 @@ namespace SRMultiplayer
                             if (enable)
                             {
                                 if (!blockMessages.Contains(logType)) blockMessages.Remove(logType);
-                                ConsoleLog(logType.ToString() + " Messages Enabled"); 
+                                ConsoleLog(logType.ToString() + " Messages Enabled");
                             }
                             else
                             {
@@ -347,7 +424,8 @@ namespace SRMultiplayer
                                 if (blockLogs.Contains(logMessage)) blockLogs.Add(logMessage);
                                 ConsoleLog(logMessage.ToString() + " Log Messages Disabled");
                             }
-                        }else if (args[1].Equals("stacktrace", StringComparison.InvariantCultureIgnoreCase) || args[1].Equals("stack_trace", StringComparison.InvariantCultureIgnoreCase))
+                        }
+                        else if (args[1].Equals("stacktrace", StringComparison.InvariantCultureIgnoreCase) || args[1].Equals("stack_trace", StringComparison.InvariantCultureIgnoreCase))
                         {
                             if (enable)
                             {
@@ -359,7 +437,7 @@ namespace SRMultiplayer
                                 DisplayTrace = false;
                                 ConsoleLog("Stack Trace Information Disabled");
                             }
-                            }
+                        }
                         else
                         {
                             ConsoleLog("Invalid Feed back Type");
