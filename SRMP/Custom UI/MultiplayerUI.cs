@@ -63,6 +63,11 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
     {
         base.Awake();
 
+        //set default ui location width adapting numbers for smaller resolutions
+        float width = 300;
+        if (Screen.width / 4 < width) width = Screen.width / 4;
+        windowRect = new Rect(Screen.width - width - 20, 20, width, 500);
+
         Globals.Username = PlayerPrefs.GetString("SRMP_Username", "");
         ipaddress = PlayerPrefs.GetString("SRMP_IP", "localhost");
         port = PlayerPrefs.GetString("SRMP_Port", "16500");
