@@ -23,22 +23,24 @@ namespace SRMultiplayer.Networking
             Globals.PacketSize[type] += im.LengthBytes;
             switch (type)
             {
+                //Player amimations
+                case PacketType.PlayerAnimation: OnPlayerAnimation(new PacketPlayerAnimation(im)); break;
+
                 //Players
                 case PacketType.PlayerJoined: OnPlayerJoined(new PacketPlayerJoined(im)); break;
                 case PacketType.PlayerLeft: OnPlayerLeft(new PacketPlayerLeft(im)); break;
                 case PacketType.PlayerLoaded: OnPlayerLoaded(new PacketPlayerLoaded(im)); break;
-                case PacketType.PlayerPosition: OnPlayerPosition(new PacketPlayerPosition(im)); break;
-                case PacketType.PlayerAnimationLayer: OnPlayerAnimationLayer(im); break;
-                case PacketType.PlayerAnimationParameters: OnPlayerAnimationParameters(im); break;
-                case PacketType.PlayerAnimationSpeed: OnPlayerAnimationSpeed(im); break;
+                case PacketType.PlayerPosition: OnPlayerPosition(new PacketPlayerPosition(im)); break;             
                 case PacketType.PlayerFX: OnPlayerFX(new PacketPlayerFX(im)); break;
                 case PacketType.PlayerCurrency: OnPlayerCurrency(new PacketPlayerCurrency(im)); break;
                 case PacketType.PlayerCurrencyDisplay: OnPlayerCurrencyDisplay(new PacketPlayerCurrencyDisplay(im)); break;
                 case PacketType.PlayerUpgrade: OnPlayerUpgrade(new PacketPlayerUpgrade(im)); break;
                 case PacketType.PlayerUpgradeUnlock: OnPlayerUpgradeUnlock(new PacketPlayerUpgradeUnlock(im)); break;
                 case PacketType.PlayerChat: OnPlayerChat(new PacketPlayerChat(im)); break;
+
                 // Region
                 case PacketType.RegionOwner: OnRegionOwner(new PacketRegionOwner(im)); break;
+
                 //Actors
                 case PacketType.Actors: OnActors(new PacketActors(im)); break;
                 case PacketType.ActorSpawn: OnActorSpawn(new PacketActorSpawn(im)); break;
@@ -149,10 +151,10 @@ namespace SRMultiplayer.Networking
                 // Race
                 case PacketType.RaceActivate: OnRaceActivate(new PacketRaceActivate(im)); break;
                 case PacketType.RaceEnd: OnRaceEnd(new PacketRaceEnd(im)); break;
-                case PacketType.RaceTime: OnRaceTime(new PacketRaceTime(im)); break;
+                case PacketType.RaceTime: OnRaceTime(new PacketRaceTime(im)); break;                
                 case PacketType.RaceTrigger: OnRaceTrigger(new PacketRaceTrigger(im)); break;
                 default:
-                    SRMP.Log($"Got unhandled packet: {type}");
+                    SRMP.Log($"Got unhandled packet: {type} " + Enum.GetName(typeof(PacketType), type));
                     break;
             }
         }
@@ -1926,30 +1928,21 @@ namespace SRMultiplayer.Networking
             }
         }
 
-        private static void OnPlayerAnimationSpeed(NetIncomingMessage im)
+        private static void OnPlayerAnimation(PacketPlayerAnimation packet)
         {
-            byte id = im.ReadByte();
-            if (Globals.Players.TryGetValue(id, out NetworkPlayer player) && player.HasLoaded)
-            {
-                player.ReadAnimatorSpeed(im);
-            }
-        }
+            //handle character animation triggers
+            PacketPlayerAnimation.AnimationType type = (PacketPlayerAnimation.AnimationType)packet.Type;
 
-        private static void OnPlayerAnimationParameters(NetIncomingMessage im)
-        {
-            byte id = im.ReadByte();
-            if (Globals.Players.TryGetValue(id, out NetworkPlayer player) && player.HasLoaded)
-            {
-                player.ReadParameters(im);
-            }
-        }
 
-        private static void OnPlayerAnimationLayer(NetIncomingMessage im)
-        {
-            byte id = im.ReadByte();
-            if (Globals.Players.TryGetValue(id, out NetworkPlayer player) && player.HasLoaded)
+
+            if (Globals.Players.TryGetValue(packet.ID, out NetworkPlayer player) && player.HasLoaded)
             {
-                player.ReadAnimatorLayer(im);
+                if(type == PacketPlayerAnimation.AnimationType.Speed)
+                    player.ReadAnimatorSpeed(packet.internalData);
+                else if (type == PacketPlayerAnimation.AnimationType.Parameters)
+                    player.ReadParameters(packet.internalData);
+                else
+                    player.ReadAnimatorLayer(packet.internalData);
             }
         }
 
@@ -1968,7 +1961,9 @@ namespace SRMultiplayer.Networking
                         SRSingleton<SceneContext>.Instance.player.transform.eulerAngles = new Vector3(0, packet.Rotation, 0);
                         SRSingleton<SceneContext>.Instance.PlayerState.model.SetCurrRegionSet((RegionRegistry.RegionSetId)packet.RegionSet);
 
-                        if (!Globals.IsServer)
+
+                        //only reload inventory if this is a load up packet and NOT a tp packet
+                        if (!Globals.IsServer && packet.OnLoad)
                         {
                             try
                             {

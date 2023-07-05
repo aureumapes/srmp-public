@@ -242,10 +242,13 @@
     <Compile Include="Lidgren.Network\Platform\PlatformWinRT.cs" />
     <Compile Include="MainSRML.cs" />
     <Compile Include="MainStandalone.cs" />
+    <Compile Include="Networking\Communication\NetworkClient.cs" />
+    <Compile Include="Networking\Communication\NetworkHandlerClient.cs" />
+    <Compile Include="Networking\Communication\NetworkHandlerServer.cs" />
+    <Compile Include="Networking\Communication\NetworkServer.cs" />
     <Compile Include="Networking\NetworkAccessDoor.cs" />
     <Compile Include="Networking\NetworkActor.cs" />
     <Compile Include="Networking\NetworkAmmo.cs" />
-    <Compile Include="Networking\NetworkClient.cs" />
     <Compile Include="Networking\NetworkClientUI.cs" />
     <Compile Include="Networking\NetworkDirectedActorSpawner.cs" />
     <Compile Include="Networking\NetworkDrone.cs" />
@@ -254,8 +257,6 @@
     <Compile Include="Networking\NetworkFireColumn.cs" />
     <Compile Include="Networking\NetworkGadgetSite.cs" />
     <Compile Include="Networking\NetworkGordo.cs" />
-    <Compile Include="Networking\NetworkHandlerClient.cs" />
-    <Compile Include="Networking\NetworkHandlerServer.cs" />
     <Compile Include="Networking\NetworkHostUI.cs" />
     <Compile Include="Networking\NetworkKookadobaPatchNode.cs" />
     <Compile Include="Networking\NetworkLandplot.cs" />
@@ -269,11 +270,11 @@
     <Compile Include="Networking\NetworkPuzzleSlot.cs" />
     <Compile Include="Networking\NetworkRaceTrigger.cs" />
     <Compile Include="Networking\NetworkRegion.cs" />
-    <Compile Include="Networking\NetworkServer.cs" />
     <Compile Include="Networking\NetworkSpawnResource.cs" />
     <Compile Include="Networking\NetworkTreasurePod.cs" />
     <Compile Include="Networking\NetworkWorldStateMasterSwitch.cs" />
     <Compile Include="Packets\AccessDoors\PacketAccessDoors.cs" />
+    <Compile Include="Packets\Actors\PacketPlayerAnimation.cs" />
     <Compile Include="Packets\Exchanges\PacketExchangeClear.cs" />
     <Compile Include="Packets\Exchanges\PacketExchangeOffer.cs" />
     <Compile Include="Packets\Exchanges\PacketExchangeOffers.cs" />

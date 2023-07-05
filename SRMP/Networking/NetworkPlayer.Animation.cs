@@ -62,17 +62,27 @@ namespace SRMultiplayer.Networking
                     continue;
                 }
 
-                NetOutgoingMessage writer = CreateMessage();
-                writer.Write((ushort)PacketType.PlayerAnimationLayer);
-                writer.Write(Globals.LocalID);
-                WriteAnimatorLayer(writer, stateHash, normalizedTime, i, layerWeight[i]);
-                Send(writer);
+                //NetOutgoingMessage writer = CreateMessage();
+
+                //add the object to the writer but dont send it yet
+                var packet = new PacketPlayerAnimation()
+                {
+                    Type = (byte)PacketPlayerAnimation.AnimationType.Layer,
+                    ID = Globals.LocalID,
+                    internalData = new NetBuffer()
+                };
+
+                //add extra parameters
+                WriteAnimatorLayer(packet.internalData, stateHash, normalizedTime, i, layerWeight[i]);
+                
+                //send the changes
+                //packet.Send();
             }
 
             CheckSpeed();
         }
 
-        void WriteAnimatorLayer(NetOutgoingMessage writer, int stateHash, float normalizedTime, int layerNumber, float layerWeight)
+        void WriteAnimatorLayer(NetBuffer writer, int stateHash, float normalizedTime, int layerNumber, float layerWeight)
         {
             writer.Write(stateHash);
             writer.Write(normalizedTime);
@@ -81,7 +91,7 @@ namespace SRMultiplayer.Networking
             WriteParameters(writer);
         }
 
-        public void ReadAnimatorLayer(NetIncomingMessage im)
+        public void ReadAnimatorLayer(NetBuffer im)
         {
             if (m_Animator == null) return;
 
@@ -106,20 +116,30 @@ namespace SRMultiplayer.Networking
             if (Mathf.Abs(previousSpeed - newSpeed) > 0.001f)
             {
                 previousSpeed = newSpeed;
-                NetOutgoingMessage writer = CreateMessage();
-                writer.Write((ushort)PacketType.PlayerAnimationSpeed);
-                writer.Write(Globals.LocalID);
-                WriteAnimatorSpeed(writer, newSpeed);
-                Send(writer);
+                //NetOutgoingMessage writer = CreateMessage();
+
+                //add the object to the writer but dont send it yet
+                var packet = new PacketPlayerAnimation()
+                {
+                    Type = (byte)PacketPlayerAnimation.AnimationType.Speed,
+                    ID = Globals.LocalID,
+                    internalData = new NetBuffer()
+                };
+
+                //add extra parameters
+                WriteAnimatorSpeed(packet.internalData, newSpeed);
+
+                //send the speed change
+                //packet.Send();
             }
         }
 
-        void WriteAnimatorSpeed(NetOutgoingMessage writer, float newSpeed)
+        void WriteAnimatorSpeed(NetBuffer writer, float newSpeed)
         {
             writer.Write(newSpeed);
         }
 
-        public void ReadAnimatorSpeed(NetIncomingMessage im)
+        public void ReadAnimatorSpeed(NetBuffer im)
         {
             if (m_Animator == null) return;
 
@@ -179,13 +199,18 @@ namespace SRMultiplayer.Networking
             {
                 nextSendTime = now + syncInterval;
 
-                NetOutgoingMessage writer = CreateMessage();
-                writer.Write((ushort)PacketType.PlayerAnimationParameters);
-                writer.Write(Globals.LocalID);
-                if (WriteParameters(writer))
+                //add the object to the writer but dont send it yet
+                var packet = new PacketPlayerAnimation()
                 {
-                    Send(writer);
-                }
+                    Type = (byte)PacketPlayerAnimation.AnimationType.Parameters,
+                    ID = Globals.LocalID,
+                    internalData = new NetBuffer()
+                };
+
+                //add extra parameters
+                WriteParameters(packet.internalData);
+
+                //packet.Send();
             }
         }
 
@@ -226,7 +251,7 @@ namespace SRMultiplayer.Networking
             return dirtyBits;
         }
 
-        bool WriteParameters(NetOutgoingMessage writer, bool forceAll = false)
+        bool WriteParameters(NetBuffer writer, bool forceAll = false)
         {
             ulong dirtyBits = forceAll ? (~0ul) : NextDirtyBits();
             writer.Write(dirtyBits);
@@ -255,7 +280,7 @@ namespace SRMultiplayer.Networking
             return dirtyBits != 0;
         }
 
-        public void ReadParameters(NetIncomingMessage reader)
+        public void ReadParameters(NetBuffer reader)
         {
             if (m_Animator == null) return;
 

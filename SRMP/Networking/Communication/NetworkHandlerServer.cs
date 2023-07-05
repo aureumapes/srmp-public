@@ -2,6 +2,7 @@
 using Lidgren.Network;
 using MonomiPark.SlimeRancher.DataModel;
 using MonomiPark.SlimeRancher.Regions;
+using Newtonsoft.Json.Linq;
 using SRMultiplayer.Packets;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,11 @@ namespace SRMultiplayer.Networking
             Globals.PacketSize[type] += im.LengthBytes;
             switch (type)
             {
+                //Player animation
+                case PacketType.PlayerAnimation: OnPlayerAnimation(new PacketPlayerAnimation(im), player); break;
                 //Player
                 case PacketType.PlayerLoaded: OnPlayerLoaded(new PacketPlayerLoaded(im), player); break;
                 case PacketType.PlayerPosition: OnPlayerPosition(new PacketPlayerPosition(im), player); break;
-                case PacketType.PlayerAnimationLayer: OnPlayerAnimationLayer(im, player); break;
-                case PacketType.PlayerAnimationParameters: OnPlayerAnimationParameters(im, player); break;
-                case PacketType.PlayerAnimationSpeed: OnPlayerAnimationSpeed(im, player); break;
                 case PacketType.PlayerCurrency: OnPlayerCurrency(new PacketPlayerCurrency(im), player); break;
                 case PacketType.PlayerCurrencyDisplay: OnPlayerCurrencyDisplay(new PacketPlayerCurrencyDisplay(im), player); break;
                 case PacketType.PlayerUpgrade: OnPlayerUpgrade(new PacketPlayerUpgrade(im), player); break;
@@ -132,7 +132,7 @@ namespace SRMultiplayer.Networking
                 case PacketType.RaceTime: OnRaceTime(new PacketRaceTime(im), player); break;
                 case PacketType.RaceTrigger: OnRaceTrigger(new PacketRaceTrigger(im), player); break;
                 default:
-                    SRMP.Log($"Got unhandled packet from {player}: {type}");
+                    SRMP.Log($"Got unhandled packet from {player}:  {type}" + Enum.GetName(typeof(PacketType), type));
                     break;
             }
         }
@@ -1639,42 +1639,25 @@ namespace SRMultiplayer.Networking
             packet.SendToAllExcept(player);
         }
 
-        private static void OnPlayerAnimationSpeed(NetIncomingMessage im, NetworkPlayer player)
+        private static void OnPlayerAnimation(PacketPlayerAnimation packet, NetworkPlayer player)
         {
             if (player.HasLoaded)
             {
-                byte id = im.ReadByte();
-                player.ReadAnimatorSpeed(im);
-
-                NetOutgoingMessage om = NetworkServer.Instance.CreateMessage();
-                om.Write(im);
-                NetworkServer.Instance.SendToAll(om, player);
-            }
-        }
-
-        private static void OnPlayerAnimationParameters(NetIncomingMessage im, NetworkPlayer player)
-        {
-            if (player.HasLoaded)
-            {
-                byte id = im.ReadByte();
-                player.ReadParameters(im);
-
-                NetOutgoingMessage om = NetworkServer.Instance.CreateMessage();
-                om.Write(im);
-                NetworkServer.Instance.SendToAll(om, player);
-            }
-        }
-
-        private static void OnPlayerAnimationLayer(NetIncomingMessage im, NetworkPlayer player)
-        {
-            if (player.HasLoaded)
-            {
-                byte id = im.ReadByte();
-                player.ReadAnimatorLayer(im);
-
-                NetOutgoingMessage om = NetworkServer.Instance.CreateMessage();
-                om.Write(im);
-                NetworkServer.Instance.SendToAll(om, player);
+                switch (packet.Type)
+                {
+                    case (byte)PacketPlayerAnimation.AnimationType.Speed:
+                        player.ReadAnimatorSpeed(packet.internalData);
+                        break;
+                    case (byte)PacketPlayerAnimation.AnimationType.Layer:
+                        player.ReadAnimatorLayer(packet.internalData);
+                        break;                    
+                    case (byte)PacketPlayerAnimation.AnimationType.Parameters:
+                        player.ReadParameters(packet.internalData);
+                        break;
+                }
+                
+                //make the incoming message an out going message
+                packet.SendToAllExcept(player, NetDeliveryMethod.Unreliable);
             }
         }
 
