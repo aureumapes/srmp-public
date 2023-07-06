@@ -1,19 +1,18 @@
 # srmp-public
-Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
-I adore this mod and want to give both credit and a huge thank you to Saty for the origional creation of the mod. 
+This is the code for the Slime Rancher MultiPlayer Mod (SRMP) by SatyPardus.
+
+The user manual which includes information about compatability information, download and installation instructions and standard troubleshooting can be found [here](/manual.md).
 
 
-I am slowly working my way through the list of bugs as seen below.
-
-
-
-# Bug Status 
-Notes: Bug list compiled from last known bug list of version 1488
+## Bug Status 
+Note: Bug list compiled from last known bug list of version 1488
 
 FIXED:
 - Multiplayer window doesn't show up on resolutions < 1920x1080
 - Exchange sometimes skips rewards if multiple players put items in at the same time
 - Exchange chest disappears without rewards
+- 
+IN PROGRESS: N/A
 
 Known Bugs:
 - Plort collectors don't work properly sometimes (Playing effect but not pulling anything)
@@ -30,31 +29,14 @@ Known Bugs:
 - Upgrades sometimes does not get applied to All players
 
 
-  #Notes Status
-Files in the following folders still need notes:
+## Current Status
+[@Twirlbug](https://github.com/Twirlbug)
+- Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
+- I adore this mod and want to give both credit and a huge thank you to Saty for the origional creation of the mod. 
+I am slowly working my way through the list of bugs as seen above.
+
+### Notation Status
+Files in the following folders still need more notation:
 - Networking
 - Packets
 - Patches
----------------------------------------------------------------------------------
-
-Origional File From SatyPardus
-
-It's bad. It's really really bad.
-
-There is so much to clean up in this project, I would not even know where to begin.
-Kinda the reason why it's already uploaded. No idea where and how to clean it up.
-
-But this is the source code of my Slime Rancher Multiplayer mod.
-It went through many iterations and each new one had stuff copy pasted.
-
-It's a mess within a mess.
-Oh god, forgive me.
-
----------------------------------------------------------------------------------
-
-But for real. Have fun digging through my unoptimized and undocumented code.
-I never thought I actually gonna release this, yet here we are.
-Would have dressed differently if I would have known.
-
-Don't judge me tho. It still .... "works".
-Just not as good as it could!
