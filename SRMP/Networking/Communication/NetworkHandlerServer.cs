@@ -335,7 +335,7 @@ namespace SRMultiplayer.Networking
                 }
             }
             packet.SendToAllExcept(player);
-        }        
+        }
 
         private static void OnExchangePrepareDaily(PacketExchangePrepareDaily packet, NetworkPlayer player)
         {
@@ -1650,27 +1650,42 @@ namespace SRMultiplayer.Networking
                         break;
                     case (byte)PacketPlayerAnimation.AnimationType.Layer:
                         player.ReadAnimatorLayer(packet.internalData);
-                        break;                    
+                        break;
                     case (byte)PacketPlayerAnimation.AnimationType.Parameters:
                         player.ReadParameters(packet.internalData);
                         break;
                 }
-                
+
                 //make the incoming message an out going message
                 packet.SendToAllExcept(player, NetDeliveryMethod.Unreliable);
             }
         }
 
-        private static void OnPlayerPosition(PacketPlayerPosition packet, NetworkPlayer player)
+        private static void OnPlayerPosition(PacketPlayerPosition packet, NetworkPlayer netPlayer)
         {
+            //get player id from packet in case of a teleport
+            NetworkPlayer player = Globals.Players.Values.FirstOrDefault(p => p.ID.Equals(packet.ID));
+
             if (player.HasLoaded)
             {
-                player.PositionRotationUpdate(packet.Position, packet.Rotation, false);
-                player.UpdateWeaponRotation(packet.WeaponY);
-                player.CurrentRegionSet = (RegionRegistry.RegionSetId)packet.RegionSet;
+                if (player.IsLocal) //if the server player is the one being moved, teleport them
+                {
+                    SRSingleton<SceneContext>.Instance.player.transform.position = packet.Position;
+                    SRSingleton<SceneContext>.Instance.player.transform.eulerAngles = new Vector3(0, packet.Rotation, 0);
+                    SRSingleton<SceneContext>.Instance.PlayerState.model.SetCurrRegionSet((RegionRegistry.RegionSetId)packet.RegionSet);
 
-                packet.ID = player.ID;
-                packet.SendToAllExcept(player, NetDeliveryMethod.Unreliable);
+                    SRSingleton<Overlay>.Instance.PlayTeleport();
+                }
+                else //else process player movement
+                {
+                    player.PositionRotationUpdate(packet.Position, packet.Rotation, false);
+                    player.UpdateWeaponRotation(packet.WeaponY);
+                    player.CurrentRegionSet = (RegionRegistry.RegionSetId)packet.RegionSet;
+                    packet.ID = player.ID;
+                    packet.SendToAllExcept(netPlayer, NetDeliveryMethod.Unreliable);
+                }
+
+                
             }
         }
 

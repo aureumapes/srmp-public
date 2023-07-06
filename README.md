@@ -1,17 +1,17 @@
 # srmp-public
-This is the code for the Slime Rancher MultiPlayer Mod (SRMP).
-
-The suer manual can be found [here](/manual.md).
-
+Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
+I adore this mod and want to give both credit and a huge thank you to Saty for the origional creation of the mod. 
 
 
-## Bug Status 
+I am slowly working my way through the list of bugs as seen below.
+
+
+
+# Bug Status 
 Notes: Bug list compiled from last known bug list of version 1488
 
 FIXED:
 - Multiplayer window doesn't show up on resolutions < 1920x1080
-
-IN PROGRESS (NEEDS MORE TESTING):
 - Exchange sometimes skips rewards if multiple players put items in at the same time
 - Exchange chest disappears without rewards
 
@@ -30,20 +30,14 @@ Known Bugs:
 - Upgrades sometimes does not get applied to All players
 
 
-##Current Status
-@Twirlbug
-- Currently working on going through the code, adding notes and fixing some of the bugs in my free time. 
-- I adore this mod and want to give both credit and a huge thank you to Saty for the origional creation of the mod. 
-I am slowly working my way through the list of bugs as seen above.
-
-###Notation Status
-Files in the following folders still need more notation:
+  #Notes Status
+Files in the following folders still need notes:
 - Networking
 - Packets
 - Patches
-
 ---------------------------------------------------------------------------------
-##Origional File From SatyPardus
+
+Origional File From SatyPardus
 
 It's bad. It's really really bad.
 

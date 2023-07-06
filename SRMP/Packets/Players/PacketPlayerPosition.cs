@@ -15,6 +15,7 @@ namespace SRMultiplayer.Packets
         public float Rotation;
         public float WeaponY;
         public byte RegionSet;
+        public bool OnLoad = true;
 
         public PacketPlayerPosition() { }
         public PacketPlayerPosition(NetIncomingMessage im) { Deserialize(im); }

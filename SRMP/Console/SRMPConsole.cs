@@ -290,6 +290,7 @@ namespace SRMultiplayer
 
                         //mark target transform location
                         PacketPlayerPosition packet = null;
+                        string destSummary = "";
 
                         //first check distination
                         switch (destination.ToLower())
@@ -304,7 +305,7 @@ namespace SRMultiplayer
                                     RegionSet = (byte)home.GetRegionSetId()
                                 };
 
-
+                                destSummary = "Home";
                                 break;
                             default: //check for a player name
                                 var play = Globals.Players.Values.FirstOrDefault(p => p.Username.Equals(destination, StringComparison.CurrentCultureIgnoreCase));
@@ -320,7 +321,7 @@ namespace SRMultiplayer
                                     Rotation = play.transform.eulerAngles.y,
                                     RegionSet = (byte)play.CurrentRegionSet
                                 };
-
+                                destSummary = play.Username;
                                 break;
                         }
 
@@ -346,10 +347,12 @@ namespace SRMultiplayer
                                 return;
                             }
 
+                            ConsoleLog("Teleporting " + targetPlayer.Username + " to " + destSummary);
 
                             if (!targetPlayer.IsLocal)
                             {
                                 //if a target is located and is not the local player send the teleport command
+                                packet.ID = targetPlayer.ID;
                                 packet.WeaponY = targetPlayer.GetWeaponLocation();
                                 packet.Send();
                                 return;
@@ -361,6 +364,8 @@ namespace SRMultiplayer
                                 SRSingleton<SceneContext>.Instance.player.transform.position = packet.Position;
                                 SRSingleton<SceneContext>.Instance.player.transform.eulerAngles = new Vector3(0, packet.Rotation, 0);
                                 SRSingleton<SceneContext>.Instance.PlayerState.model.SetCurrRegionSet((RegionRegistry.RegionSetId)packet.RegionSet);
+                                // play the teleport animation
+                                SRSingleton<Overlay>.Instance.PlayTeleport();
                             }
 
                         }
