@@ -496,10 +496,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Console\Console Commands.txt" />
-    <Content Include="modinfo.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>modinfo.json</LastGenOutput>
-    </Content>
     <Content Include="Properties\AssemblyInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
@@ -514,14 +510,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="modinfo.json">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>modinfo.tt</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="srmultiplayer.dat" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="modinfo.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

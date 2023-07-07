@@ -1,9 +1,9 @@
-{
-	"id": "srmp",
-	"name": "Slime Rancher Multiplayer",
-	"version": "0.0.1510",
-	"author": "SatyPardus",
-	"dependencies": [
+﻿{
+  "id": "srmp",
+  "name": "Slime Rancher Multiplayer",
+  "version": "0.0.1510",
+  "author": "SatyPardus",
+  "dependencies": [
 
-	]
-}﻿
+  ]
+}
