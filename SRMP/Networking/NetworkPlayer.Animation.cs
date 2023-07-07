@@ -1,12 +1,10 @@
 ﻿using Lidgren.Network;
 using SRMultiplayer.Packets;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
+using static SRMultiplayer.Packets.PacketPlayerAnimation;
 
 namespace SRMultiplayer.Networking
 {
@@ -62,33 +60,42 @@ namespace SRMultiplayer.Networking
                     continue;
                 }
 
-                NetOutgoingMessage writer = CreateMessage();
-                writer.Write((ushort)PacketType.PlayerAnimationLayer);
-                writer.Write(Globals.LocalID);
-                WriteAnimatorLayer(writer, stateHash, normalizedTime, i, layerWeight[i]);
-                Send(writer);
+                //NetOutgoingMessage writer = CreateMessage();
+
+                //add the object to the writer but dont send it yet
+                var packet = new PacketPlayerAnimation()
+                {
+                    Type = (byte)PacketPlayerAnimation.AnimationType.Layer,
+                    ID = Globals.LocalID
+                };
+
+                //add extra parameters
+                WriteAnimatorLayer(packet, stateHash, normalizedTime, i, layerWeight[i]);
+
+                //send the changes
+                packet.Send();
             }
 
             CheckSpeed();
         }
 
-        void WriteAnimatorLayer(NetOutgoingMessage writer, int stateHash, float normalizedTime, int layerNumber, float layerWeight)
+        void WriteAnimatorLayer(PacketPlayerAnimation writer, int stateHash, float normalizedTime, int layerNumber, float layerWeight)
         {
-            writer.Write(stateHash);
-            writer.Write(normalizedTime);
-            writer.Write(layerNumber);
-            writer.Write(layerWeight);
+            writer.Add(stateHash);
+            writer.Add(normalizedTime);
+            writer.Add(layerNumber);
+            writer.Add(layerWeight);
             WriteParameters(writer);
         }
 
-        public void ReadAnimatorLayer(NetIncomingMessage im)
+        public void ReadAnimatorLayer(Queue<animateData> im)
         {
             if (m_Animator == null) return;
 
-            int stateHash = im.ReadInt32();
-            float normalizedTime = im.ReadFloat();
-            int layerNumber = im.ReadInt32();
-            float layerWeight = im.ReadFloat();
+            int stateHash = im.Dequeue().iData.Value;
+            float normalizedTime = im.Dequeue().fData.Value;
+            int layerNumber = im.Dequeue().iData.Value;
+            float layerWeight = im.Dequeue().fData.Value;
 
             if (stateHash != 0 && m_Animator.enabled)
             {
@@ -106,24 +113,33 @@ namespace SRMultiplayer.Networking
             if (Mathf.Abs(previousSpeed - newSpeed) > 0.001f)
             {
                 previousSpeed = newSpeed;
-                NetOutgoingMessage writer = CreateMessage();
-                writer.Write((ushort)PacketType.PlayerAnimationSpeed);
-                writer.Write(Globals.LocalID);
-                WriteAnimatorSpeed(writer, newSpeed);
-                Send(writer);
+                //NetOutgoingMessage writer = CreateMessage();
+
+                //add the object to the writer but dont send it yet
+                var packet = new PacketPlayerAnimation()
+                {
+                    Type = (byte)PacketPlayerAnimation.AnimationType.Speed,
+                    ID = Globals.LocalID
+                };
+
+                //add extra parameters
+                WriteAnimatorSpeed(packet, newSpeed);
+
+                //send the speed change
+                packet.Send();
             }
         }
 
-        void WriteAnimatorSpeed(NetOutgoingMessage writer, float newSpeed)
+        void WriteAnimatorSpeed(PacketPlayerAnimation writer, float newSpeed)
         {
-            writer.Write(newSpeed);
+            writer.Add(newSpeed);
         }
 
-        public void ReadAnimatorSpeed(NetIncomingMessage im)
+        public void ReadAnimatorSpeed(Queue<animateData> im)
         {
             if (m_Animator == null) return;
 
-            var newSpeed = im.ReadFloat();
+            var newSpeed = im.Dequeue().fData.Value;
             // set m_Animator
             m_Animator.speed = newSpeed;
             m_AnimatorSpeed = newSpeed;
@@ -179,12 +195,17 @@ namespace SRMultiplayer.Networking
             {
                 nextSendTime = now + syncInterval;
 
-                NetOutgoingMessage writer = CreateMessage();
-                writer.Write((ushort)PacketType.PlayerAnimationParameters);
-                writer.Write(Globals.LocalID);
-                if (WriteParameters(writer))
+                //add the object to the writer but dont send it yet
+                var packet = new PacketPlayerAnimation()
                 {
-                    Send(writer);
+                    Type = (byte)PacketPlayerAnimation.AnimationType.Parameters,
+                    ID = Globals.LocalID
+                };
+
+                //add extra parameters
+                if (WriteParameters(packet))
+                {
+                    packet.Send();
                 }
             }
         }
@@ -226,10 +247,10 @@ namespace SRMultiplayer.Networking
             return dirtyBits;
         }
 
-        bool WriteParameters(NetOutgoingMessage writer, bool forceAll = false)
+        bool WriteParameters(PacketPlayerAnimation writer, bool forceAll = false)
         {
             ulong dirtyBits = forceAll ? (~0ul) : NextDirtyBits();
-            writer.Write(dirtyBits);
+            writer.Add(dirtyBits);
             for (int i = 0; i < parameters.Length; i++)
             {
                 if ((dirtyBits & (1ul << i)) == 0)
@@ -239,53 +260,55 @@ namespace SRMultiplayer.Networking
                 if (par.type == AnimatorControllerParameterType.Int)
                 {
                     int newIntValue = m_Animator.GetInteger(par.nameHash);
-                    writer.Write(newIntValue);
+                    writer.Add(newIntValue);
                 }
                 else if (par.type == AnimatorControllerParameterType.Float)
                 {
                     float newFloatValue = m_Animator.GetFloat(par.nameHash);
-                    writer.Write(newFloatValue);
+                    writer.Add(newFloatValue);
                 }
                 else if (par.type == AnimatorControllerParameterType.Bool)
                 {
                     bool newBoolValue = m_Animator.GetBool(par.nameHash);
-                    writer.Write(newBoolValue);
+                    writer.Add(newBoolValue);
                 }
             }
             return dirtyBits != 0;
         }
 
-        public void ReadParameters(NetIncomingMessage reader)
-        {
+        public void ReadParameters(Queue<animateData> im)
+        {   //make sure 
             if (m_Animator == null) return;
 
             bool m_AnimatorEnabled = m_Animator.enabled;
-            // need to read values from NetworkReader even if m_Animator is disabled
 
-            ulong dirtyBits = reader.ReadUInt64();
+            // need to read values from NetworkReader even if m_Animator is disabled
+            ulong dirtyBits = im.Dequeue().uData.Value;
             for (int i = 0; i < parameters.Length; i++)
             {
                 if ((dirtyBits & (1ul << i)) == 0)
                     continue;
 
+
                 AnimatorControllerParameter par = parameters[i];
+
                 if (par.type == AnimatorControllerParameterType.Int)
                 {
-                    int newIntValue = reader.ReadInt32();
+                    int? newIntValue = im.Dequeue().iData;
                     if (m_AnimatorEnabled)
-                        m_Animator.SetInteger(par.nameHash, newIntValue);
+                        m_Animator.SetInteger(par.nameHash, newIntValue.Value);
                 }
                 else if (par.type == AnimatorControllerParameterType.Float)
                 {
-                    float newFloatValue = reader.ReadSingle();
+                    float? newFloatValue = im.Dequeue().fData;
                     if (m_AnimatorEnabled)
-                        m_Animator.SetFloat(par.nameHash, newFloatValue);
+                        m_Animator.SetFloat(par.nameHash, newFloatValue.Value);
                 }
                 else if (par.type == AnimatorControllerParameterType.Bool)
                 {
-                    bool newBoolValue = reader.ReadBoolean();
+                    bool? newBoolValue = im.Dequeue().bData;
                     if (m_AnimatorEnabled)
-                        m_Animator.SetBool(par.nameHash, newBoolValue);
+                        m_Animator.SetBool(par.nameHash, newBoolValue.Value);
                 }
             }
         }

@@ -2,6 +2,7 @@
 using Lidgren.Network;
 using MonomiPark.SlimeRancher.DataModel;
 using MonomiPark.SlimeRancher.Regions;
+using Newtonsoft.Json.Linq;
 using SRMultiplayer.Packets;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,13 @@ namespace SRMultiplayer.Networking
             if (!Globals.PacketSize.ContainsKey(type))
                 Globals.PacketSize.Add(type, 0);
             Globals.PacketSize[type] += im.LengthBytes;
-            switch(type)
+            switch (type)
             {
+                //Player animation
+                case PacketType.PlayerAnimation: OnPlayerAnimation(new PacketPlayerAnimation(im), player); break;
                 //Player
                 case PacketType.PlayerLoaded: OnPlayerLoaded(new PacketPlayerLoaded(im), player); break;
                 case PacketType.PlayerPosition: OnPlayerPosition(new PacketPlayerPosition(im), player); break;
-                case PacketType.PlayerAnimationLayer: OnPlayerAnimationLayer(im, player); break;
-                case PacketType.PlayerAnimationParameters: OnPlayerAnimationParameters(im, player); break;
-                case PacketType.PlayerAnimationSpeed: OnPlayerAnimationSpeed(im, player); break;
                 case PacketType.PlayerCurrency: OnPlayerCurrency(new PacketPlayerCurrency(im), player); break;
                 case PacketType.PlayerCurrencyDisplay: OnPlayerCurrencyDisplay(new PacketPlayerCurrencyDisplay(im), player); break;
                 case PacketType.PlayerUpgrade: OnPlayerUpgrade(new PacketPlayerUpgrade(im), player); break;
@@ -132,7 +132,7 @@ namespace SRMultiplayer.Networking
                 case PacketType.RaceTime: OnRaceTime(new PacketRaceTime(im), player); break;
                 case PacketType.RaceTrigger: OnRaceTrigger(new PacketRaceTrigger(im), player); break;
                 default:
-                    SRMP.Log($"Got unhandled packet from {player}: {type}");
+                    SRMP.Log($"Got unhandled packet from {player}:  {type}" + Enum.GetName(typeof(PacketType), type));
                     break;
             }
         }
@@ -140,7 +140,7 @@ namespace SRMultiplayer.Networking
         #region Race
         private static void OnRaceTrigger(PacketRaceTrigger packet, NetworkPlayer player)
         {
-            if(Globals.RaceTriggers.TryGetValue(packet.ID, out NetworkRaceTrigger trigger))
+            if (Globals.RaceTriggers.TryGetValue(packet.ID, out NetworkRaceTrigger trigger))
             {
                 trigger.Activate();
             }
@@ -172,7 +172,7 @@ namespace SRMultiplayer.Networking
             var generator = QuicksilverEnergyGenerator.allGenerators.FirstOrDefault(g => g.id == packet.ID);
             if (generator)
             {
-                if(Globals.LocalPlayer.CurrentGenerator.id == generator.id)
+                if (Globals.LocalPlayer.CurrentGenerator.id == generator.id)
                 {
                     generator.Activate();
                 }
@@ -242,9 +242,9 @@ namespace SRMultiplayer.Networking
                     oasis.SetLive(!model.gameObj.activeInHierarchy);
 
                     var oasisTriggers = GameObject.FindObjectsOfType<OasisWaterTrigger>();
-                    foreach(var trigger in oasisTriggers)
+                    foreach (var trigger in oasisTriggers)
                     {
-                        if(trigger.oasisToScale == oasis && !trigger.hasAlreadyActivated)
+                        if (trigger.oasisToScale == oasis && !trigger.hasAlreadyActivated)
                         {
                             if (trigger.scaleCue != null)
                             {
@@ -312,13 +312,23 @@ namespace SRMultiplayer.Networking
                     {
                         SRMP.Log($"Exchange TryAccept for {(Identifiable.Id)packet.ID} ({(ExchangeDirector.OfferType)packet.Type}", "SERVER");
                         requestedItemEntry.progress++;
-                        if(offer.IsComplete())
+                        if (offer.IsComplete())
                         {
                             foreach (var rewarder in Resources.FindObjectsOfTypeAll<RancherProgressAwarder>())
                             {
                                 rewarder.AwardIfType(type);
                             }
-                            SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
+
+                            //trigger fireworks
+                            //get ExchangeEjector
+                            foreach (var eject in Resources.FindObjectsOfTypeAll<ExchangeEjector>())
+                            {
+                                //send off fireworks 
+                                SRBehaviour.InstantiateDynamic(eject.awardFX, eject.awardAt.position, eject.awardAt.rotation);
+                            }
+
+                            //dont clear out the offer yet, we arent done with it
+                            //SRSingleton<SceneContext>.Instance.ExchangeDirector.ClearOffer(type);
                         }
                         SRSingleton<SceneContext>.Instance.ExchangeDirector.OfferDidChange();
                     }
@@ -482,7 +492,7 @@ namespace SRMultiplayer.Networking
         {
             if (SRSingleton<SceneContext>.Instance.GameModel.AllGadgetSites().TryGetValue(packet.ID, out GadgetSiteModel model))
             {
-                if(model.HasAttached())
+                if (model.HasAttached())
                 {
                     model.attached.transform.GetComponent<DroneGadget>().drone.ammo.MaybeAddToSpecificSlot((Identifiable.Id)packet.Ident, null, 0, 1);
                 }
@@ -497,7 +507,7 @@ namespace SRMultiplayer.Networking
             if (Globals.GadgetSites.TryGetValue(packet.ID, out NetworkGadgetSite netSite))
             {
                 var echoNet = netSite.Site.GetComponentInChildren<EchoNet>(true);
-                if(echoNet != null)
+                if (echoNet != null)
                 {
                     echoNet.ResetSpawnTime(echoNet.model);
                 }
@@ -510,7 +520,7 @@ namespace SRMultiplayer.Networking
             if (Globals.GadgetSites.TryGetValue(packet.ID, out NetworkGadgetSite netSite))
             {
                 var snare = netSite.Site.GetComponentInChildren<GordoSnare>(true);
-                if(snare != null)
+                if (snare != null)
                 {
                     if (!snare.IsBaited() || snare.HasSnaredGordo())
                     {
@@ -579,7 +589,7 @@ namespace SRMultiplayer.Networking
             {
                 Globals.GadgetSites.TryGetValue(packet.ID, out NetworkGadgetSite netSite);
                 bool didUnproxy = false;
-                if(netSite != null)
+                if (netSite != null)
                 {
                     if (!netSite.Region.Region.root.activeSelf)
                     {
@@ -622,7 +632,7 @@ namespace SRMultiplayer.Networking
             foreach (var data in packet.Amounts)
             {
                 SRSingleton<SceneContext>.Instance.GameModel.GetGadgetsModel().craftMatCounts[(Identifiable.Id)data.Key] -= data.Value;
-                if(SRSingleton<SceneContext>.Instance.GameModel.GetGadgetsModel().craftMatCounts[(Identifiable.Id)data.Key] < 0)
+                if (SRSingleton<SceneContext>.Instance.GameModel.GetGadgetsModel().craftMatCounts[(Identifiable.Id)data.Key] < 0)
                 {
                     SRSingleton<SceneContext>.Instance.GameModel.GetGadgetsModel().craftMatCounts[(Identifiable.Id)data.Key] = 0;
                 }
@@ -720,7 +730,7 @@ namespace SRMultiplayer.Networking
             if (attachFashions != null)
             {
                 var component = SRSingleton<GameContext>.Instance.LookupDirector.GetPrefab((Identifiable.Id)packet.Fashion)?.GetComponent<Fashion>();
-                if(component != null)
+                if (component != null)
                 {
                     attachFashions.Attach(component, !attachFashions.gameObject.activeInHierarchy);
                 }
@@ -821,17 +831,17 @@ namespace SRMultiplayer.Networking
 
         private static void OnWorldDecorizer(PacketWorldDecorizer packet, NetworkPlayer player)
         {
-            foreach(var c in packet.Contents)
+            foreach (var c in packet.Contents)
             {
-                for(int i = 0; i < c.Value; i++)
+                for (int i = 0; i < c.Value; i++)
                 {
                     SRSingleton<SceneContext>.Instance.GameModel.decorizer.contents.Increment(c.Key);
                 }
             }
-            foreach(var setting in packet.Settings)
+            foreach (var setting in packet.Settings)
             {
                 var storage = SRSingleton<SceneContext>.Instance.GameModel.decorizer.participants.FirstOrDefault(c => ((DecorizerStorage)c).id == setting.Key);
-                if(storage != null)
+                if (storage != null)
                 {
                     ((DecorizerStorage)storage).selected = (Identifiable.Id)setting.Value;
                 }
@@ -952,7 +962,7 @@ namespace SRMultiplayer.Networking
             if (SRSingleton<SceneContext>.Instance.GameModel.AllLandPlots().TryGetValue(packet.ID, out LandPlotModel model))
             {
                 var incinerate = model.gameObj.GetComponentInChildren<Incinerate>();
-                if(incinerate != null)
+                if (incinerate != null)
                 {
                     SRBehaviour.SpawnAndPlayFX(incinerate.ExplosionFX, packet.Position, packet.Rotation);
                     if (packet.Small)
@@ -976,7 +986,7 @@ namespace SRMultiplayer.Networking
 
         private static void OnGlobalFX(PacketGlobalFX packet, NetworkPlayer player)
         {
-            if(Globals.FXPrefabs.TryGetValue(packet.Name, out GameObject prefabFX))
+            if (Globals.FXPrefabs.TryGetValue(packet.Name, out GameObject prefabFX))
             {
                 SRBehaviour.SpawnAndPlayFX(prefabFX, packet.Position, Quaternion.identity);
             }
@@ -1080,7 +1090,7 @@ namespace SRMultiplayer.Networking
             if (SRSingleton<SceneContext>.Instance.GameModel.AllLandPlots().TryGetValue(packet.ID, out LandPlotModel model))
             {
                 var collector = model.gameObj.GetComponentInChildren<PlortCollector>();
-                if(collector != null)
+                if (collector != null)
                 {
                     collector.StartCollection();
                 }
@@ -1268,14 +1278,14 @@ namespace SRMultiplayer.Networking
 
         private static void OnRegionOwner(PacketRegionOwner packet, NetworkPlayer player)
         {
-            if(Globals.Regions.TryGetValue(packet.ID, out NetworkRegion netRegion))
+            if (Globals.Regions.TryGetValue(packet.ID, out NetworkRegion netRegion))
             {
-                if(packet.Owner == 0 && netRegion.Owner == player.ID)
+                if (packet.Owner == 0 && netRegion.Owner == player.ID)
                 {
                     netRegion.SetOwnership(0);
                     packet.SendToAll();
                 }
-                else if(packet.Owner != 0 && netRegion.Owner == 0)
+                else if (packet.Owner != 0 && netRegion.Owner == 0)
                 {
                     netRegion.SetOwnership(packet.Owner);
                     packet.SendToAll();
@@ -1338,7 +1348,7 @@ namespace SRMultiplayer.Networking
                 var slimeFeral = netActor.GetComponentInChildren<SlimeFeral>(true);
                 if (slimeFeral != null)
                 {
-                    if(packet.Feral)
+                    if (packet.Feral)
                     {
                         slimeFeral.MakeFeral();
                     }
@@ -1384,7 +1394,7 @@ namespace SRMultiplayer.Networking
             if (Globals.Actors.TryGetValue(packet.ID, out NetworkActor netActor))
             {
                 var cycle = netActor.GetComponentInChildren<ResourceCycle>(true);
-                if(cycle != null)
+                if (cycle != null)
                 {
                     var state = (ResourceCycle.State)packet.State;
                     //SRMP.Log($"Resource state for {netActor.name} ({netActor.ID}): {state}", "SERVER");
@@ -1401,7 +1411,7 @@ namespace SRMultiplayer.Networking
                         }
                         TweenUtil.ScaleTo(cycle.gameObject, cycle.defaultScale, 4f, Ease.InOutQuad);
                     }
-                    else if(state == ResourceCycle.State.EDIBLE)
+                    else if (state == ResourceCycle.State.EDIBLE)
                     {
                         cycle.MakeEdible();
                         cycle.additionalRipenessDelegate = null;
@@ -1427,7 +1437,7 @@ namespace SRMultiplayer.Networking
                             cycle.vacuumable.Pending = false;
                         }
                     }
-                    else if(state == ResourceCycle.State.ROTTEN)
+                    else if (state == ResourceCycle.State.ROTTEN)
                     {
                         cycle.Rot();
                         cycle.SetRotten(!cycle.gameObject.activeInHierarchy);
@@ -1525,7 +1535,7 @@ namespace SRMultiplayer.Networking
                 netActor.KnownPlayers.AddRange(Globals.Players.Values.Where(p => p.HasLoaded));
 
                 var resourceCycle = actorObj.GetComponentInChildren<ResourceCycle>(true);
-                if(resourceCycle != null)
+                if (resourceCycle != null)
                 {
                     resourceCycle.SetInitState(ResourceCycle.State.UNRIPE, double.MaxValue);
                 }
@@ -1574,7 +1584,7 @@ namespace SRMultiplayer.Networking
         private static void OnPlayerCurrencyDisplay(PacketPlayerCurrencyDisplay packet, NetworkPlayer player)
         {
             SRSingleton<SceneContext>.Instance.PlayerState.SetCurrencyDisplay(packet.IsNull ? null : new int?(packet.Currency));
-            if(packet.IsNull)
+            if (packet.IsNull)
             {
                 SRSingleton<PopupElementsUI>.Instance.CreateCoinsPopup(packet.Currency, PlayerState.CoinsType.DRONE);
             }
@@ -1629,55 +1639,53 @@ namespace SRMultiplayer.Networking
             packet.SendToAllExcept(player);
         }
 
-        private static void OnPlayerAnimationSpeed(NetIncomingMessage im, NetworkPlayer player)
+        private static void OnPlayerAnimation(PacketPlayerAnimation packet, NetworkPlayer player)
         {
             if (player.HasLoaded)
             {
-                byte id = im.ReadByte();
-                player.ReadAnimatorSpeed(im);
+                switch (packet.Type)
+                {
+                    case (byte)PacketPlayerAnimation.AnimationType.Speed:
+                        player.ReadAnimatorSpeed(packet.internalData);
+                        break;
+                    case (byte)PacketPlayerAnimation.AnimationType.Layer:
+                        player.ReadAnimatorLayer(packet.internalData);
+                        break;
+                    case (byte)PacketPlayerAnimation.AnimationType.Parameters:
+                        player.ReadParameters(packet.internalData);
+                        break;
+                }
 
-                NetOutgoingMessage om = NetworkServer.Instance.CreateMessage();
-                om.Write(im);
-                NetworkServer.Instance.SendToAll(om, player);
-            }
-        }
-
-        private static void OnPlayerAnimationParameters(NetIncomingMessage im, NetworkPlayer player)
-        {
-            if (player.HasLoaded)
-            {
-                byte id = im.ReadByte();
-                player.ReadParameters(im);
-
-                NetOutgoingMessage om = NetworkServer.Instance.CreateMessage();
-                om.Write(im);
-                NetworkServer.Instance.SendToAll(om, player);
-            }
-        }
-
-        private static void OnPlayerAnimationLayer(NetIncomingMessage im, NetworkPlayer player)
-        {
-            if(player.HasLoaded)
-            {
-                byte id = im.ReadByte();
-                player.ReadAnimatorLayer(im);
-
-                NetOutgoingMessage om = NetworkServer.Instance.CreateMessage();
-                om.Write(im);
-                NetworkServer.Instance.SendToAll(om, player);
-            }
-        }
-
-        private static void OnPlayerPosition(PacketPlayerPosition packet, NetworkPlayer player)
-        {
-            if (player.HasLoaded)
-            {
-                player.PositionRotationUpdate(packet.Position, packet.Rotation, false);
-                player.UpdateWeaponRotation(packet.WeaponY);
-                player.CurrentRegionSet = (RegionRegistry.RegionSetId)packet.RegionSet;
-
-                packet.ID = player.ID;
+                //make the incoming message an out going message
                 packet.SendToAllExcept(player, NetDeliveryMethod.Unreliable);
+            }
+        }
+
+        private static void OnPlayerPosition(PacketPlayerPosition packet, NetworkPlayer netPlayer)
+        {
+            //get player id from packet in case of a teleport
+            NetworkPlayer player = Globals.Players.Values.FirstOrDefault(p => p.ID.Equals(packet.ID));
+
+            if (player.HasLoaded)
+            {
+                if (player.IsLocal) //if the server player is the one being moved, teleport them
+                {
+                    SRSingleton<SceneContext>.Instance.player.transform.position = packet.Position;
+                    SRSingleton<SceneContext>.Instance.player.transform.eulerAngles = new Vector3(0, packet.Rotation, 0);
+                    SRSingleton<SceneContext>.Instance.PlayerState.model.SetCurrRegionSet((RegionRegistry.RegionSetId)packet.RegionSet);
+
+                    SRSingleton<Overlay>.Instance.PlayTeleport();
+                }
+                else //else process player movement
+                {
+                    player.PositionRotationUpdate(packet.Position, packet.Rotation, false);
+                    player.UpdateWeaponRotation(packet.WeaponY);
+                    player.CurrentRegionSet = (RegionRegistry.RegionSetId)packet.RegionSet;
+                    packet.ID = player.ID;
+                    packet.SendToAllExcept(netPlayer, NetDeliveryMethod.Unreliable);
+                }
+
+                
             }
         }
 
@@ -1707,7 +1715,7 @@ namespace SRMultiplayer.Networking
                 Contents = SRSingleton<SceneContext>.Instance.GameModel.decorizer.contents.ToDictionary(c => c.Key, v => v.Value),
                 Settings = SRSingleton<SceneContext>.Instance.GameModel.decorizer.settings.ToDictionary(s => s.Key, v => (ushort)v.Value.selected)
             }.Send(player, NetDeliveryMethod.ReliableOrdered);
-            
+
             new PacketLandplots()
             {
                 LandPlots = Globals.LandPlots.Values.Where(l => l.Plot.model != null).Select(l => new PacketLandplots.LandPlotData() { ID = l.Location.id, Model = l.Plot.model }).ToList()

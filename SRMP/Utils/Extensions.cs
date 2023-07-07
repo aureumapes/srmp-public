@@ -10,6 +10,10 @@ using UnityEngine;
 
 namespace SRMultiplayer
 {
+    /// <summary>
+    /// Extends multiple objects to add extras functionality
+    /// 
+    /// </summary>
     public static class Extensions
     {
         public static void Rebuild(this RefineryUI ui)
@@ -40,6 +44,7 @@ namespace SRMultiplayer
             }
         }
 
+        #region Ammo Slot Extensions
         public static void WriteAmmoSlot(this NetOutgoingMessage om, Ammo.Slot slot)
         {
             om.Write(slot != null);
@@ -78,7 +83,9 @@ namespace SRMultiplayer
             }
             return null;
         }
+        #endregion
 
+        #region Packet Handling Extensions
         public static void Send(this Packet packet, NetDeliveryMethod method = NetDeliveryMethod.ReliableOrdered, int sequence = 0)
         {
             if(!Globals.IsClient)
@@ -159,6 +166,10 @@ namespace SRMultiplayer
             }
             NetworkServer.Instance.SendTo(packet, cons, method, sequence);
         }
+
+        #endregion
+
+        #region Component Handling Extensions
 
         public static T CopyComponent<T>(this T original, GameObject destination) where T : Component
         {
@@ -245,5 +256,6 @@ namespace SRMultiplayer
             }
             return null;
         }
+        #endregion 
     }
 }

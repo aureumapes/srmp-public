@@ -22,7 +22,18 @@ namespace SRMultiplayer.Patches
             {
                 if (Globals.Actors.ContainsKey(netActor.ID))
                 {
+                    //check if this is an exchange box
+                    var exchangeBreakOnImpact = netActor.GetComponentInChildren<ExchangeBreakOnImpact>();
+                    if (exchangeBreakOnImpact != null)
+                    {
+                        //exchange box was found processing it with the ondestroy command instead of just removing it!
+                        //netActor.OnDestroyEffect();
+                        //Destroyer.DestroyActor(netActor.gameObject, "NetworkHandlerServer.OnActorDestroy");
+                    }
+                    
+                    //make sure the actor still gets cleaned up
                     Globals.Actors.Remove(netActor.ID);
+                    
                     new PacketActorDestroy()
                     {
                         ID = netActor.ID

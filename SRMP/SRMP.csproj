@@ -9,14 +9,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SRMultiplayer</RootNamespace>
     <AssemblyName>SRMP</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Builds\SRMP\</OutputPath>
     <DefineConstants>__CONSTRAINED__;Standalone</DefineConstants>
@@ -74,24 +74,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\0Harmony.dll</HintPath>
+      <HintPath>.\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>..\Libs\Assembly-CSharp_publicized.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\DOTween.dll</HintPath>
+      <HintPath>.\DOTween.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="InControl">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\InControl.dll</HintPath>
+      <HintPath>.\InControl.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SRML, Version=0.1.8.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libs\SRML.dll</HintPath>
+      <HintPath>..\Libs\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -103,54 +104,73 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>.\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityCoreMod, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityCoreMod.dll</HintPath>
+      <HintPath>.\UnityCoreMod.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>.\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>.\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+      <HintPath>.\UnityEngine.AssetBundleModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>.\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>.\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>.\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>.\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>.\UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>.\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.TextCoreModule.dll</HintPath>
+      <HintPath>.\UnityEngine.TextCoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>.\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>.\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>.\UnityEngine.UIModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatUI.cs" />
-    <Compile Include="Compression.cs" />
     <Compile Include="Console\ConsoleInput.cs" />
     <Compile Include="Console\ConsoleWindow.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Custom UI\ChatUI.cs" />
+    <Compile Include="Custom UI\MultiplayerUI.cs" />
+    <Compile Include="Custom UI\TestUI.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Lidgren.Network\Encryption\NetAESEncryption.cs" />
     <Compile Include="Lidgren.Network\Encryption\NetBlockEncryptionBase.cs" />
@@ -228,11 +248,13 @@
     <Compile Include="Lidgren.Network\Platform\PlatformWinRT.cs" />
     <Compile Include="MainSRML.cs" />
     <Compile Include="MainStandalone.cs" />
-    <Compile Include="MultiplayerUI.cs" />
+    <Compile Include="Networking\Communication\NetworkClient.cs" />
+    <Compile Include="Networking\Communication\NetworkHandlerClient.cs" />
+    <Compile Include="Networking\Communication\NetworkHandlerServer.cs" />
+    <Compile Include="Networking\Communication\NetworkServer.cs" />
     <Compile Include="Networking\NetworkAccessDoor.cs" />
     <Compile Include="Networking\NetworkActor.cs" />
     <Compile Include="Networking\NetworkAmmo.cs" />
-    <Compile Include="Networking\NetworkClient.cs" />
     <Compile Include="Networking\NetworkClientUI.cs" />
     <Compile Include="Networking\NetworkDirectedActorSpawner.cs" />
     <Compile Include="Networking\NetworkDrone.cs" />
@@ -241,8 +263,6 @@
     <Compile Include="Networking\NetworkFireColumn.cs" />
     <Compile Include="Networking\NetworkGadgetSite.cs" />
     <Compile Include="Networking\NetworkGordo.cs" />
-    <Compile Include="Networking\NetworkHandlerClient.cs" />
-    <Compile Include="Networking\NetworkHandlerServer.cs" />
     <Compile Include="Networking\NetworkHostUI.cs" />
     <Compile Include="Networking\NetworkKookadobaPatchNode.cs" />
     <Compile Include="Networking\NetworkLandplot.cs" />
@@ -256,11 +276,11 @@
     <Compile Include="Networking\NetworkPuzzleSlot.cs" />
     <Compile Include="Networking\NetworkRaceTrigger.cs" />
     <Compile Include="Networking\NetworkRegion.cs" />
-    <Compile Include="Networking\NetworkServer.cs" />
     <Compile Include="Networking\NetworkSpawnResource.cs" />
     <Compile Include="Networking\NetworkTreasurePod.cs" />
     <Compile Include="Networking\NetworkWorldStateMasterSwitch.cs" />
     <Compile Include="Packets\AccessDoors\PacketAccessDoors.cs" />
+    <Compile Include="Packets\Actors\PacketPlayerAnimation.cs" />
     <Compile Include="Packets\Exchanges\PacketExchangeClear.cs" />
     <Compile Include="Packets\Exchanges\PacketExchangeOffer.cs" />
     <Compile Include="Packets\Exchanges\PacketExchangeOffers.cs" />
@@ -462,19 +482,20 @@
     <Compile Include="Patches\Patch_WeaponVacuum.cs" />
     <Compile Include="Patches\Patch_WorldStateMasterSwitch.cs" />
     <Compile Include="Patches\Patch_ZoneDirector.cs" />
-    <Compile Include="PauseState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="SRMP.cs" />
-    <Compile Include="SRMPConsole.cs" />
-    <Compile Include="TestUI.cs" />
-    <Compile Include="UserData.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Console\SRMPConsole.cs" />
+    <Compile Include="Utils\Compression.cs" />
+    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\Objects.cs" />
+    <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Console\Console Commands.txt" />
     <Content Include="modinfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>modinfo.json</LastGenOutput>
@@ -486,6 +507,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'SRML|AnyCPU' ">
+    <Reference Include="SRML">
+      <HintPath>..\Libs\SRML.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="modinfo.json">

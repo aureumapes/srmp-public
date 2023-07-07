@@ -20,26 +20,41 @@ namespace SRMultiplayer
 
         private float m_LastTimeSync;
 
+        /// <summary>
+        /// Acts as the initializer for the Mod
+        /// </summary>
         public override void Awake()
         {
             base.Awake();
 
+            //attach scene manager to trigger event when in a menu or loading up a game
             SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+            //attach log messager to log all game errors and exceptions into the SRMP Logs
             Application.logMessageReceived += Application_logMessageReceived;
 
+            //load up mod specific resources 
             var myLoadedAssetBundle = AssetBundle.LoadFromMemory(Utils.ExtractResource("SRMultiplayer.srmultiplayer.dat"));
             if (myLoadedAssetBundle == null)
             {
                 SRMP.Log("Failed to load AssetBundle!");
                 return;
             }
+            //load up the Player moment animator for the Beatrix model
             Globals.BeatrixController = myLoadedAssetBundle.LoadAsset<RuntimeAnimatorController>("Controller");
-            Globals.IngameMultiplayerMenuPrefab = myLoadedAssetBundle.LoadAsset<GameObject>("IngameMultiplayerMenu");
-            Globals.MainMultiplayerMenuPrefab = myLoadedAssetBundle.LoadAsset<GameObject>("MainMultiplayerMenu");
-        }
 
+            //unused prefab menus, these menus functions are handled in the floating gui
+            //Globals.IngameMultiplayerMenuPrefab = myLoadedAssetBundle.LoadAsset<GameObject>("IngameMultiplayerMenu");
+            //Globals.MainMultiplayerMenuPrefab = myLoadedAssetBundle.LoadAsset<GameObject>("MainMultiplayerMenu");
+        }
+        /// <summary>
+        /// Subscriber to the Applicaiton log and process it on to the Mods console
+        /// </summary>
+        /// <param name="condition">Log condition</param>
+        /// <param name="stackTrace">Stack trace of log strigger (if applicable)</param>
+        /// <param name="type">Log Type</param>
         private void Application_logMessageReceived(string condition, string stackTrace, LogType type)
         {
+            //if Error or Exception hand the error of to the Mods log/console to display
             if(type == LogType.Error || type == LogType.Exception)
             {
                 SRMP.Log(condition);
@@ -54,6 +69,10 @@ namespace SRMultiplayer
             //menuObj.AddComponent<NetworkClientUI>();
         }
 
+        /// <summary>
+        /// After triggering base destroy
+        /// trigger disconnect and shut down the server
+        /// </summary>
         public override void OnDestroy()
         {
             base.OnDestroy();
@@ -62,18 +81,25 @@ namespace SRMultiplayer
             NetworkServer.Instance.Disconnect();
         }
 
+        /// <summary>
+        /// On Game quit trigger disconnect and shut down the server
+        /// </summary>
         private void OnApplicationQuit()
         {
             NetworkClient.Instance.Disconnect();
             NetworkServer.Instance.Disconnect();
         }
 
+        /// <summary>
+        /// On Update triggered sync up game time
+        /// </summary>
         private void Update()
         {
             if(Globals.GameLoaded)
             {
                 if(Globals.IsServer)
                 {
+                    //every 30 seconds  send a time updater out to all clients 
                     if(Time.time - m_LastTimeSync > 30)
                     {
                         m_LastTimeSync = Time.time;
@@ -98,17 +124,28 @@ namespace SRMultiplayer
             }
         }
 
+        /// <summary>
+        /// Handle scene changed events triggered by the game
+        /// </summary>
+        /// <param name="from">Scene previously</param>
+        /// <param name="to">New Scene</param>
         private void SceneManager_activeSceneChanged(Scene from, Scene to)
         {
+            //trigger handlers for returning or going to the main menu
             if (to.buildIndex == 2) OnMainMenuLoaded();
-            if (to.buildIndex == 3) OnGameLoaded();
+            //trigger handlers for loading the game
+            else if (to.buildIndex == 3) OnGameLoaded();
         }
 
+        /// <summary>
+        /// Handle user changing to the main menu, whether it is start up or from saving/ being kicked out of the game
+        /// </summary>
         private void OnMainMenuLoaded()
         {
             //var menuObj = Instantiate(Globals.MainMultiplayerMenuPrefab, null, false);
             //menuObj.AddComponent<NetworkClientUI>();
 
+            //innitialize all necessary global variables
             Globals.LocalID = 0;
             Globals.DisableAchievements = false;
             Globals.GameLoaded = false;
@@ -135,6 +172,8 @@ namespace SRMultiplayer
             Globals.Nutcrackers.Clear();
             Globals.RaceTriggers.Clear();
             NetworkAmmo.All.Clear();
+
+            //clean up any lingering players in the global list
             foreach (var player in Globals.Players.Values.ToList())
             {
                 if(player != null && player.gameObject != null)
@@ -144,9 +183,14 @@ namespace SRMultiplayer
             }
             Globals.Players.Clear();
 
+
+            //reset the chat 
             ChatUI.Instance.Clear();
         }
 
+        /// <summary>
+        /// Handle the user loading into the multiplayer game
+        /// </summary>
         private void OnGameLoaded()
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
@@ -365,6 +409,12 @@ namespace SRMultiplayer
 
         private static FileStream m_LogFileStream;
         private static StreamWriter m_LogWriter;
+        /// <summary>
+        /// Custom message logging of a given message
+        /// </summary>
+        /// <param name="msg">Main message to be logged</param>
+        /// <param name="prefix">Prefix to be displayed before the message. Prefix will be after time marker and before the message
+        /// It will also be incapsulated in []</param>
         public static void Log(string msg, string prefix = null)
         {
             if(m_LogFileStream == null)

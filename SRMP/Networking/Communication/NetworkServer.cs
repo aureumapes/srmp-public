@@ -340,6 +340,7 @@ namespace SRMultiplayer.Networking
                         {
                             Globals.HandlePacket = true;
                             PacketType type = (PacketType)im.ReadUInt16();
+
                             var player = Globals.Players.Values.FirstOrDefault(p => p.Connection != null && p.Connection.RemoteUniqueIdentifier == im.SenderConnection.RemoteUniqueIdentifier);
                             if (player != null)
                             {

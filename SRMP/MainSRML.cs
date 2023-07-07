@@ -14,6 +14,10 @@ using UnityEngine;
 
 namespace SRMultiplayer
 {
+    /// <summary>
+    /// Handles mod being loaded from SRML
+    /// Takes the place of the Main Standalone file, but caters to the SRML
+    /// </summary>
     public class MainSRML : ModEntryPoint
     {
         private static GameObject m_GameObject;
@@ -35,10 +39,12 @@ namespace SRMultiplayer
 
             SRMP.Log("Loading SRMP SRML Version");
 
+            //create the mod directory in the install folder if needed
             if (!Directory.Exists(SRMP.ModDataPath))
             {
                 Directory.CreateDirectory(SRMP.ModDataPath);
             }
+            //create the user data file if not created yet
             if (!File.Exists(Path.Combine(SRMP.ModDataPath, "userdata.json")))
             {
                 Globals.UserData = new UserData()
@@ -50,7 +56,7 @@ namespace SRMultiplayer
                 File.WriteAllText(Path.Combine(SRMP.ModDataPath, "userdata.json"), JsonConvert.SerializeObject(Globals.UserData));
                 SRMP.Log("Created userdata with UUID " + Globals.UserData.UUID);
             }
-            else
+            else //if alreayd created load in the data
             {
                 Globals.UserData = JsonConvert.DeserializeObject<UserData>(File.ReadAllText(Path.Combine(SRMP.ModDataPath, "userdata.json")));
                 if(Globals.UserData.IgnoredMods == null)
@@ -60,6 +66,7 @@ namespace SRMultiplayer
                 SRMP.Log("Loaded userdata with UUID " + Globals.UserData.UUID);
             }
 
+            //create the mods main game objects and start connecting everything
             string[] args = System.Environment.GetCommandLineArgs();
 
             m_GameObject = new GameObject("SRMP");
@@ -71,12 +78,16 @@ namespace SRMultiplayer
             m_GameObject.AddComponent<ChatUI>();
             m_GameObject.AddComponent<SRMPConsole>();
 
+            //mark all mod objects and do not destroy
             GameObject.DontDestroyOnLoad(m_GameObject);
 
+            //get current mod version
             Globals.Version = Assembly.GetExecutingAssembly().GetName().Version.Revision;
 
+            //mark the mod as a background task
             Application.runInBackground = true;
 
+            //initialize connect to the harmony patcher
             HarmonyPatcher.GetInstance().PatchAll(Assembly.GetExecutingAssembly());
         }
 

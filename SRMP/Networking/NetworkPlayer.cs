@@ -150,6 +150,11 @@ namespace SRMultiplayer.Networking
             }
         }
 
+        public float GetWeaponLocation()
+        {
+            return m_ActualWeaponY;
+        } 
+
         private void OnAnimatorIK()
         {
             if(m_Animator != null && m_LeftHandTarget != null)
