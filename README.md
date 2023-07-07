@@ -3,6 +3,12 @@ This is the code for the Slime Rancher MultiPlayer Mod (SRMP) by SatyPardus.
 
 The user manual which includes information about compatability information, download and installation instructions and standard troubleshooting can be found [here](/manual.md).
 
+## How to setup your development enviroment
+- Clone the repository and open it in VS2022
+- Go to the project properties->Reference Paths
+- Add your Slime Rancher managed path to it (Example: C:\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\)
+
+To build, select either the "Standalone" or "SRML" build option, depending on which modloader you got installed.
 
 ## Bug Status 
 Note: Bug list compiled from last known bug list of version 1488
