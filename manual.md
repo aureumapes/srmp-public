@@ -10,7 +10,7 @@ Anyway, feel free to contribute to this manual I guess. I hope that this isn't t
 
 # SRMP Manual
 
-This is a detailed manual for the Slime Rancher MultiPlayer mod (SRMP), it has installation instructions, compability information, usage instructions, troubleshooting steps and some more. It is updated frequently to make it more readable and easier to understand. Now that it is on github, feel free to contribute!
+This is a detailed manual for the Slime Rancher MultiPlayer mod (SRMP), it has installation instructions, compability information, usage instructions, troubleshooting steps and some more. It is updated frequently to make it more readable and easier to understand. Now that it is on github, feel free to contribute! If this manual doesn't answer your questions or in case you don't understand something, feel free to ask your questions in [Saty's Discord](https://discord.gg/NtB7baV).
 
 ## Content
 
@@ -33,7 +33,7 @@ Click a link to jump to that section of the document.
 
 ## What is SRMP?
 
-Slime Rancher MultiPlayer, or SRMP, is a mod developed by Saty that adds multiplayer functionality to the game Slime Rancher. As of the writing of this document, development of the mod has been discontinued, however it still works with the last Slime Rancher release. SRMP has been in development since around March 2019, but later got hold. Active development was later resumed in 2020, but has now stopped, might be continued now that it has been made opensource though. The reasons for all this, can be read in #announcements in [Saty's Discord](https://discord.gg/NtB7baV).
+Slime Rancher MultiPlayer, or SRMP, is a mod developed by Saty that adds multiplayer functionality to the game Slime Rancher. Development was abandoned at one point but was recently picked up again by @Twirlbug. 
 
 ## Compability
 
@@ -122,28 +122,24 @@ The first step for any platform is to download the mod. There are two ways to do
 
 ### Which version to use?
 
-There are a lot of versions of the mod, and two different “types”. Whether you get the mod from Itch, Discord or github, trying to find the correct file can be confusing. To keep this short: the recommended version is 1488 (might change if someone picks up development), there is a newer version available on discord (1503) but users seem to have more issues with that version. All versions prior to 1503 has a bug that breaks trading in the game, so that you don’t get any rewards when completing trades. 1503 fixes that, but tends to break other things. Only use this version if trades are extremely important to you or if you can’t get 1488 or other versions to work despite “trying everything”. When you have decided which version to use there is still a choice left to make..
+There are a lot of versions of the mod, and two different “types”. Whether you get the mod from Itch, Discord or github, trying to find the correct file can be confusing. To keep this short: the latest recommended version is 1510, there are older versions available on discord but those have more issues. All versions prior to 1503 has a bug that breaks the exhange, so that you don’t get any rewards when completing trades. 1503 fixes that, but it is recommended to stick to the latest recommended version.
 
-There are two “types” for each version, one called SRML and one called Standalone. SRML is for the Slime Rancher Modlauncher, and allows you to use it with other mods (with varied results). Since that version is installed like any other SRML mod, instructions for that aren’t provided here (yet). Usage instructions still apply. Standalone is for running SRMP standalone, who could have guessed! That means indepentent of other modloaders, and It is actually really easy to install! That’s all you need to know for picking a version, if you are unsure, go with SRMP_1488_Standalone. The recommended version might change in the future, the manual will be updated if it does.
+There are two “types” for each version, one called SRML and one called Standalone. SRML is for the Slime Rancher Modlauncher, and allows you to use it with other mods (with varied results). Since that version is installed like any other SRML mod, instructions for that aren’t provided here (yet). Usage instructions still apply. Standalone is for running SRMP standalone, who could have guessed! That means indepentent of other modloaders, and It is actually really easy to install! That’s all you need to know for picking a version, if you are unsure, go with SRMP_1510_Standalone. The recommended version might change in the future, the manual will be updated if it does.
 
 ### Download on Itch.io (paid)
-If you want to get the mod and support Saty at the same time, then head to the [itch.io page](https://satypardus.itch.io/slime-rancher-multiplayer-mod)! Here you pay and download your desired version. If you are new to this mod and didn’t read the ‘Which version to use?’ section above, I highly recommend you do so instead of downloading a random file and then bothering people in the discord with your questions. Note that if development is picked up, new releases probably won't be published to itch. Now [install the mod](#install-the-mod) for Windows, Linux, or Mac.
-
+If you want to get the mod and support Saty at the same time, then head to the [itch.io page](https://satypardus.itch.io/slime-rancher-multiplayer-mod)! Here you pay and download your desired version. If you are new to this mod and didn’t read the ‘Which version to use?’ section above, I highly recommend you do so instead of downloading a random file and then bothering people in the discord with your questions. Note that new releases probably won't be published to itch. Now [install the mod](#install-the-mod) for Windows, Linux, or Mac.
 
 ### Download on Discord (free)
-
 The mod is available to download for free in [Saty's Discord](https://discord.gg/NtB7baV). All you need to do is join the discord and then download your desired version from the #multiplayer-development channel. So, now that you have downloaded your mod zip archive, move on to the next step, installation! This document includes instructions for [installing the mod](#install-the-mod) on Windows, Linux and Mac.
 
-<!-- Someone please correct me on this if necessary -->
-### Download on Github (free)?
-
-If development is picked up, future releases will probably be published on GitHub. But at the time of writing this, there are no releases to be found here.
+### Download on Github (free)
+The most obvious place to get the mod is probably from this github repo, head over to the [releases page]() and get the version you have decided on. Then proceed to [install the mod](#install-the-mod) on Windows, Linux or Mac.
 
 
 
 ## Install the mod
 
-Now that you have downloaded the mod (because you have done that, right?) it is time to actually install it! Remember that these instructions are for the Standalone version, SRML version is installed like other SRML mods and therefor instructions are not provided here (yet). Now follow the steps for your OS and platform.
+Now that you have downloaded the mod (because you have done that, right?) it is time to actually install it! Remember that these instructions are for the Standalone version, SRML version is installed like other SRML mods and therefor instructions are not provided here (yet). Troubleshooting tips may still apply to SRML version. Now follow the steps for your OS and platform.
 
 ### Windows
 
@@ -183,7 +179,7 @@ This section will be updated with actual instructions in the future, but for now
 
 ### Mac
 
-As I (the original manual author, zervó) has never touched a Mac in my life, I have no idea how this works. Please update on this section.
+As I (zervó) have never touched a Mac in my life, I have no idea how this works. Please update on this section.
 
 
 
@@ -235,14 +231,16 @@ If you are lucky and your router supports UpnP and it is enabled this method wil
 
 Now if you are connected, all active UPnP rules will show up. You might see some that other games have created. You will also see your router’s external address, or public ip, which is another way to find it. Now in the box that says ‘Port mapping presets’ click ‘Create’. A new window will open. The ‘Description’ field is basically the name, so I will call it srmp. ‘Remote host’ can be left empty. For Internal Client, check ‘Use local host’. It should select your local network ip. Now click ‘Add’. For the Protocol, change it to UDP. And for both External Port and Internal Port you should put the port that you noted down earlier. Now click ‘Save. Now in the ‘Port mapping presets’ box you should see your srmp record. Click ‘Use’. This should add the port forward to your router. Click ‘Update’ to make sure that it is still there. Now players can try joining as described earlier, with public ip and port! Public IP can be found on sites like [this](https://whatismyipaddress.com/), but it usually also shows up in the interface of the portmapper software. Unlike traditional port forwarding you probably don’t need to worry about removing these records, as most routers clears them when you reboot them. If you want to remove them, you can do so by selecting the record in the list and clicking remove. This method of port forwarding can also be used to forward for any other game, and is in my opinion very easy and convenient. You could let your friends from all over the world join your minecraft world for example!
 
-NOTE: If this method didn't work and UPnP isn't enabled in your router, I don't recommend trying to enable it for future use. As this program demostrates, you don't need any form of authentication to map ports with UPnP. This means that infected devices on your network could open ports which would allow hackers and other people with malicious intents to get full access to your home network. So if UPnP is disabled, leave it like that.
+NOTE: If this method didn't work and UPnP isn't enabled in your router, I don't recommend trying to enable it for future use. As this program demostrates, you don't need any form of authentication to map ports with UPnP. This means that rouge devices on your network could open ports which would allow hackers and other people with malicious intents to get full access to your home network. So if UPnP is disabled, leave it like that (unless you have a very sophisticated network architecture and you know what you're doing).
 </details>
 
 
 
 ## Troubleshooting
 
-Here is a bunch of scenarios where some things with the mod might not work for different reasons, and how to solve those issues. Not all issues are listed here, and if this doesn’t help you, ask in the [Discord](https://discord.gg/NtB7baV). Sometimes, all players restarting the game can also fix certain issues. This section will be extended in the future.
+Here is a bunch of scenarios where some things with the mod might not work for different reasons, and how to solve those issues. Not all issues are listed here, and if this doesn’t help you, ask in the [Discord](https://discord.gg/NtB7baV). The main README file has an up-to-date list of known issues.
+
+***Before driving yourself insane trying to find a solution to your problem***, if it's your first time starting an srmp session, get all players to restart the game entirely. This can fix some common issues. Restarting the game can also fix issues you may encounter later on.
 
 <details>
 <summary>Players are invisible</summary>
@@ -253,6 +251,11 @@ If you are using Hamachi, Radmin or a similar solution then this is likely cause
 <details>
 <summary>"Someone with that UUID already online"</summary>
 This error is caused by an occupied UUID. If you are using a pirated version of the game, get out of this manual! If you aren’t and you still get the issue then open your game installation directory, find the UserData folder in the SRMP folder and delete it. Restart the game.
+</details>
+
+<details>
+<summary>"Not recieving rewards from the exchange/trades"</summary>
+This bug should be fixed in version 1510 and upward thanks to @Twirlbug
 </details>
 
 <details>
@@ -280,7 +283,8 @@ You probably did something wrong with installing the mod, like installing Standa
 ## Credits
 
 Mainly wanted to include this section for people who want to ask me (the original manual author) questions.
-The manual was originally written by [Zervó](https://github.com/ZervoTheProtogen) (Zervó#9755 on discord).
-Contact me if for example you need clarification on something before committing to this manual.
+The manual was originally written by [Zervó](https://github.com/ZervoTheProtogen) (zervowo on discord).
+Contact me if you need help with the manual or just the mod in general.
 
-Also I want to include Saty here, she has done an amazing job creating this mod. Thank you Saty.
+I want to include Saty here, she has done an amazing job creating this mod. Thank you Saty.
+I also want to thank Twirlbug for continuing development on this mod.
