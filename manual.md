@@ -54,8 +54,8 @@ SRMP works on all PC versions of the game except for the Microsoft Store version
 |   Compability   |     Windows     |       Linux      |        Mac      |      Other      |
 | :-------------: | :-------------: | :--------------: | :-------------: | :-------------: |
 | Steam           | 🟢 Compatible   | 🟢 Compatible   | ⚪ Unknown      | 🔴 Incombatible |
-| Epic Games      | 🟢 Combatible   | 🟡 Kinda works  | ⚪ Unknown      | 🔴 Incombatible |
-| GoG             | 🟢 Combatible   | 🟡 Kinda works  | ⚪ Unknown      | 🔴 Incombatible |
+| Epic Games      | 🟢 Compatible   | 🟡 Kinda works  | ⚪ Unknown      | 🔴 Incombatible |
+| GoG             | 🟢 Compatible   | 🟡 Kinda works  | ⚪ Unknown      | 🔴 Incombatible |
 | Microsoft Store | 🔴 Incombatible | 🔴 Incombatible | 🔴 Incombatible | 🔴 Incombatible |
 
 Unknown just means that the original author didn't have enough data to say if the platform would work or not.
