@@ -10,7 +10,7 @@ Anyway, feel free to contribute to this manual I guess. I hope that this isn't t
 
 # SRMP Manual
 
-This is a detailed manual for the Slime Rancher MultiPlayer mod (SRMP), it has installation instructions, compability information, usage instructions, troubleshooting steps and more. It is updated frequently to make it more readable and accurate. Now that it is on github, feel free to contribute! If this manual doesn't answer your questions or in case you don't understand something, feel free to ask in [Saty's Discord](https://discord.gg/NtB7baV).
+This is a detailed manual for the Slime Rancher MultiPlayer mod (SRMP), it has installation instructions, compatibility information, usage instructions, troubleshooting steps and more. It is updated frequently to make it more readable and accurate. Now that it is on github, feel free to contribute! If this manual doesn't answer your questions or in case you don't understand something, feel free to ask in [Saty's Discord](https://discord.gg/NtB7baV).
 
 ## Content
 
@@ -19,7 +19,7 @@ Click a link to jump to that section of the document.
 
 [What is SRMP?](#what-is-srmp)
 
-[Compability](#compability)
+[compatibility](#compatibility)
 
 [Download the mod](#download-the-mod)
 
@@ -61,13 +61,13 @@ Click a link to jump to that section of the document.
 
 Slime Rancher MultiPlayer, or SRMP, is a mod developed by [Saty](https://github.com/SatyPardus) that adds multiplayer functionality to the game Slime Rancher. Development was abandoned at one point but was recently picked up again by [Twirlbug](https://github.com/Twirlbug).
 
-## Compability
+## compatibility
 
-SRMP works on all PC versions of the game except for the Microsoft Store version, so: Steam, Epic Games and GoG. Remember, this mod is for Slime Rancher 1, not 2! As Slime Rancher runs natively on windows, so will the mod. Both Slime Rancher and SRMP works on Windows, Linux and Mac. However getting Slime Rancher to work on the latter two may require additional steps, and there are some issues with the mod that you may encounter (described in the Troubleshooting section). Below is a table to better visualize the platform compability for Slime Rancher + SRMP. Note: Table may currently be inaccurate as I don’t have enough data.
+SRMP works on all PC versions of the game except for the Microsoft Store version, so: Steam, Epic Games and GoG. Remember, this mod is for Slime Rancher 1, not 2! As Slime Rancher runs natively on windows, so will the mod. Both Slime Rancher and SRMP works on Windows, Linux and Mac. However getting Slime Rancher to work on the latter two may require additional steps, and there are some issues with the mod that you may encounter (described in the Troubleshooting section). Below is a table to better visualize the platform compatibility for Slime Rancher + SRMP. Note: Table may currently be inaccurate as I don’t have enough data.
 
 <!-- Only update this table if you have done enough testing to feel confident about your results, try not to provide inaccurate information. -->
 
-|   Compability   |     Windows     |      Linux      |       Mac       |      Other      |
+|  compatibility  |     Windows     |      Linux      |       Mac       |      Other      |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
 |      Steam      |  🟢 Compatible  |  🟢 Compatible  |   ⚪ Unknown    | 🔴 Incompatible |
 |   Epic Games    |  🟢 Compatible  | 🟡 Kinda works  |   ⚪ Unknown    | 🔴 Incompatible |
@@ -145,7 +145,7 @@ If you want an explanation to a specific entry in the table, select the operatin
 By using the SRML version of SRMP, it is possible to play with other mods. Keep in mind however, that SRMP has no official support for other mods and if you are experiencing issues with SRMP then removing other mods should be the first thing to try. Also, DO NOT place mods in the "Mods" folder when using the Standalone version of the mod, there will be problems. With that out of the way; below is a list of known compatible mods.
 
 <details>
-<summary>SRMP+SRML mod compability list</summary>
+<summary>SRMP+SRML mod compatibility list</summary>
 
 **_This list may be outdated, it is currently based on information found [here](https://docs.google.com/document/d/1JsofvJNLPK5r3XIF-MHBLWBKDzB8GUmGcia9eVnYvJ4)._** I will update it with new information as I receive it. If you want to help, please follow the testing procedure described in the document I just linked. Feel free to give us any information you have to contribute with on discord, or contribute directly to this document if you feel comfortable doing that.
 
