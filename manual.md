@@ -10,7 +10,7 @@ Anyway, feel free to contribute to this manual I guess. I hope that this isn't t
 
 # SRMP Manual
 
-This is a detailed manual for the Slime Rancher MultiPlayer mod (SRMP), it has installation instructions, compability information, usage instructions, troubleshooting steps and some more. It is updated frequently to make it more readable and easier to understand. Now that it is on github, feel free to contribute! If this manual doesn't answer your questions or in case you don't understand something, feel free to ask your questions in [Saty's Discord](https://discord.gg/NtB7baV).
+This is a detailed manual for the Slime Rancher MultiPlayer mod (SRMP), it has installation instructions, compability information, usage instructions, troubleshooting steps and more. It is updated frequently to make it more readable and accurate. Now that it is on github, feel free to contribute! If this manual doesn't answer your questions or in case you don't understand something, feel free to ask in [Saty's Discord](https://discord.gg/NtB7baV).
 
 ## Content
 
@@ -43,20 +43,20 @@ Click a link to jump to that section of the document.
 
 ## What is SRMP?
 
-Slime Rancher MultiPlayer, or SRMP, is a mod developed by Saty that adds multiplayer functionality to the game Slime Rancher. Development was abandoned at one point but was recently picked up again by @Twirlbug. 
+Slime Rancher MultiPlayer, or SRMP, is a mod developed by [Saty](https://github.com/SatyPardus) that adds multiplayer functionality to the game Slime Rancher. Development was abandoned at one point but was recently picked up again by [Twirlbug](https://github.com/Twirlbug).
 
 ## Compability
 
-SRMP works on all PC versions of the game except for the Microsoft Store version, so: Steam, Epic Games and GoG. Remember, this mod is for Slime Rancher 1, not 2! As Slime Rancher runs natively on windows, so will the mod. Both Slime Rancher and SRMP works on Linux, and the non-PC platform Mac, however getting Slime Rancher to work on those may require additional steps, and there are some issues with the mod that you may encounter (described in the Troubleshooting section). Below is a table to better visualize the platform compability for Slime Rancher + SRMP. Note: Table may currently be inaccurate as I don’t have enough data.
+SRMP works on all PC versions of the game except for the Microsoft Store version, so: Steam, Epic Games and GoG. Remember, this mod is for Slime Rancher 1, not 2! As Slime Rancher runs natively on windows, so will the mod. Both Slime Rancher and SRMP works on Windows, Linux and Mac. However getting Slime Rancher to work on the latter two may require additional steps, and there are some issues with the mod that you may encounter (described in the Troubleshooting section). Below is a table to better visualize the platform compability for Slime Rancher + SRMP. Note: Table may currently be inaccurate as I don’t have enough data.
 
 <!-- Only update this table if you have done enough testing to feel confident about your results, try not to provide inaccurate information. -->
 
-|   Compability   |     Windows     |       Linux      |        Mac      |      Other      |
-| :-------------: | :-------------: | :--------------: | :-------------: | :-------------: |
-| Steam           | 🟢 Compatible   | 🟢 Compatible   | ⚪ Unknown      | 🔴 Incombatible |
-| Epic Games      | 🟢 Compatible   | 🟡 Kinda works  | ⚪ Unknown      | 🔴 Incombatible |
-| GoG             | 🟢 Compatible   | 🟡 Kinda works  | ⚪ Unknown      | 🔴 Incombatible |
-| Microsoft Store | 🔴 Incombatible | 🔴 Incombatible | 🔴 Incombatible | 🔴 Incombatible |
+|   Compability   |     Windows     |      Linux      |       Mac       |      Other      |
+| :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+|      Steam      |  🟢 Compatible  |  🟢 Compatible  |   ⚪ Unknown    | 🔴 Incompatible |
+|   Epic Games    |  🟢 Compatible  | 🟡 Kinda works  |   ⚪ Unknown    | 🔴 Incompatible |
+|       GoG       |  🟢 Compatible  | 🟡 Kinda works  |   ⚪ Unknown    | 🔴 Incompatible |
+| Microsoft Store | 🔴 Incompatible | 🔴 Incompatible | 🔴 Incompatible | 🔴 Incompatible |
 
 Unknown just means that the original author didn't have enough data to say if the platform would work or not.
 
@@ -80,7 +80,7 @@ If you want an explanation to a specific entry in the table, select the operatin
     </details>
     <details>
         <summary>Windows: Microsoft Store</summary>
-        🔴 Incombatible: As with everything else from the Microsoft Store, this version of the game is scuffed.
+        🔴 Incompatible: As with everything else from the Microsoft Store, this version of the game is scuffed.
     </details>
 </details>
 
@@ -100,7 +100,7 @@ If you want an explanation to a specific entry in the table, select the operatin
     </details>
     <details>
         <summary>Linux: Microsoft Store</summary>
-        🔴 Incombatible: Good luck getting Microsoft Store working on linux. Even if you did, this version doesn't work with the mod.
+        🔴 Incompatible: Good luck getting Microsoft Store working on linux. Even if you did, this version doesn't work with the mod.
     </details>
 </details>
 
@@ -120,11 +120,58 @@ If you want an explanation to a specific entry in the table, select the operatin
     </details>
     <details>
         <summary>Mac: Microsoft Store</summary>
-        🔴 Incombatible: Good luck getting Microsoft Store working on Mac. Even if you did, this version doesn't work with the mod.
+        🔴 Incompatible: Good luck getting Microsoft Store working on Mac. Even if you did, this version doesn't work with the mod.
     </details>
 </details>
 
+### Playing with other mods
 
+By using the SRML version of SRMP, it is possible to play with other mods. Keep in mind however, that SRMP has no official support for other mods and if you are experiencing issues with SRMP then removing other mods should be the first thing to try. Also, DO NOT place mods in the "Mods" folder when using the Standalone version of the mod, there will be problems. With that out of the way; below is a list of known compatible mods.
+
+<details>
+<summary>SRMP+SRML mod compability list</summary>
+
+**_This list may be outdated, it is currently based on information found [here](https://docs.google.com/document/d/1JsofvJNLPK5r3XIF-MHBLWBKDzB8GUmGcia9eVnYvJ4)._** I will update it with new information as I receive it. If you want to help, please follow the testing procedure described in the document I just linked. Feel free to contact give us any information you have to contribute with on discord, or contribute directly to this document if you feel comfortable doing that.
+
+| Mod Name                                                                     | Compatible | Date Updated | Mod Ver. | SRMP Ver. | Tested By  | Notes                    |
+| :--------------------------------------------------------------------------- | :--------- | :----------: | :------: | :-------: | :--------: | :----------------------- |
+| [AshAndSteam](https://www.nexusmods.com/slimerancher/mods/101)               | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | duplicate key            |
+| [BubbleSlimes](https://www.nexusmods.com/slimerancher/mods/100)              | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [Elemental Slimes](https://www.nexusmods.com/slimerancher/mods/129)          | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | duplicate key            |
+| [FireSlimeFixes](https://www.nexusmods.com/slimerancher/mods/268)            | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | duplicate key            |
+| [FrostysQuicksliverRancher](https://www.nexusmods.com/slimerancher/mods/130) | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [GemSlimes](https://www.nexusmods.com/slimerancher/mods/104)                 | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | duplicate key            |
+| [ItemShop](https://www.nexusmods.com/slimerancher/mods/285)                  | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [KeepInventory](https://www.nexusmods.com/slimerancher/mods/305)             | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [Largo Fix](https://www.nexusmods.com/slimerancher/mods/132)                 | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [Largo Library](https://www.nexusmods.com/slimerancher/mods/105)             | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [LuckyPlorts](https://www.nexusmods.com/slimerancher/mods/65)                | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [MainMenuIsland](https://www.nexusmods.com/slimerancher/mods/184)            | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [MarketExpansion](https://www.nexusmods.com/slimerancher/mods/87)            | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [MemorizingFeeder](https://www.nexusmods.com/slimerancher/mods/311)          | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [MoreCorralUpgrades](https://www.nexusmods.com/slimerancher/mods/292)        | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | some users report issues |
+| [MoreGordos](https://www.nexusmods.com/slimerancher/mods/131)                | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | duplicate key            |
+| [MoreTitles](https://www.nexusmods.com/slimerancher/mods/322)                | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [MoreVaccables](https://www.nexusmods.com/slimerancher/mods/4)               | 🟡 Kinda   |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | possible duping          |
+| [MoreVaccablesPatch](https://www.nexusmods.com/slimerancher/mods/328)        | 🟡 Kinda   |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | possible duping          |
+| [MoSecretStyles](https://www.nexusmods.com/slimerancher/mods/288)            | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [PowerVaccing](https://www.nexusmods.com/slimerancher/mods/289)              | 🟡 Kinda   |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | possible duping          |
+| [SaberBlob](https://www.nexusmods.com/slimerancher/mods/323)                 | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [SecretStyleRemovalSafety](https://www.nexusmods.com/slimerancher/mods/288)  | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [SecretStyleThings](https://www.nexusmods.com/slimerancher/mods/249)         | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [ShinySlimes](https://www.nexusmods.com/slimerancher/mods/34)                | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [SingularitySlimes](https://www.nexusmods.com/slimerancher/mods/21)          | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | duplicate key            |
+| [SlimePondUpgrades](https://www.nexusmods.com/slimerancher/mods/281)         | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [SlimeAndMarket](https://www.nexusmods.com/slimerancher/mods/118)            | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [SmartVacpack](https://www.nexusmods.com/slimerancher/mods/306)              | 🟡 Kinda   |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | possible duping          |
+| [SplitterSlimes](https://www.nexusmods.com/slimerancher/mods/258)            | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | duplicate key            |
+| [SRMLRegistryFixes](https://www.nexusmods.com/slimerancher/mods/236)         | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [UpgradeTabs](https://www.nexusmods.com/slimerancher/mods/309)               | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy |                          |
+| [ZoneUI](https://www.nexusmods.com/slimerancher/mods/167)                    | 🟡 Kinda   |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | doesn't show mod slimes  |
+| [DimensionWarpSlimes](https://www.nexusmods.com/slimerancher/mods/301)       | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | AceGalaxy  |                          |
+| [ExtraVacSlots](https://www.nexusmods.com/slimerancher/mods/219)             | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | doesn't behave at all    |
+
+</details>
 
 ## Download the mod
 
@@ -134,18 +181,19 @@ The first step is to download the mod. There are multiple ways to do this, and t
 
 There are many versions and two different “types” of the mod. The latest recommended version of the mod will probably always be the latest github release. If you are unsure, the latest recommended version as of me updating this manual is 1510.
 
-There are two “types” for each version, one called SRML and one called Standalone. SRML is for the Slime Rancher Modlauncher, and allows you to use it with other mods (with varied results). Since that version is installed like any other SRML mod, instructions for that aren’t provided here. Usage instructions still apply. Standalone is for running SRMP standalone, that means indepentent of other modloaders, and it is actually really easy to install! That’s all you need to know for picking a version, if you are unsure, go with *SRMP_1510_Standalone*.
+There are two “types” for each version, one called SRML and one called Standalone. SRML is for the Slime Rancher Modlauncher, and allows you to use it with other mods (with varied results). Since that version is installed like any other SRML mod, instructions for that aren’t provided here. Usage instructions still apply. Standalone is for running SRMP standalone, that means independent of other modloaders, and it is actually really easy to install! That’s all you need to know for picking a version, if you are unsure, go with _SRMP_1510_Standalone_.
 
 ### Download on Itch.io (paid)
+
 If you want to get the mod and support Saty at the same time, then head to the [itch.io page](https://satypardus.itch.io/slime-rancher-multiplayer-mod)! Here you pay and download your desired version. If you are new to this mod and didn’t read the ‘Which version to use?’ section above, I highly recommend you do so instead of downloading a random file and then bothering people in the discord with your questions. Note that new releases probably won't be published to itch. Now [install the mod](#install-the-mod).
 
 ### Download on Discord (free)
-The mod is available to download for free in [Saty's Discord](https://discord.gg/NtB7baV). All you need to do is join the discord and then download your desired version from the #multiplayer-development channel. So, now that you have downloaded your mod zip archive, move on to the next step, installation! This document includes instructions for [installing the mod](#install-the-mod).
+
+The mod is available to download for free in [Saty's Discord](https://discord.gg/NtB7baV). All you need to do is join the discord and then download your desired version from the #multiplayer-development channel. So, now that you have downloaded your mod zip archive, move on to the next step, installation! Now you can [install the mod](#install-the-mod).
 
 ### Download on Github (free)
+
 The most obvious place to get the mod is probably from this github repo, head over to the [releases page](https://github.com/SatyPardus/srmp-public/releases) and get the version you have decided on. Then proceed to [install the mod](#install-the-mod).
-
-
 
 ## Install the mod
 
@@ -187,6 +235,7 @@ Now to test if everything has installed correctly. Start the game from your laun
 </details>
 
 ### Linux
+
 <!-- Unless someone else does it, I will update this section to be a lot more detailed and easier to understand in the future. -->
 
 <details>
@@ -221,22 +270,27 @@ Now to test if everything has installed correctly. Start the game from your laun
 
 As I (zervó) have never touched a Mac in my life, I have no idea how this works. Please update on this section.
 
-
-
 ## Using the mod
+
 <!-- This section requires some work, which I am willing to give but feel free to update this to make it more accurate, more inclusive and easier to understand. -->
 
 ### Hosting and joining
 
-Since this mod is all about multiplayer, here are some instructions for playing togheter. There are 3 main methods to choose from: Playing over LAN, Playing over “fake” LAN (VPN), and Playing over the Internet (port forwarding). The options are ranked below from easiest to hardest. There used to be a 4th method, server codes, but that method is currently not recommended and tend to cause more issues than it solves.
+Since this mod is all about multiplayer, here are some instructions for playing togheter. There are 4 main methods to choose from: Server Codes, Playing over LAN, Playing over “fake” LAN (VPN), and Playing over the Internet (port forwarding). The options are ranked below from easiest to hardest.
 
-All three methods have a few things in common. First, make sure to choose a username if you haven’t already, this can be anything and will be the name shown in-game. Second, all three methods use some combination of IP address and port to host and join. An Ipv4 address which is the type you will most likely be using, looks like this: xxx.xxx.xxx.xxx, with x being numbers. Common ones for private IPs (local networks) are 192.168.x.xxx and 10.10.x.xxx. EG 192.168.1.43, 192.168.68.26 or 10.10.1.107. Public IPs (external/WAN connections) usually have completely different numbers but the structure is the same. The port is a combination of 5 numbers, which the host can find once they are in a loaded save.
+All four methods except server codes have a few things in common. First, make sure to choose a username if you haven’t already, this can be anything and will be the name shown in-game. Second, all three methods use some combination of IP address and port to host and join. An Ipv4 address which is the type you will most likely be using, looks like this: xxx.xxx.xxx.xxx, with x being numbers. Common ones for private IPs (local networks) are 192.168.x.xxx and 10.10.x.xxx. EG 192.168.1.43, 192.168.68.26 or 10.10.1.107. Public IPs (external/WAN connections) usually have completely different numbers but the structure is the same. The port is a combination of 5 numbers, which the host can find once they are in a loaded save.
 
 Note down the port before attempting any of the methods, or use a method with a port that you choose and change the port in the game later.
 
+#### Playing using Server Codes
+
+Server Codes is the easiest and quickest thing to try. To put it simply: it works like port forwarding but isn't port forwarding, and doesn't require any of the work.
+All the host has to do is to load a save, host and give the server code to players. The players then use that code to join. Done.
+Note that the success of server codes heavily depends on the host's router and other factors If you run in to many connection-related issues, let someone else host or try using another method.
+
 #### Playing over LAN
 
-This method only works if you and the other player/s are on the same local network (or same wifi, in incorrect terminology aka Layer 8 lingo). One player takes the role as the host. The host needs to load a save, it can be an old one or a new one it doesn’t matter just enter a save. Now in the game, the host checks the menu top right. There will be a few options there. Now the host notes down the port and clicks ‘Host’. The host now needs to find their local IP address. The fastest way to do this is probably through a terminal. On windows: open command prompt, enter ‘ipconfig’ (no ‘ signs) and press enter. Find the correct network adapter in the list and then the local ip. On linux, open a terminal and enter ‘ifconfig’, then do kinda the same thing as on windows. Players now from the main menu choose to join a game and join by IP address, entering it into the correct field, and then the port into the correct field and then joining. It’s that simple.
+This method only works if you and the other player/s are on the same local network (or same wifi, in incorrect terminology aka Layer 8 lingo). One player takes the role as the host. The host needs to load a save, it can be an old one or a new one it doesn’t matter just enter a save. Now in the game, the host checks the menu top right. There will be a few options there. Now the host notes down the port and clicks ‘Host’. The host now needs to find their local IP address. The fastest way to do this is probably through a terminal. On windows: open command prompt, enter ‘ipconfig’ (no ‘ signs) and press enter. Find the correct network adapter in the list and then the local ip. On linux, open a terminal and enter ‘ifconfig’, then do kinda the same thing as on windows. If you don't have net-tools use ´ip a´. Players now from the main menu choose to join a game and join by IP address, entering it into the correct field, and then the port into the correct field and then joining. It’s that simple.
 
 #### Playing over "fake" LAN (VPN)
 
@@ -265,6 +319,7 @@ IP Address: the IP of your machine (instructions on how to find in ‘Playing ov
 Enable: yes
 
 Now that the rule is complete, save and/or apply it. You should now be able to exit the admin interface of your router and test the rule. Host the save in the game if you haven’t already. Your friends join with your public IP and the port as described in the intro to this section. If you are unsure you can find your public IP at [https://whatismyipaddress.com](https://whatismyipaddress.com) or similar websites. No they don’t “doxx” you, your public IP address is just as the name suggests publically accessable and is necessary to access the internet. If you are using a VPN, turn it of as it "changes" your public IP to something where you can't map ports.
+
 </details>
 
 <details>
@@ -275,19 +330,19 @@ If you are lucky and your router supports UpnP and it is enabled this method wil
 **1. Connect to your router.**
 If you have a VPN active, deactivate it before continuing. It can cause issues with portmapping and multiplayer in general.
 First you need to connect portmapper to your router, this will also tell you if your router has UPnP enabled or not.
-Click the '*Connect*' button in the '*Router*' box. Give it a while.
-If it works, you will see '*External address*' and '*Internal address*' change from '*(not connected)*' to an IP.
-If it doesn't work, click '*PortMapper Settings...*' and change '*UPnP library*' to something else. NOTE: Don't set it to the dummy one.
+Click the '_Connect_' button in the '_Router_' box. Give it a while.
+If it works, you will see '_External address_' and '_Internal address_' change from '_(not connected)_' to an IP.
+If it doesn't work, click '_PortMapper Settings..._' and change '_UPnP library_' to something else. NOTE: Don't set it to the dummy one.
 If none of them worked, then UPnP isn't enabled in your router. The dummy option will always look like it works, but it's for testing and doesn't actually work.
 
 **2. Create port mapping.**
-Click '*Create*' in the '*Port mapping presets*' box. A new window will open.
-In '*Description*', put whatever you want. I put srmp. NOTE: Illegal characters may cause issues on some routers.
-The '*Remote host*' field can be left empty, but you can also put your friend's public IP for improved security. If you encounter issues later on, try emptying this field and do the next steps again.
-For '*Internal Client*' check the '*Use local host*' button. It should select your local network IP, if not make sure you have vpn and tunnels disabled.
-Now in the '*Ports*' box click the '*Add*' button.
+Click '_Create_' in the '_Port mapping presets_' box. A new window will open.
+In '_Description_', put whatever you want. I put srmp. NOTE: Illegal characters may cause issues on some routers.
+The '_Remote host_' field can be left empty, but you can also put your friend's public IP for improved security. If you encounter issues later on, try emptying this field and do the next steps again.
+For '_Internal Client_' check the '_Use local host_' button. It should select your local network IP, if not make sure you have vpn and tunnels disabled.
+Now in the '_Ports_' box click the '_Add_' button.
 Change Protol to UDP. Set both Internal and External port to the one you noted down earlier. If you didn't note down a port, set it to something like 16530 and change in the game later.
-Now click '*Save*'. Then click '*Use*' in the '*Port mapping presets*' box.
+Now click '_Save_'. Then click '_Use_' in the '_Port mapping presets_' box.
 
 **3. Hosting.**
 Host with the port that you should know by know.
@@ -297,12 +352,13 @@ If you want to remove or edit records, use the corresponding buttons in portmapp
 
 **4. Joining.**
 Players join by the port that you either got or chose, and your public IP.
-If it doesn't work and you put filled the '*Remote host*' field while creating the record: edit the record, clear that field, save it, and click the use button again.
+If it doesn't work and you put filled the '_Remote host_' field while creating the record: edit the record, clear that field, save it, and click the use button again.
 If it doesn't work and that field is already empty, use a [port checker](https://portchecker.co) to determine if the port is open.
 If it still doesn't work, make sure the external address in portmapper and the one found [here](https://whatismyipaddress.com/) are the same. If not, ask for assistance.
-If you still need more help, ask for assistance in the discord.
+If you still need more help, ask for help in the discord.
 
 NOTE: If this method didn't work and UPnP isn't enabled in your router, I don't recommend trying to enable it for future use. As this program demostrates, you don't need any form of authentication to map ports with UPnP. This means that rouge devices on your network could open ports which would allow hackers and other people with malicious intents to get full access to your home network. So if UPnP is disabled, leave it like that (unless you have a very sophisticated network architecture and you know what you're doing).
+
 </details>
 
 ### Console commands
@@ -310,27 +366,24 @@ NOTE: If this method didn't work and UPnP isn't enabled in your router, I don't 
 If you've opened the game after installing the mod then you have probably noticed that there is a black console window that opens after the game and steals focus.
 This window can be quite handy for debugging, and can also be used to enter commands to manipulate the game. Below is a list of all currently available commands.
 
-|                 Command                 |                  Description                  |   Version Introduced   |
-| :-------------------------------------- | :-------------------------------------------: | :--------------------: |
-| cheat money [amount]                    | adds/removes given amount from money score    | Unknown                |
-| cheat keys [amount]                     | adds/removes given amount from current amount | Unknown                |
-| cheat allgadgets                        | unlocks all gadgets in the game               | Unknown                |
-| cheat spawn [id] ([amount])             | spawns given amount of given id               | Unknown                |
-| tp [(TargetPlayer)] [DestinationPlayer] | teleports target to dest player               | Unknown                |
-| listplayers                             | prints current players to the console         | Unknown                |
-| sleep [hours]                           | fastforward given in-game hours               | Unknown                |
-
-
+| Command                                 |                  Description                  | Version Introduced |
+| :-------------------------------------- | :-------------------------------------------: | :----------------: |
+| cheat money [amount]                    |  adds/removes given amount from money score   |      Unknown       |
+| cheat keys [amount]                     | adds/removes given amount from current amount |      Unknown       |
+| cheat allgadgets                        |        unlocks all gadgets in the game        |      Unknown       |
+| cheat spawn [id] ([amount])             |        spawns given amount of given id        |      Unknown       |
+| tp [(TargetPlayer)] [DestinationPlayer] |        teleports target to dest player        |      Unknown       |
+| listplayers                             |     prints current players to the console     |      Unknown       |
+| sleep [hours]                           |        fastforward given in-game hours        |      Unknown       |
 
 ## Troubleshooting
 
 Here is a bunch of scenarios where some things with the mod might not work for different reasons, and how to solve those issues. Not all issues are listed here, and if this doesn’t help you, ask in the [Discord](https://discord.gg/NtB7baV). The main README file has an up-to-date list of known issues.
 
-***Before driving yourself insane trying to find a solution to your problem***, if it's your first time starting an srmp session, get all players to restart the game entirely. This can fix some common issues. Restarting the game can also fix issues you may encounter later on.
+**_Before driving yourself insane trying to find a solution to your problem_**, if it's your first time starting an SRMP session, get all players to restart the game entirely. This can fix some common issues. Restarting the game can also fix issues you may encounter later on.
 
 <details>
 <summary>Players are invisible</summary>
-
 If you are using Hamachi, Radmin or a similar solution then this is likely caused by rate limiting. The mod uses a lot of network traffic, especially when loading. One solution you could try is to disable encryption in Hamachi or whatever solution you are using, or if possible changing/removing any limits. If it doesn’t help immediately then wait a bit. If you have waited for a while and nothing has changed then you probably want to use another method in [using the mod](#using-the-mod). If you have tried everything up to port forwarding and it still doesn’t work then there is something on your network limiting your connection or your network/internet connection is just slow. Try to let someone else be the host.
 </details>
 
@@ -340,43 +393,48 @@ This error is caused by an occupied UUID. If you are using a pirated version of 
 </details>
 
 <details>
-<summary>"Not recieving rewards from the exchange/trades"</summary>
-This bug should be fixed in version 1510 and upward thanks to @Twirlbug
+<summary>Not recieving rewards from the exchange/trades</summary>
+This bug should be fixed in version 1510 and upward thanks to Twirlbug
 </details>
 
 <details>
 <summary>DLC Mismatch</summary>
 This is a common connection error caused by players not having the same DLC activated. This can be solved by deactivating all DLCs or all players getting the same DLCs.
-If all players have the same dlc or if they are all activated, this can also be solved by going in to the manage dlc menu before hosting/joining.
+If all players have the same dlc or if they are all deactivated, this can also be solved by going in to the "Manage DLC" menu before hosting/joining.
+</details>
+
+<details>
+<summary>Missing mod "MonoMod.Utils.GetManagedSizeHelper"</summary>
+Add the following to the userdata.json file found in the SRMP directory:
+
+**"IgnoredMods": ["MonoMod.Utils.GetManagedSizeHelper"]**
+
 </details>
 
 <details>
 <summary>Can't connect to a server</summary>
-If you can’t connect to a server it is because something is blocking traffic. This could be because the selected port is already in use, there are firewall rules on the host/client machine blocking traffic, there are firewall rules on the router doing the same thing, incorrectly forwarded port etc.
+If you can’t connect to a server it is because something is blocking traffic. This could be because the selected port is already in use, there are firewall rules on the host/client machine blocking traffic, there are firewall rules on the router doing the same thing, incorrectly forwarded port etc. It could also be because you entered the wrong address or port.
 </details>
 
 <details>
 <summary>Players aren't synced</summary>
-This one is caused by connection issues. If you are using hamachi/radmin it is likely due to radmin. Disabling encryption may help. If you are trying to use server codes: don't. Just try to do things to improve your network connection. You can also let someone with a faster internet connection host.
+This one is caused by connection issues. If you are using hamachi/radmin it is likely due to radmin. Disabling encryption may help. All players restarting can also fix it. If you are using server codes: let someone else host or use another method. Just try to do things to improve your network connection. You can also let someone with a faster or more stable internet connection host.
 </details>
 
 <details>
 <summary>Falling through the map</summary>
-This issue can be caused by the same things that case the "Players are invisible" issue. Try the fixes there. According to some user reports, walking around the map before hosting and letting other players join can also fix these issues.
+This issue can be caused by the same things that cause the "Players are invisible" issue. Try the fixes there. According to some user reports, walking around the map before hosting and letting other players join can also fix these issues.
 </details>
 
 <details>
 <summary>Game crashing instantly on startup</summary>
-You probably did something wrong with installing the mod, like installing Standalone when you needed SRMP or the other way around. Or trying to install multiple versions on top of eachother. It is best to start with a fresh install of the game before installing the mod, and that includes clearing the installation directory before uninstalling it from your launcher.
+You probably did something wrong with installing the mod, like installing Standalone when you needed SRMP or the other way around. Or trying to install multiple versions on top of eachother. It is best to start with a fresh install of the game before installing the mod, and that includes clearing the installation directory before or after uninstalling it from your launcher (not all files are removed when uninstalling).
 </details>
-
-
 
 ## Credits
 
-Mainly wanted to include this section for people who want to ask me (the original manual author) questions.
 The manual was originally written by [Zervó](https://github.com/ZervoTheProtogen) (zervowo on discord).
 Contact me if you need help with the manual or just the mod in general.
 
-I want to include Saty here, she has done an amazing job creating this mod. Thank you Saty.
-I also want to thank Twirlbug for continuing development on this mod.
+I want to include [Saty](https://github.com/SatyPardus) here, she has done an amazing job creating this mod. Thank you Saty.
+I also want to thank [Twirlbug](https://github.com/Twirlbug) for continuing development on this mod.
