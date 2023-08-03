@@ -5,7 +5,7 @@ You can join our discord here: https://discord.gg/Qp8SmuQ
 
 Check out the #srmp-github channel for collaboration!
 
-The user manual which includes information about compatability information, download and installation instructions and standard troubleshooting can be found [here](/manual.md).
+The user manual which includes compatability information, download and installation instructions and standard troubleshooting can be found [here](/manual.md).
 
 ## How to setup your development enviroment
 - Clone the repository and open it in VS2022
