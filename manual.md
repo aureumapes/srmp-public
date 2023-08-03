@@ -201,7 +201,7 @@ There are many versions and two different “types” of the mod. The latest rec
 
 There are two “types” for each version, one called SRML and one called Standalone. SRML is for the Slime Rancher Modlauncher, and allows you to use it with other mods (with varied results). Since that version is installed like any other SRML mod, instructions for that aren’t provided here. Usage instructions still apply. Standalone is for running SRMP standalone, that means independent of other modloaders, and it is actually really easy to install! That’s all you need to know for picking a version, if you are unsure, go with _SRMP_1510_Standalone_.
 
-### Download on Itch.io (paid)
+### Download on Itch.io (donate)
 
 If you want to get the mod and support Saty at the same time, then head to the [itch.io page](https://satypardus.itch.io/slime-rancher-multiplayer-mod)! Here you pay and download your desired version. If you are new to this mod and didn’t read the ‘Which version to use?’ section above, I highly recommend you do so instead of downloading a random file and then bothering people in the discord with your questions. Note that new releases probably won't be published to itch. Now [install the mod](#install-the-mod).
 
