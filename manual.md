@@ -171,6 +171,8 @@ By using the SRML version of SRMP, it is possible to play with other mods. Keep 
 | [DimensionWarpSlimes](https://www.nexusmods.com/slimerancher/mods/301)       | 🟢 Yes     |   2022-?-?   | Unknown  |  Unknown  | AceGalaxy  |                          |
 | [ExtraVacSlots](https://www.nexusmods.com/slimerancher/mods/219)             | 🔴 No      |   2022-?-?   | Unknown  |  Unknown  | ClaraCrazy | doesn't behave at all    |
 
+NOTE: A mod being listed as compatible doesn't mean it will work well.
+
 </details>
 
 ## Download the mod
