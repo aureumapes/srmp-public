@@ -19,7 +19,7 @@ Click a link to jump to that section of the document.
 
 [What is SRMP?](#what-is-srmp)
 
-[compatibility](#compatibility)
+[Compatibility](#compatibility)
 
 [Download the mod](#download-the-mod)
 
@@ -59,19 +59,19 @@ Click a link to jump to that section of the document.
 
 ## What is SRMP?
 
-Slime Rancher MultiPlayer, or SRMP, is a mod developed by [Saty](https://github.com/SatyPardus) that adds multiplayer functionality to the game Slime Rancher. Development was abandoned at one point but was recently picked up again by [Twirlbug](https://github.com/Twirlbug).
+Slime Rancher MultiPlayer, or SRMP, is a mod developed by [Saty](https://github.com/SatyPardus) that adds multiplayer functionality to Slime Rancher. Development was abandoned at one point but was recently picked up again by [Twirlbug](https://github.com/Twirlbug).
 
-## compatibility
+## Compatibility
 
-SRMP works on all PC versions of the game except for the Microsoft Store version, so: Steam, Epic Games and GoG. Remember, this mod is for Slime Rancher 1, not 2! As Slime Rancher runs natively on windows, so will the mod. Both Slime Rancher and SRMP works on Windows, Linux and Mac. However getting Slime Rancher to work on the latter two may require additional steps, and there are some issues with the mod that you may encounter (described in the Troubleshooting section). Below is a table to better visualize the platform compatibility for Slime Rancher + SRMP. Note: Table may currently be inaccurate as I don’t have enough data.
+SRMP works on all PC versions of the game except for the Microsoft Store version, so: Steam, Epic Games and GoG. Remember, this mod is for Slime Rancher 1, not 2! As Slime Rancher runs natively on windows, so will the mod. Both Slime Rancher and SRMP works on Windows, Linux and Mac. However getting Slime Rancher to work on the latter two may require additional steps, and there are some potential issues with the mod on those platforms that you may encounter (described in the Troubleshooting section). Below is a table to better visualize the platform compatibility for Slime Rancher + SRMP. Note: Table may currently be inaccurate as I don’t have enough data.
 
 <!-- Only update this table if you have done enough testing to feel confident about your results, try not to provide inaccurate information. -->
 
 |  compatibility  |     Windows     |      Linux      |       Mac       |      Other      |
 | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
-|      Steam      |  🟢 Compatible  |  🟢 Compatible  |   ⚪ Unknown    | 🔴 Incompatible |
-|   Epic Games    |  🟢 Compatible  | 🟡 Kinda works  |   ⚪ Unknown    | 🔴 Incompatible |
-|       GoG       |  🟢 Compatible  | 🟡 Kinda works  |   ⚪ Unknown    | 🔴 Incompatible |
+|      Steam      |  🟢 Compatible  |  🟢 Compatible  | 🟡 Kinda works  | 🔴 Incompatible |
+|   Epic Games    |  🟢 Compatible  | 🟢 Compatible  | ⚪ Unknown  | 🔴 Incompatible |
+|       GoG       |  🟢 Compatible  | 🟡 Kinda works  | ⚪ Unknown  | 🔴 Incompatible |
 | Microsoft Store | 🔴 Incompatible | 🔴 Incompatible | 🔴 Incompatible | 🔴 Incompatible |
 
 Unknown just means that I didn't have enough data to say if the platform would work or not.
@@ -83,7 +83,7 @@ If you want an explanation to a specific entry in the table, select the operatin
 <details>
 <summary>Windows</summary>
     <details>
-        <summary>Windows: Steam</summary>
+        <summary>:window: Windows: Steam</summary>
         🟢 Compatible: The game runs natively on Windows and Steam, no issues should be caused by this combination.
     </details>
     <details>
@@ -101,7 +101,7 @@ If you want an explanation to a specific entry in the table, select the operatin
 </details>
 
 <details>
-<summary>Linux</summary>
+<summary>:penguin: Linux</summary>
     <details>
         <summary>Linux: Steam</summary>
         🟢 Compatible: By using proton and then installing the mod as you would on windows, you get the same performance and probably no issues.
@@ -121,7 +121,7 @@ If you want an explanation to a specific entry in the table, select the operatin
 </details>
 
 <details>
-<summary>Mac</summary>
+<summary>:apple: Mac</summary>
     <details>
         <summary>Mac: Steam</summary>
         ⚪ Unknown: Not tested (by the original manual author) yet. Not enough data to cover this entry.
@@ -207,7 +207,7 @@ If you want to get the mod and support Saty at the same time, then head to the [
 
 ### Download on Discord (free)
 
-The mod is available to download for free in [Saty's Discord](https://discord.gg/NtB7baV). All you need to do is join the discord and then download your desired version from the #multiplayer-development channel. So, now that you have downloaded your mod zip archive, move on to the next step, installation! Now you can [install the mod](#install-the-mod).
+The mod is available to download for free in [Saty's Discord](https://discord.gg/NtB7baV). All you need to do is join the discord and then download your desired version from the #multiplayer-development channel. So, now that you have downloaded your mod zip archive, move on to the next step, [installation](#install-the-mod)!
 
 ### Download on Github (free)
 
@@ -244,7 +244,7 @@ The first step to installing the mod is to know where to install it to. We need 
 
 <details>
 <summary>2. Installing the mod</summary>
-Once you know the GID (game installation directory) of your game you can move on to actually installing the mod. First up, make sure you have your GID open in a file explorer. Again the GID can be identified by containing a folder called SlimeRancher_Data. Next, open the directory containing the downloaded mod zip archive (probably Downloads). Copy or move the zip into the GID, not into SlimeRancher_Data or another folder inside of the GID, but the GID itself, the directory containing SlimeRancher_Data and such. Now that the zip archive is in place, extract it by rightclicking and selecting ‘extract here’. It should ask to replace a file in SlimeRancher_Data, if it does then select yes, if it doesn’t then you have extracted it to the wrong directory or you just need to move it out of a folder first. Once extracted correctly, it should have replaced a file in SlimeRancher_Data and created a new folder called Mods (do not put other mods in here). That’s it! Now move on to step 3.
+Once you know the GID (game installation directory) of your game you can move on to actually installing the mod. First up, make sure you have your GID open in a file explorer. Again the GID can be identified by having a subdirectory called SlimeRancher_Data. Next, open the directory containing the downloaded mod zip archive (probably Downloads). Copy or move the zip into the GID, not into SlimeRancher_Data or another folder inside of the GID, but the GID itself. Now that the zip archive is in place, extract it by right-clicking and selecting ‘extract here’. It should ask to replace a file in SlimeRancher_Data, if it does then select yes, if it doesn’t then you have extracted it to the wrong directory or you just need to move it out of a folder first. Once extracted correctly, it should have replaced a file in SlimeRancher_Data and created a new folder called Mods (do not put other mods in here). That’s it! Now move on to step 3.
 </details>
 
 <details>
@@ -288,7 +288,7 @@ You know it's the correct directory if it contains another directory called "Sli
 
 ![srmpInstallBigLinux](./screenshots/srmp-intall-big-linux.jpg)
 
-Once you know the GID (game installation directory) of your game you can move on to actually installing the mod. First up, make sure you have your GID open in a file explorer. Again the GID can be identified by containing a folder called SlimeRancher_Data. Next, open the directory containing the downloaded mod zip archive (probably Downloads). Copy or move the zip into the GID, not into SlimeRancher_Data or another folder inside of the GID, but the GID itself, the directory containing SlimeRancher_Data and such. Now that the zip archive is in place, extract it into this directory. It should replace a file in SlimeRancher_Data, if it does then select yes, if it doesn’t then you have extracted it to the wrong directory or you just need to move it out of a folder first. Once extracted correctly, it should have replaced a file in SlimeRancher_Data and created a new folder called Mods (do not put other mods in here). That’s it! Now move on to step 4.
+Once you know the GID (game installation directory) of your game you can move on to actually installing the mod. First up, make sure you have your GID open in a file explorer. Again the GID can be identified by having a subdirectory called SlimeRancher_Data. Next, open the directory containing the downloaded mod zip archive (probably Downloads). Copy or move the zip into the GID, not into SlimeRancher_Data or another folder inside of the GID, but the GID itself. Now that the zip archive is in place, extract it into this directory. It should ask to replace a file in SlimeRancher_Data, if it does then select yes, if it doesn’t then you have extracted it to the wrong directory or you just need to move it out of a folder first. Once extracted correctly, it should have replaced a file in SlimeRancher_Data and created a new folder called Mods (do not put other mods in here). That’s it! Now move on to step 4.
 
 </details>
 
@@ -516,7 +516,7 @@ This error is caused by an occupied UUID. If you are using a pirated version of 
 
 <details>
 <summary>Not recieving rewards from the exchange/trades</summary>
-This bug should be fixed in version 1510 and upward thanks to Twirlbug
+This bug should be fixed in version 1510 and upward thanks to [Twirlbug](https://github.com/Twirlbug).
 </details>
 
 <details>
@@ -540,7 +540,7 @@ If you can’t connect to a server it is because something is blocking traffic. 
 
 <details>
 <summary>Players aren't synced</summary>
-This one is caused by connection issues. If you are using hamachi/radmin it is likely due to radmin. Disabling encryption may help. All players restarting can also fix it. If you are using server codes: let someone else host or use another method. Just try to do things to improve your network connection. You can also let someone with a faster or more stable internet connection host.
+This one is caused by connection issues. If you are using hamachi/radmin it is likely due to rate limiting. Disabling encryption may help. All players restarting can also fix it. If you are using server codes: let someone else host or use another method. Also try to do things to improve your network connection. You should let the person with the fastest and most stable internet connection host.
 </details>
 
 <details>
@@ -558,5 +558,6 @@ You probably did something wrong with installing the mod, like installing Standa
 The manual was originally written by [Zervó](https://github.com/ZervoTheProtogen) (zervowo on discord).
 Contact me if you need help with the manual or just the mod in general.
 
-I want to include [Saty](https://github.com/SatyPardus) here, she has done an amazing job creating this mod. Thank you Saty.
-I also want to thank [Twirlbug](https://github.com/Twirlbug) for continuing development on this mod.
+The mod was created by the amazing [Saty](https://github.com/SatyPardus), she has done an outstanding job and deserves some recognition. Thank you Saty!
+
+The mod is currently maintainted by [Twirlbug](https://github.com/Twirlbug), thank you Twirlbug for picking up development on this mod!
