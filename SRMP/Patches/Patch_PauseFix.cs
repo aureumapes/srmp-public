@@ -48,12 +48,39 @@ namespace SRMultiplayer.Patches
 
             if (Globals.PauseState == PauseState.Pause)
             {
-                __instance.actions.Enabled = false;
+                __instance.actions.Enabled = true;
                 __instance.pauseActions.Enabled = true;
                 __instance.engageActions.Enabled = false;
                 return false;
             }
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(vp_FPInput))]
+    [HarmonyPatch("Update")]
+    class FIX_FPInput_Pause
+    {
+        private static bool prevAllowInput = false;
+
+        static void Prefix(vp_FPInput __instance)
+        {
+            prevAllowInput = __instance.m_AllowGameplayInput;
+            if (Globals.IsMultiplayer && Globals.PauseState == PauseState.Pause)
+            {
+                // Disable input so  that we don't move when "paused"
+                __instance.m_AllowGameplayInput = false;
+            }
+        }
+
+        static void Postfix(vp_FPInput __instance)
+        {
+            if (Globals.IsMultiplayer && Globals.PauseState == PauseState.Pause)
+            {
+                // Restore any initial value after we've blocked the input
+                // since I have no idea if it should have been initially disabled
+                __instance.m_AllowGameplayInput = prevAllowInput;
+            }
         }
     }
 
