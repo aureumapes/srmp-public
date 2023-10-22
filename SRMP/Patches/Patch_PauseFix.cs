@@ -61,14 +61,16 @@ namespace SRMultiplayer.Patches
     [HarmonyPatch("Update")]
     class FIX_FPInput_Pause
     {
-        private static bool prevAllowInput = false;
+        private static bool initialAllowInput = false;
 
         static void Prefix(vp_FPInput __instance)
         {
-            prevAllowInput = __instance.m_AllowGameplayInput;
             if (Globals.IsMultiplayer && Globals.PauseState == PauseState.Pause)
             {
-                // Disable input so that we don't move when "paused"
+                // Save the initial state of the input
+                initialAllowInput = __instance.m_AllowGameplayInput;
+
+                // Disable input so  that we don't move when "paused"
                 __instance.m_AllowGameplayInput = false;
             }
         }
@@ -79,7 +81,7 @@ namespace SRMultiplayer.Patches
             {
                 // Restore any initial value after we've blocked the input
                 // since I have no idea if it should have been initially disabled
-                __instance.m_AllowGameplayInput = prevAllowInput;
+                __instance.m_AllowGameplayInput = initialAllowInput;
             }
         }
     }
