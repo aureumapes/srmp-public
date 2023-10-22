@@ -68,7 +68,7 @@ namespace SRMultiplayer.Patches
             prevAllowInput = __instance.m_AllowGameplayInput;
             if (Globals.IsMultiplayer && Globals.PauseState == PauseState.Pause)
             {
-                // Disable input so  that we don't move when "paused"
+                // Disable input so that we don't move when "paused"
                 __instance.m_AllowGameplayInput = false;
             }
         }
