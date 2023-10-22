@@ -57,6 +57,17 @@ namespace SRMultiplayer.Patches
         }
     }
 
+    [HarmonyPatch(typeof(MapUI))]
+    [HarmonyPatch("OpenMap")]
+    class FIX_MapUI_OpenMap
+    {
+        static void Postfix(MapUI __instance)
+        {
+            // Fix input mode not refreshing after dying
+            SRInput.instance.SetInputMode(SRInput.InputMode.PAUSE);
+        }
+    }
+
     [HarmonyPatch(typeof(vp_FPInput))]
     [HarmonyPatch("Update")]
     class FIX_FPInput_Pause
