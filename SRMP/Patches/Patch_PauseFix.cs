@@ -70,7 +70,7 @@ namespace SRMultiplayer.Patches
                 // Save the initial state of the input
                 initialAllowInput = __instance.m_AllowGameplayInput;
 
-                // Disable input so  that we don't move when "paused"
+                // Disable input so that we don't move when "paused"
                 __instance.m_AllowGameplayInput = false;
             }
         }
