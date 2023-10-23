@@ -48,12 +48,52 @@ namespace SRMultiplayer.Patches
 
             if (Globals.PauseState == PauseState.Pause)
             {
-                __instance.actions.Enabled = false;
+                __instance.actions.Enabled = true;
                 __instance.pauseActions.Enabled = true;
                 __instance.engageActions.Enabled = false;
                 return false;
             }
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(MapUI))]
+    [HarmonyPatch("OpenMap")]
+    class FIX_MapUI_OpenMap
+    {
+        static void Postfix(MapUI __instance)
+        {
+            // Fix input mode not refreshing after dying
+            SRInput.instance.SetInputMode(SRInput.InputMode.PAUSE);
+        }
+    }
+
+    [HarmonyPatch(typeof(vp_FPInput))]
+    [HarmonyPatch("Update")]
+    class FIX_FPInput_Pause
+    {
+        private static bool initialAllowInput = false;
+
+        static void Prefix(vp_FPInput __instance)
+        {
+            if (Globals.IsMultiplayer && Globals.PauseState == PauseState.Pause)
+            {
+                // Save the initial state of the input
+                initialAllowInput = __instance.m_AllowGameplayInput;
+
+                // Disable input so that we don't move when "paused"
+                __instance.m_AllowGameplayInput = false;
+            }
+        }
+
+        static void Postfix(vp_FPInput __instance)
+        {
+            if (Globals.IsMultiplayer && Globals.PauseState == PauseState.Pause)
+            {
+                // Restore any initial value after we've blocked the input
+                // since I have no idea if it should have been initially disabled
+                __instance.m_AllowGameplayInput = initialAllowInput;
+            }
         }
     }
 
