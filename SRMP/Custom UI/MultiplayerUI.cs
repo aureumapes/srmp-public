@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Text.RegularExpressions;
 using SRMultiplayer.Networking;
+using System.Collections.Generic;
+using Steamworks;
 
 public class MultiplayerUI : SRSingleton<MultiplayerUI>
 {
@@ -31,7 +33,6 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         }
     }
 
-
     private string username;
     private float lastCodeUse;
     private ConnectError error;
@@ -48,6 +49,23 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         Kicked,
         Message
     }
+
+    public enum SteamHostMode
+    {
+        Invite,
+        FriendJoin,
+        Normal,
+        NoSteam,
+    }
+    
+    internal Dictionary<SteamHostMode, ELobbyType> SteamHostModeToLobbyType = new Dictionary<SteamHostMode, ELobbyType>()
+    {
+        { SteamHostMode.Normal, ELobbyType.k_ELobbyTypeInvisible },
+        { SteamHostMode.FriendJoin, ELobbyType.k_ELobbyTypeFriendsOnly },
+        { SteamHostMode.Invite, ELobbyType.k_ELobbyTypePrivateUnique },
+    };
+
+    private SteamHostMode currentSteamHostMode = SteamHostMode.NoSteam;
 
     public enum ConnectHelp
     {
@@ -82,6 +100,10 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
     /// </summary>
     private void Update()
     {
+        if (currentSteamHostMode == SteamHostMode.NoSteam && SRMultiplayer.Plugin.SteamMain.FinishedSetup)
+        {
+            currentSteamHostMode = SteamHostMode.Normal;
+        }
         if (lastCodeUse > 0f)
         {
             var prevTime = lastCodeUse;
@@ -303,7 +325,10 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
                     }
                     else
                     {
-                        HostGUI();
+                        if (SRMultiplayer.Plugin.SteamMain.FinishedSetup)
+                            SteamHostGUI();
+                        else
+                            HostGUI();
                     }
                 }
             }
@@ -357,6 +382,8 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         }
         GUILayout.EndScrollView();
     }
+
+    public bool steamUITest = false;
     /// <summary>
     /// Display the connection information of the gui
     /// this section includes user information,
@@ -439,6 +466,55 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
             {
                 SRSingleton<NetworkClient>.Instance.Connect(game.IP, game.Port, Globals.Username);
             }
+        }
+    }
+
+    /// <summary>
+    /// Display the hosting info part of the gui
+    /// </summary>
+    private void SteamHostGUI()
+    {
+        GUILayout.Label("Username: " + Globals.Username);
+        if (GUILayout.Button("Change Username"))
+        {
+            Globals.Username = "";
+            return;
+        }
+        // Port
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Port", GUILayout.Width(80));
+        port = GUILayout.TextField(port);
+        GUILayout.EndHorizontal();
+
+        // Steam options
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Invite / Direct"))
+        {
+            currentSteamHostMode = SteamHostMode.Invite;
+        }
+        if (GUILayout.Button("Friends / Direct"))
+        {
+            currentSteamHostMode = SteamHostMode.FriendJoin;
+        }
+        if (GUILayout.Button("Direct Connect only"))
+        {
+            currentSteamHostMode = SteamHostMode.Normal;
+        }
+        GUILayout.EndHorizontal();
+
+        if (!int.TryParse(port, out int numport) || numport < 1000 || numport > 65000)
+        {
+            GUILayout.Label("Invalid port");
+        }
+        else
+        {
+            // Hosting
+            if (GUILayout.Button("Host"))
+            {
+                NetworkServer.Instance.StartServer(numport, currentSteamHostMode);
+                SaveSettings();
+            }
+
         }
     }
 
