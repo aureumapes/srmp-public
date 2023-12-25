@@ -1,7 +1,6 @@
 ﻿using Lidgren.Network;
 using SRMultiplayer.Packets;
 using SRMultiplayer.Plugin;
-using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -116,6 +115,7 @@ namespace SRMultiplayer.Networking
             {
                 SRMPSteam.Instance.HostSteamGame(MultiplayerUI.Instance.SteamHostModeToLobbyType[steamMode]);
             }
+            SRMPDiscord.InjectIntoLastRP();
             NetworkMasterServer.Instance.CreateServer(port);
         }
 
