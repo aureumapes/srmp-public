@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using SRMultiplayer.Packets;
+using SRMultiplayer.Plugin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -110,7 +111,8 @@ namespace SRMultiplayer.Networking
                 SRSingleton<SceneContext>.Instance.TutorialDirector.tutModel.completedIds.Add(tut);
             }
 
-           NetworkMasterServer.Instance.CreateServer(port);
+            SRMPDiscord.InjectIntoLastRP();
+            NetworkMasterServer.Instance.CreateServer(port);
         }
 
         public void Disconnect()

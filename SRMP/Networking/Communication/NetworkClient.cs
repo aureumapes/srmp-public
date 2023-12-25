@@ -13,6 +13,7 @@ namespace SRMultiplayer.Networking
 {
     public class NetworkClient : SRSingleton<NetworkClient>
     {
+        public int playerCount = 0;
         private NetClient m_Client;
 
         public enum ConnectionStatus
@@ -149,7 +150,7 @@ namespace SRMultiplayer.Networking
                                 NetIncomingMessage hail = im.SenderConnection.RemoteHailMessage;
                                 Globals.LocalID = hail.ReadByte();
 
-                                int playerCount = hail.ReadInt32();
+                                playerCount = hail.ReadInt32();
                                 for (int i = 0; i < playerCount; i++)
                                 {
                                     byte id = hail.ReadByte();

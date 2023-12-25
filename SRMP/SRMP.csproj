@@ -94,6 +94,10 @@
       <HintPath>..\Libs\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SRML, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Slime Rancher\SlimeRancher_Data\Managed\SRML.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -105,11 +109,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Unity.TextMeshPro">
       <HintPath>.\Unity.TextMeshPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityCoreMod, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\UnityCoreMod.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
@@ -399,6 +398,7 @@
     <Compile Include="Patches\Patch_DecorizerStorage.cs" />
     <Compile Include="Patches\Patch_DestroyOnTouching.cs" />
     <Compile Include="Patches\Patch_DirectedActorSpawner.cs" />
+    <Compile Include="Patches\Patch_DiscordRPC.cs" />
     <Compile Include="Patches\Patch_Drone.cs" />
     <Compile Include="Patches\Patch_DroneAnimator.cs" />
     <Compile Include="Patches\Patch_DroneGadget.cs" />
@@ -482,6 +482,7 @@
     <Compile Include="Patches\Patch_WeaponVacuum.cs" />
     <Compile Include="Patches\Patch_WorldStateMasterSwitch.cs" />
     <Compile Include="Patches\Patch_ZoneDirector.cs" />
+    <Compile Include="Plugins\SRMPDiscord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -503,11 +504,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'SRML|AnyCPU' ">
-    <Reference Include="SRML">
-      <HintPath>..\Libs\SRML.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="srmultiplayer.dat" />
