@@ -1,4 +1,5 @@
 ﻿#if Standalone
+
 using HarmonyLib;
 using Newtonsoft.Json;
 using SRMultiplayer.Networking;
@@ -18,6 +19,7 @@ namespace SRMultiplayer
         public void Load()
         {
             if (m_GameObject != null) return;
+
 
             SRMP.Log("Loading SRMP Standalone Version");
 
@@ -40,9 +42,9 @@ namespace SRMultiplayer
             }
             else //if alreayd created load in the data
             {
-                
+
                 Globals.UserData = JsonConvert.DeserializeObject<UserData>(File.ReadAllText(Path.Combine(SRMP.ModDataPath, "userdata.json")));
-                if(Globals.UserData.IgnoredMods == null)
+                if (Globals.UserData.IgnoredMods == null)
                 {
                     Globals.UserData.IgnoredMods = new System.Collections.Generic.List<string>();
                 }
@@ -60,6 +62,7 @@ namespace SRMultiplayer
             m_GameObject.AddComponent<MultiplayerUI>();
             m_GameObject.AddComponent<ChatUI>();
             m_GameObject.AddComponent<SRMPConsole>();
+            Plugin.SteamMain.Init(m_GameObject);
 
             //mark all mod objects and do not destroy
             GameObject.DontDestroyOnLoad(m_GameObject);

@@ -1,5 +1,7 @@
 ﻿using Lidgren.Network;
 using SRMultiplayer.Packets;
+using SRMultiplayer.Plugin;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +38,7 @@ namespace SRMultiplayer.Networking
             Disconnect();
         }
 
-        public void StartServer(int port)
+        public void StartServer(int port, MultiplayerUI.SteamHostMode steamMode = MultiplayerUI.SteamHostMode.NoSteam)
         {
             Port = port;
             Status = ServerStatus.Running;
@@ -110,14 +112,25 @@ namespace SRMultiplayer.Networking
                 SRSingleton<SceneContext>.Instance.TutorialDirector.tutModel.completedIds.Add(tut);
             }
 
-           NetworkMasterServer.Instance.CreateServer(port);
+            if (Plugin.SteamMain.FinishedSetup)
+            {
+                SRMPSteam.Instance.HostSteamGame(MultiplayerUI.Instance.SteamHostModeToLobbyType[steamMode]);
+            }
+            NetworkMasterServer.Instance.CreateServer(port);
         }
 
         public void Disconnect()
         {
             Status = ServerStatus.Stopped;
+
             m_Server?.Shutdown("goodbye");
             m_DiscoverServer?.Shutdown("goodbye");
+
+            if (SteamMain.FinishedSetup)
+            {
+                SteamMatchmaking.LeaveLobby(SRMPSteam.Instance.currLobbyID);
+                SRMPSteam.Instance.isHost = false;
+            }
 
             SRSingleton<NetworkMasterServer>.Instance.DeleteServer();
         }
