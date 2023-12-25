@@ -77,6 +77,9 @@
       <HintPath>.\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>.\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>..\Libs\Assembly-CSharp_publicized.dll</HintPath>
       <Private>False</Private>
@@ -482,6 +485,8 @@
     <Compile Include="Patches\Patch_WeaponVacuum.cs" />
     <Compile Include="Patches\Patch_WorldStateMasterSwitch.cs" />
     <Compile Include="Patches\Patch_ZoneDirector.cs" />
+    <Compile Include="Plugin\SRMPSteam.cs" />
+    <Compile Include="Plugin\SteamMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
