@@ -25,12 +25,12 @@ namespace SRMultiplayer.Plugin
         }
         internal static void InjectIntoRP(DiscordRpc.RichPresence rp)
         {
-            lastRP.state += $", Player {SceneContext.Instance.player.GetComponent<NetworkPlayer>().ID}\\{GetPlayerCount()}";
+            lastRP.state += $", Player {SceneContext.Instance.player.GetComponent<NetworkPlayer>().ID}/{GetPlayerCount()}";
         }
         
         internal static void InjectIntoLastRP()
         {
-            lastRP.state += $", Player {SceneContext.Instance.player.GetComponent<NetworkPlayer>().ID}\\{GetPlayerCount()}";
+            lastRP.state += $", Player {SceneContext.Instance.player.GetComponent<NetworkPlayer>().ID}/{GetPlayerCount()}";
 
             isWritting = true;
             DiscordRpc.UpdatePresence(lastRP);
