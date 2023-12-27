@@ -58,9 +58,14 @@ namespace SRMultiplayer.Plugin
             if (callback.m_eResult == EResult.k_EResultOK)
             {
                 currLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
-                SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostIP", GetPublicIP());
-                SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostPort", NetworkServer.Instance.Port.ToString());
+                SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "lobbyCode", Globals.ServerCode.ToString());
+#if SRML 
+                SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "ModLoader", "SRML");
+#else
+                SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "ModLoader", "Standalone");
+#endif
 
+                SteamNetworking.inServer = true;
                 Debug.Log("Hosted game is now set up for steam invites!");
             }
         }
@@ -79,7 +84,6 @@ namespace SRMultiplayer.Plugin
             if (isHost)
                 return;
 
-            Debug.Log($"{SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostIP")}:{int.Parse(SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostPort"))}");
 
             currLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
             string name;
@@ -87,7 +91,8 @@ namespace SRMultiplayer.Plugin
                 name = SteamFriends.GetPersonaName();
             else
                 name = Globals.Username;
-            NetworkClient.Instance.Connect(SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostIP"), int.Parse(SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostPort")), name);
+
+            SteamNetworking.inServer = true;
         }
 
         public CSteamID currLobbyID;

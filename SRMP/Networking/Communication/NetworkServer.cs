@@ -130,6 +130,7 @@ namespace SRMultiplayer.Networking
             {
                 SteamMatchmaking.LeaveLobby(SRMPSteam.Instance.currLobbyID);
                 SRMPSteam.Instance.isHost = false;
+                Plugin.SteamNetworking.inServer = false;
             }
 
             SRSingleton<NetworkMasterServer>.Instance.DeleteServer();
@@ -381,6 +382,11 @@ namespace SRMultiplayer.Networking
         {
             var om = CreateMessage();
             packet.Serialize(om);
+            if (Plugin.SteamNetworking.inServer)
+            {
+                foreach (var user in m_Server.Connections)
+                Steamworks.SteamNetworking.SendP2PPacket()
+            }
 
             m_Server?.SendToAll(om, method, sequence);
         }

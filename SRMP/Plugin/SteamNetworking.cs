@@ -14,57 +14,42 @@ namespace SRMultiplayer.Plugin
 {
     public static class SteamNetworking
     {
+        internal static bool inServer;
         public const int SRAppID = 433340;
 
-        internal static ISteamMatchmakingServerListResponse serverListResponse;
+        public static Callback<LobbyMatchList_t> lobbyList;
 
-        public static MatchMakingKeyValuePair_t[] filters = {
-                new MatchMakingKeyValuePair_t { m_szKey = "appid", m_szValue = SRAppID.ToString() },
-                new MatchMakingKeyValuePair_t { m_szKey = "gamever", m_szValue = Assembly.GetExecutingAssembly().GetName().Version.Revision.ToString() },
-#if SRML
-                new MatchMakingKeyValuePair_t { m_szKey = "modloader", m_szValue = "srml"},
-#else
-                new MatchMakingKeyValuePair_t { m_szKey = "modloader", m_szValue = "standalone"},
-#endif
-        };
-
-
-        private static void OnServerResponded(HServerListRequest hRequest, int iServer)
-        {
-            Debug.Log($"Debug -- Server Responded: {hRequest} - {iServer}");
-        }
-
-        private static void OnServerFailedToRespond(HServerListRequest hRequest, int iServer)
-        {
-            Debug.Log($"Debug -- Server Failed to respond: {hRequest} - {iServer}");
-        }
-
-        private static void OnRefreshComplete(HServerListRequest hRequest, EMatchMakingServerResponse response)
-        {
-            Debug.Log($"Debug -- Refresh complete: {hRequest} - {response}");
-
-        }
-        internal static HServerListRequest serverListRequest;
         public static void Init()
         {
-            serverListResponse = new ISteamMatchmakingServerListResponse(OnServerResponded, OnServerFailedToRespond, OnRefreshComplete);
-            serverListRequest = SteamMatchmakingServers.RequestInternetServerList(new AppId_t(SRAppID), filters, (uint)filters.Length, serverListResponse);
+            lobbyList = Callback<LobbyMatchList_t>.Create(LobbyListFunction);
         }
 
-        public static void RefreshServerList()
+        internal static List<CSteamID> lobbies;
+
+        public static void GetLobbies()
         {
-            serverListRequest = SteamMatchmakingServers.RequestInternetServerList(new AppId_t(SRAppID), filters, (uint)filters.Length, serverListResponse);
+#if SRML
+            SteamMatchmaking.AddRequestLobbyListStringFilter("ModLoader", "SRML", ELobbyComparison.k_ELobbyComparisonEqual);
+#else
+            SteamMatchmaking.AddRequestLobbyListStringFilter("ModLoader", "Standalone", ELobbyComparison.k_ELobbyComparisonEqual);
+#endif
+            SteamMatchmaking.RequestLobbyList();
         }
-
-
+        public static void LobbyListFunction(LobbyMatchList_t list)
+        {
+            for (int i = 0; i < list.m_nLobbiesMatching; i++)
+            {
+                lobbies = new List<CSteamID>();
+                lobbies.Add(SteamMatchmaking.GetLobbyByIndex(i));
+            }
+        }
         public static CSteamID GetServerByCode(string code)
         {
-            for (int i = 0; SteamMatchmakingServers.GetServerCount(serverListRequest) <= i; i++)
+            foreach (var lobby in lobbies)  
             {
-                var server = SteamMatchmaking.GetLobbyByIndex(i);
-                if (SteamMatchmaking.GetLobbyData(server, "serverCode") == code)
+                if (SteamMatchmaking.GetLobbyData(lobby, "lobbyCode") == code)
                 {
-                    return server;
+                    return lobby;
                 }
             }
             return CSteamID.Nil;

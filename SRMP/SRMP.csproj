@@ -488,6 +488,7 @@
     <Compile Include="Plugin\SRMPSteam.cs" />
     <Compile Include="Plugin\SteamMain.cs" />
     <Compile Include="Plugin\SteamNetworking.cs" />
+    <Compile Include="Plugin\SteamNetworking\SteamNetworkClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
