@@ -53,6 +53,12 @@ Click a link to jump to that section of the document.
 
 > [Console commands](#console-commands)
 
+[Steam Store Version](#steam-version)
+
+> [Inviting using steam](#inviting-via-steam)
+
+> [Steam Server codes](#join-codes)
+
 [Troubleshooting](#troubleshooting)
 
 [Credits](#credits)
@@ -498,6 +504,16 @@ This window can be quite handy for debugging, and can also be used to enter comm
 | listplayers                             |     prints current players to the console     |      Unknown       |
 | sleep [hours]                           |        fastforward given in-game hours        |      Unknown       |
 
+## Steam Version
+
+The steam version of slime rancher allows SRMP to do more! First, when hosting a game, you can make it so people can Join you via steam, get invited into the game! It even removes the need for a VPN, or Port Forwarding!
+### Inviting via steam
+
+To invite someone, make sure they have steam. Then go to the friends list, right click their username, then click "Invite to Game"
+### Join codes
+
+Steam has the ability to host servers for you! All everyone needs is to have bought the game on steam. To join these, use a server code! Go back to the server codes section for help.
+
 ## Troubleshooting
 
 Here is a bunch of scenarios where some things with the mod might not work for different reasons, and how to solve those issues. Not all issues are listed here, and if this doesn’t help you, ask in the [Discord](https://discord.gg/NtB7baV). The main README file has an up-to-date list of known issues.
@@ -554,6 +570,8 @@ You probably did something wrong with installing the mod, like installing Standa
 </details>
 
 ## Credits
+
+The steam invite and server systems were created by [PinkTarr](https://github.com/MadMincraftr)!
 
 The manual was originally written by [Zervó](https://github.com/ZervoTheProtogen) (zervowo on discord).
 Contact me if you need help with the manual or just the mod in general.
