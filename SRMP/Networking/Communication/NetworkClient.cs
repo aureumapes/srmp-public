@@ -1,6 +1,7 @@
 ﻿using Lidgren.Network;
 using SRMultiplayer.Packets;
 using SRMultiplayer.Plugin;
+using SRMultiplayer.Plugin.SteamNetworking;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace SRMultiplayer.Networking
     public class NetworkClient : SRSingleton<NetworkClient>
     {
         private NetClient m_Client;
+
+        public CSteamID hostSteamID;
 
         public enum ConnectionStatus
         {
@@ -61,6 +64,8 @@ namespace SRMultiplayer.Networking
             hail.Write(Globals.UserData.UUID.ToByteArray());
             hail.Write(username);
             hail.Write(Globals.Mods.Count);
+            hail.Write(SteamUser.GetSteamID().m_SteamID);
+
             foreach (var mod in Globals.Mods)
             {
                 hail.Write(mod);
@@ -88,6 +93,8 @@ namespace SRMultiplayer.Networking
             hail.Write(Globals.UserData.UUID.ToByteArray());
             hail.Write(username);
             hail.Write(Globals.Mods.Count);
+            hail.Write(SteamUser.GetSteamID().m_SteamID);
+
             foreach (var mod in Globals.Mods)
             {
                 hail.Write(mod);
@@ -103,6 +110,38 @@ namespace SRMultiplayer.Networking
 
         private void Update()
         {
+            if (SteamNetworkingClass.inServer)
+            {
+                NetIncomingMessage imSteam = new NetIncomingMessage();
+
+                uint size;
+                int i = 0;
+                while (SteamNetworking.IsP2PPacketAvailable(out size))
+                {
+                    i++;
+                    var buffer = new byte[size];
+                    uint bytesRead;
+                    CSteamID remoteId;
+                    if (SteamNetworking.ReadP2PPacket(buffer, size, out bytesRead, out remoteId))
+                    {
+                        imSteam.Data = buffer;
+
+                        PacketType typeS = (PacketType)imSteam.ReadUInt16();
+
+                        Globals.HandlePacket = true;
+                        try
+                        {
+                            NetworkHandlerClient.HandlePacket(typeS, imSteam);
+                        }
+                        catch (Exception ex)
+                        {
+                            SRMP.Log($"[NetworkClient] Could not handle packet {typeS}\n{ex}");
+                        }
+                        Globals.HandlePacket = false;
+                    }
+                }
+
+            }
             NetIncomingMessage im;
             while ((im = m_Client?.ReadMessage()) != null)
             {
@@ -246,14 +285,24 @@ namespace SRMultiplayer.Networking
             var om = CreateMessage();
             packet.Serialize(om);
 
-            m_Client?.SendMessage(om, method, sequence);
+            if (Plugin.SteamNetworkingClass.inServer)
+            {
+                Steamworks.SteamNetworking.SendP2PPacket(hostSteamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
+            }
+            else
+                m_Client?.SendMessage(om, method, sequence);
         }
 
         public void Send(NetOutgoingMessage om, NetDeliveryMethod method, int sequence)
         {
             if (m_Client == null || m_Client.ConnectionStatus != NetConnectionStatus.Connected) return;
 
-            m_Client?.SendMessage(om, method, sequence);
+            if (Plugin.SteamNetworkingClass.inServer)
+            {
+                Steamworks.SteamNetworking.SendP2PPacket(hostSteamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
+            }
+            else
+                m_Client?.SendMessage(om, method, sequence);
         }
 
         public void SendUnconnected(NetOutgoingMessage om, IPEndPoint endPoint)

@@ -10,11 +10,31 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.UI.Image;
-
+using Lidgren.Network;
 namespace SRMultiplayer.Plugin
 {
     public class SRMPSteam : SRSingleton<SRMPSteam>
     {
+        public static string GenerateServerCode()
+        {
+            System.Random random = new System.Random();
+
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return "STEAM" + new string(Enumerable.Repeat(chars, 6)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+
+        public Dictionary<NetDeliveryMethod, EP2PSend> sendModeType = new Dictionary<NetDeliveryMethod, EP2PSend>()
+        {
+            { NetDeliveryMethod.Unreliable, EP2PSend.k_EP2PSendUnreliableNoDelay },
+            { NetDeliveryMethod.UnreliableSequenced, EP2PSend.k_EP2PSendUnreliable },
+            { NetDeliveryMethod.Unknown, EP2PSend.k_EP2PSendUnreliable },
+            { NetDeliveryMethod.ReliableUnordered, EP2PSend.k_EP2PSendReliable },
+            { NetDeliveryMethod.ReliableSequenced, EP2PSend.k_EP2PSendReliableWithBuffering },
+            { NetDeliveryMethod.ReliableOrdered, EP2PSend.k_EP2PSendReliableWithBuffering },
+        };
+
         public bool isHost { get; internal set; }
         internal Callback<LobbyCreated_t> successfulHost;
         internal Callback<LobbyInvite_t> invited;
@@ -57,15 +77,18 @@ namespace SRMultiplayer.Plugin
         {
             if (callback.m_eResult == EResult.k_EResultOK)
             {
+                Globals.ServerCode = GenerateServerCode();
+
                 currLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
                 SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "lobbyCode", Globals.ServerCode.ToString());
+                SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostID", SteamUser.GetSteamID().m_SteamID.ToString());
 #if SRML 
                 SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "ModLoader", "SRML");
 #else
                 SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "ModLoader", "Standalone");
 #endif
 
-                SteamNetworking.inServer = true;
+                SteamNetworkingClass.inServer = true;
                 Debug.Log("Hosted game is now set up for steam invites!");
             }
         }
@@ -84,7 +107,7 @@ namespace SRMultiplayer.Plugin
             if (isHost)
                 return;
 
-
+            NetworkClient.Instance.hostSteamID = new CSteamID(ulong.Parse(SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "hostID")));
             currLobbyID = new CSteamID(callback.m_ulSteamIDLobby);
             string name;
             if (string.IsNullOrEmpty(Globals.Username))
@@ -92,7 +115,7 @@ namespace SRMultiplayer.Plugin
             else
                 name = Globals.Username;
 
-            SteamNetworking.inServer = true;
+            SteamNetworkingClass.inServer = true;
         }
 
         public CSteamID currLobbyID;

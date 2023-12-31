@@ -22,7 +22,7 @@ namespace SRMultiplayer.Plugin
                 m_startedSetup = true;
                 Debug.Log("Starting steam invite system!");
                 srmpOBJ.AddComponent<SRMPSteam>();
-                SteamNetworking.Init();
+                SteamNetworkingClass.Init();
                 m_finishedSetup = true;
             }
         }

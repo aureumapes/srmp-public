@@ -12,7 +12,7 @@ using static Steamworks.ISteamMatchmakingServerListResponse;
 
 namespace SRMultiplayer.Plugin
 {
-    public static class SteamNetworking
+    public static class SteamNetworkingClass
     {
         internal static bool inServer;
         public const int SRAppID = 433340;
@@ -28,18 +28,14 @@ namespace SRMultiplayer.Plugin
 
         public static void GetLobbies()
         {
-#if SRML
-            SteamMatchmaking.AddRequestLobbyListStringFilter("ModLoader", "SRML", ELobbyComparison.k_ELobbyComparisonEqual);
-#else
-            SteamMatchmaking.AddRequestLobbyListStringFilter("ModLoader", "Standalone", ELobbyComparison.k_ELobbyComparisonEqual);
-#endif
             SteamMatchmaking.RequestLobbyList();
         }
         public static void LobbyListFunction(LobbyMatchList_t list)
         {
+            lobbies = new List<CSteamID>();
+
             for (int i = 0; i < list.m_nLobbiesMatching; i++)
             {
-                lobbies = new List<CSteamID>();
                 lobbies.Add(SteamMatchmaking.GetLobbyByIndex(i));
             }
         }

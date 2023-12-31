@@ -1,4 +1,6 @@
 ﻿using Lidgren.Network;
+using SRMultiplayer.Plugin;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,7 +107,8 @@ namespace SRMultiplayer.Networking
                             }
                             else if (status == NetConnectionStatus.Disconnected)
                             {
-                                Globals.ServerCode = "";
+                                
+                                // Globals.ServerCode = "";
                                 Status = ConnectionStatus.Disconnected;
                                 m_ReconnectTime = 30;
                             }
@@ -117,7 +120,7 @@ namespace SRMultiplayer.Networking
 
                             if (type == MessageType.CreateServer)
                             {
-                                Globals.ServerCode = im.ReadString();
+                                // Globals.ServerCode = im.ReadString();
                             }
                             else if (type == MessageType.JoinServer)
                             {
@@ -153,6 +156,17 @@ namespace SRMultiplayer.Networking
 
         public void JoinServer(string code)
         {
+            if (code.StartsWith("STEAM"))
+            {
+                if (SteamMain.FinishedSetup)
+                {
+                    SteamNetworkingClass.GetLobbies();
+                    var server = SteamNetworkingClass.GetServerByCode(code);
+                    Debug.Log(server.ToString());
+                    SteamMatchmaking.JoinLobby(server);
+                }
+                return;
+            }
             NetOutgoingMessage regMsg = CreateMessage();
             regMsg.Write((byte)MessageType.JoinServer);
             IPAddress mask;

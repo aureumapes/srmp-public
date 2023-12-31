@@ -4,6 +4,7 @@ using MonomiPark.SlimeRancher.Regions;
 using Newtonsoft.Json;
 using SRMultiplayer;
 using SRMultiplayer.Packets;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,9 @@ namespace SRMultiplayer.Networking
     public partial class NetworkPlayer : MonoBehaviour
     {
         public NetConnection Connection { get; internal set; }
+
+        public CSteamID SteamID { get; internal set; }
+
         public Guid UUID { get; internal set; }
 
         public byte ID { get; internal set; }

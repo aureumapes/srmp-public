@@ -487,8 +487,9 @@
     <Compile Include="Patches\Patch_ZoneDirector.cs" />
     <Compile Include="Plugin\SRMPSteam.cs" />
     <Compile Include="Plugin\SteamMain.cs" />
-    <Compile Include="Plugin\SteamNetworking.cs" />
-    <Compile Include="Plugin\SteamNetworking\SteamNetworkClient.cs" />
+    <Compile Include="Plugin\SteamNetworkingClass.cs" />
+    <Compile Include="Plugin\SteamNetworking\SteamNetServer.cs" />
+    <Compile Include="Plugin\SteamNetworking\SteamNetClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

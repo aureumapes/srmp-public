@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using SRMultiplayer.Networking;
 using System.Collections.Generic;
 using Steamworks;
+using SRMultiplayer.Plugin;
 
 public class MultiplayerUI : SRSingleton<MultiplayerUI>
 {
@@ -408,7 +409,10 @@ public class MultiplayerUI : SRSingleton<MultiplayerUI>
         {
             GUILayout.Label("Join with server code:");
             GUILayout.BeginHorizontal();
-            servercode = GUILayout.TextField(servercode, 5, GUILayout.Width(80));
+            if (SteamMain.FinishedSetup)
+                servercode = GUILayout.TextField(servercode, 11, GUILayout.Width(80));
+            else
+                servercode = GUILayout.TextField(servercode, 5, GUILayout.Width(80));
             servercode = servercode.Replace(" ", "").ToUpper();
             if (GUILayout.Button("Join"))
             {
