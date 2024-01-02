@@ -114,5 +114,6 @@
         RaceTime,
         RaceTrigger,
         PlayerChat,
+        SteamPlayerJoined,
     }
 }

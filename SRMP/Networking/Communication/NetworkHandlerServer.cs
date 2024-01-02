@@ -4,10 +4,12 @@ using MonomiPark.SlimeRancher.DataModel;
 using MonomiPark.SlimeRancher.Regions;
 using Newtonsoft.Json.Linq;
 using SRMultiplayer.Packets;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -33,6 +35,7 @@ namespace SRMultiplayer.Networking
                 case PacketType.PlayerUpgradeUnlock: OnPlayerUpgradeUnlock(new PacketPlayerUpgradeUnlock(im), player); break;
                 case PacketType.PlayerFX: OnPlayerFX(new PacketPlayerFX(im), player); break;
                 case PacketType.PlayerChat: OnPlayerChat(new PacketPlayerChat(im), player); break;
+                case PacketType.RaceTrigger: OnRaceTrigger(new PacketRaceTrigger(im), player); break;
                 //Actors
                 case PacketType.ActorSpawn: OnActorSpawn(new PacketActorSpawn(im), player); break;
                 case PacketType.ActorDestroy: OnActorDestroy(new PacketActorDestroy(im), player); break;
@@ -130,7 +133,7 @@ namespace SRMultiplayer.Networking
                 case PacketType.RaceActivate: OnRaceActivate(new PacketRaceActivate(im), player); break;
                 case PacketType.RaceEnd: OnRaceEnd(new PacketRaceEnd(im), player); break;
                 case PacketType.RaceTime: OnRaceTime(new PacketRaceTime(im), player); break;
-                case PacketType.RaceTrigger: OnRaceTrigger(new PacketRaceTrigger(im), player); break;
+                case PacketType.SteamPlayerJoined: OnSteamPlayerJoined(new PacketPlayerJoinedSteamServer(im)); break;
                 default:
                     SRMP.Log($"Got unhandled packet from {player}:  {type}" + Enum.GetName(typeof(PacketType), type));
                     break;
@@ -1553,6 +1556,102 @@ namespace SRMultiplayer.Networking
         #endregion
 
         #region Players
+        private static void OnSteamPlayerJoined(PacketPlayerJoinedSteamServer packet)
+        {
+            if (packet.version != Globals.Version)
+            {
+                // Unfinished
+            }
+            Regex rg = new Regex(@"^[a-zA-Z_][\w]*$");
+            if (!rg.IsMatch(packet.Username))
+            {
+                // Unfinished
+            }
+
+            List<string> mods = packet.mods;
+            bool successMods = true;
+            int successModsCount = 0;
+            foreach (var mod in mods)
+            {
+                if (!Globals.Mods.Contains(mod) && !Globals.UserData.IgnoredMods.Contains(mod))
+                {
+                    successMods = false;
+                    break;
+                }
+                else if (!Globals.UserData.IgnoredMods.Contains(mod))
+                {
+                    successModsCount++;
+                }
+            }
+            if (!successMods || successModsCount != Globals.Mods.Count)
+            {
+                var missingMods = new List<string>();
+                foreach (var m in Globals.Mods)
+                {
+                    if (!mods.Contains(m))
+                    {
+                        missingMods.Add(m);
+                    }
+                }
+                var clientMods = new List<string>();
+                foreach (var m in mods)
+                {
+                    if (!Globals.Mods.Contains(m))
+                    {
+                        clientMods.Add(m);
+                    }
+                }
+                string msg = "Mods mismatch.\n";
+                if (missingMods.Count > 0) msg += "You are missing following mods: " + String.Join(", ", missingMods.ToArray()) + "\n";
+                if (clientMods.Count > 0) msg += "The Server is missing following mods: " + String.Join(", ", clientMods.ToArray()) + "\n";
+                // Unfinished
+            }
+
+            List<DLCPackage.Id> dlcs = packet.DLCs;
+            if (Globals.UserData.CheckDLC)
+            {
+                if (SRSingleton<GameContext>.Instance.DLCDirector.Installed.Count() != dlcs.Count)
+                { // Unfinished
+                }
+                bool successDLCs = true;
+                int successDLCsCount = 0;
+                foreach (var dlc in dlcs)
+                {
+                    if (!SRSingleton<GameContext>.Instance.DLCDirector.Installed.Contains(dlc))
+                    {
+                        successDLCs = false;
+                        break;
+                    }
+                    else
+                    {
+                        successDLCsCount++;
+                    }
+                }
+                if (!successDLCs || successDLCsCount != SRSingleton<GameContext>.Instance.DLCDirector.Installed.Count())
+                { 
+                    // Unfinished
+                }
+            }
+
+            byte id = 1;
+            while (id < 255 && Globals.Players.Values.Any(p => p.ID == id))
+                id++;
+
+            var playerObj = new GameObject(packet.Username + "(" + id + ")");
+            var player = playerObj.AddComponent<NetworkPlayer>();
+
+            player.Connection = null;
+            player.UUID = packet.uuid;
+            player.ID = id;
+            player.Username = packet.Username;
+            player.Mods = mods;
+            player.DLCs = dlcs;
+            player.SteamID = new CSteamID(packet.SteamID);
+            Globals.Players.Add(player.ID, player);
+            Globals.SteamPlayers.Add(player.SteamID, player);
+            // Approve here
+    }
+
         private static void OnPlayerChat(PacketPlayerChat packet, NetworkPlayer player)
         {
             packet.message = player.Username + ": " + packet.message;

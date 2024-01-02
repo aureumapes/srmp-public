@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 using Lidgren.Network;
+using SRMultiplayer.Packets;
 namespace SRMultiplayer.Plugin
 {
     public class SRMPSteam : SRSingleton<SRMPSteam>
@@ -114,6 +115,17 @@ namespace SRMultiplayer.Plugin
                 name = SteamFriends.GetPersonaName();
             else
                 name = Globals.Username;
+
+            var joinPacket = new PacketPlayerJoinedSteamServer()
+            {
+                Username = Globals.Username,
+                uuid = Globals.UserData.UUID,
+                mods = Globals.Mods,
+                DLCs = SRSingleton<GameContext>.Instance.DLCDirector.Installed.ToList(),
+                SteamID = SteamUser.GetSteamID().m_SteamID,
+                version = Globals.Version   
+            };
+            NetworkClient.Instance.Send(joinPacket, NetDeliveryMethod.ReliableUnordered, 0);
 
             SteamNetworkingClass.inServer = true;
         }

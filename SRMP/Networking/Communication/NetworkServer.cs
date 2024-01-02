@@ -75,6 +75,7 @@ namespace SRMultiplayer.Networking
             Globals.LocalPlayer.HasLoaded = true;
             Globals.LocalPlayer.Spawn();
             Globals.Players.Add(id, Globals.LocalPlayer);
+            Globals.SteamPlayers.Add(SteamUser.GetSteamID(), Globals.LocalPlayer);
             Globals.ClientLoaded = true;
 
             Directory.CreateDirectory(Path.Combine(SRMP.ModDataPath, SRSingleton<GameContext>.Instance.AutoSaveDirector.SavedGame.GetName()));
@@ -155,10 +156,12 @@ namespace SRMultiplayer.Networking
 
                         PacketType typeS = (PacketType)imSteam.ReadUInt16();
 
+                        var player = Globals.SteamPlayers[remoteId];
+
                         Globals.HandlePacket = true;
                         try
                         {
-                            NetworkHandlerClient.HandlePacket(typeS, imSteam);
+                            NetworkHandlerServer.HandlePacket(typeS, imSteam, player);
                         }
                         catch (Exception ex)
                         {
@@ -326,6 +329,7 @@ namespace SRMultiplayer.Networking
                             player.DLCs = dlcs;
                             player.SteamID = new CSteamID(im.ReadUInt64());
                             Globals.Players.Add(player.ID, player);
+                            Globals.SteamPlayers.Add(player.SteamID, player);
                             NetOutgoingMessage hail = CreateMessage();
                             hail.Write(id);
                             hail.Write(Globals.Players.Count);
@@ -431,13 +435,10 @@ namespace SRMultiplayer.Networking
         {
             if (Plugin.SteamNetworkingClass.inServer)
             {
-                foreach (var user in m_Server.Connections)
+                foreach (var user in Globals.Players)
                 {
-                    if (user.m_peer is SteamNetClient)
-                    {
-                        var steamUser = (SteamNetClient)user.m_peer;
-                        Steamworks.SteamNetworking.SendP2PPacket(steamUser.steamID, packet.Data, (uint)packet.Data.Length, SRMPSteam.Instance.sendModeType[method]);
-                    }
+                    if (user.Value.SteamID.IsValid())
+                        Steamworks.SteamNetworking.SendP2PPacket(user.Value.SteamID, packet.Data, (uint)packet.Data.Length, SRMPSteam.Instance.sendModeType[method]);
                 }
 
             }
@@ -450,13 +451,10 @@ namespace SRMultiplayer.Networking
 
             if (Plugin.SteamNetworkingClass.inServer)
             {
-                foreach (var user in m_Server.Connections)
+                foreach (var user in Globals.Players)
                 {
-                    if (user.m_peer is SteamNetClient)
-                    {
-                        var steamUser = (SteamNetClient)user.m_peer;
-                        Steamworks.SteamNetworking.SendP2PPacket(steamUser.steamID, packet.Data, (uint)packet.Data.Length, SRMPSteam.Instance.sendModeType[method]);
-                    }
+                    if (user.Value.SteamID.IsValid())
+                        Steamworks.SteamNetworking.SendP2PPacket(user.Value.SteamID, packet.Data, (uint)packet.Data.Length, SRMPSteam.Instance.sendModeType[method]);
                 }
 
             }
@@ -474,13 +472,10 @@ namespace SRMultiplayer.Networking
 
                 if (Plugin.SteamNetworkingClass.inServer)
                 {
-                    foreach (var user in cons)
+                    foreach (var user in Globals.Players.Values)
                     {
-                        if (user.m_peer is SteamNetClient)
-                        {
-                            var steamUser = (SteamNetClient)user.m_peer;
-                            Steamworks.SteamNetworking.SendP2PPacket(steamUser.steamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
-                        }
+                        if (user.SteamID.IsValid() && cons.Contains(user.Connection))
+                            Steamworks.SteamNetworking.SendP2PPacket(user.SteamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
                     }
 
                 }
@@ -494,6 +489,15 @@ namespace SRMultiplayer.Networking
             var om = CreateMessage();
             packet.Serialize(om);
 
+            if (Plugin.SteamNetworkingClass.inServer)
+            {
+                foreach (var user in Globals.Players)
+                {
+                    if (user.Value.SteamID.IsValid() && user.Value != player)
+                        Steamworks.SteamNetworking.SendP2PPacket(user.Value.SteamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
+                }
+                return;
+            }
             List<NetConnection> cons = new List<NetConnection>();
             foreach (var p in Globals.Players.Values.ToList())
             {
@@ -504,20 +508,6 @@ namespace SRMultiplayer.Networking
             }
             if (cons.Count > 0)
             {
-
-                if (Plugin.SteamNetworkingClass.inServer)
-                {
-                    foreach (var user in cons)
-                    {
-                        if (user.m_peer is SteamNetClient)
-                        {
-                            var steamUser = (SteamNetClient)user.m_peer;
-                            Steamworks.SteamNetworking.SendP2PPacket(steamUser.steamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
-                        }
-                    }
-
-                }
-                else
                     m_Server?.SendMessage(om, cons, method, sequence);
             }
         }
@@ -529,10 +519,10 @@ namespace SRMultiplayer.Networking
 
             if (Plugin.SteamNetworkingClass.inServer)
             {
-                if (connection.m_peer is SteamNetClient)
+                foreach (var user in Globals.Players.Values)
                 {
-                    var steamUser = (SteamNetClient)connection.m_peer;
-                    Steamworks.SteamNetworking.SendP2PPacket(steamUser.steamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
+                    if (user.Connection == connection)
+                        Steamworks.SteamNetworking.SendP2PPacket(user.SteamID, om.Data, (uint)om.Data.Length, SRMPSteam.Instance.sendModeType[method]);
                 }
 
             }

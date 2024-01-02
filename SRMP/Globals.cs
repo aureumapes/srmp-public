@@ -1,5 +1,6 @@
 ﻿using SRMultiplayer.Networking;
 using SRMultiplayer.Packets;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace SRMultiplayer
 {
     public static class Globals
     {
+        // Steam Globals
+        public static Dictionary<CSteamID, NetworkPlayer> SteamPlayers = new Dictionary<CSteamID, NetworkPlayer>();
 
         //setup global objects for refrence usage
         public static int Version;

@@ -335,6 +335,7 @@
     <Compile Include="Packets\Actors\PacketActorFX.cs" />
     <Compile Include="Packets\Others\PacketKookadobaAttach.cs" />
     <Compile Include="Packets\Players\PacketPlayerChat.cs" />
+    <Compile Include="Packets\Players\PacketPlayerJoinedSteamServer.cs" />
     <Compile Include="Packets\Race\PacketRaceActivate.cs" />
     <Compile Include="Packets\Race\PacketRaceEnd.cs" />
     <Compile Include="Packets\Race\PacketRaceTime.cs" />
@@ -488,8 +489,6 @@
     <Compile Include="Plugin\SRMPSteam.cs" />
     <Compile Include="Plugin\SteamMain.cs" />
     <Compile Include="Plugin\SteamNetworkingClass.cs" />
-    <Compile Include="Plugin\SteamNetworking\SteamNetServer.cs" />
-    <Compile Include="Plugin\SteamNetworking\SteamNetClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
